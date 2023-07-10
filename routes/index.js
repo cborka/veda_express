@@ -20,7 +20,8 @@ const ip2 = function(req, res) {
 
 
 const hbs = function(req, res) {
-  res.render('index', {title: "Veda"});
+  res.send([1,2,3].toString());
+  //res.render('index', {title: "Veda"});
   //res.render('regular');
 }
 
