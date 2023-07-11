@@ -1,4 +1,5 @@
 import  express  from "express";
+import {log2} from '../lib/logger.js';
 export const router = express.Router();
 
 const ip = function(req, res, next) {
@@ -20,6 +21,7 @@ const ip2 = function(req, res) {
 
 
 const hbs = function(req, res) {
+  log2(req, 'Привед медвед, я хбс');
   res.send([1,2,3].toString());
   //res.render('index', {title: "Veda"});
   //res.render('regular');
