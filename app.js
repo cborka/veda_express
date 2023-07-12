@@ -3,6 +3,7 @@ export const app = express();
 
 export let reqId = 0; 
 
+import 'dotenv/config';
 import logger from 'morgan';
 import {log1} from './lib/logger.js';
 
@@ -14,8 +15,9 @@ app.use(logger('dev'));
 app.use(log1);
 //app.use(log3);
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 console.log('PORT = ' + PORT);
+
 
 app.use(express.static('public'));
 

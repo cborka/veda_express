@@ -1,6 +1,20 @@
 body {
+
   background-color:azure;
   font-size: large;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-  
 }
+
+.w700 {
+  /* расположение по центру */
+  position: absolute;
+  left: 50%;
+  /* width / 2 */
+  margin-left: -350px; 
+
+  width: 700px;
+
+  
+  background-color:antiquewhite;
+}
+
