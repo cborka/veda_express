@@ -5,17 +5,16 @@ export let reqId = 0;
 
 import 'dotenv/config';
 import logger from 'morgan';
-import {log1} from './lib/logger.js';
+import {log1, log2} from './lib/logger.js';
 
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
 
-app.use((req, res, next) => { console.log('rid = ' + ++reqId); next();});
+//app.use((req, res, next) => { console.log('rid = ' + ++reqId); next();});
 app.use(logger('dev'));
 app.use(log1);
-//app.use(log3);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000
 console.log('PORT = ' + PORT);
 
 
@@ -26,7 +25,6 @@ app.use(express.static('public'));
 import {router as indexRouter} from './routes/index.js'; 
 
 // view engine setup
-//app.set('views', path.join(__dirname, 'views'));
 app.set('views', 'views');
 app.set('view engine', 'hbs'); 
 
@@ -35,15 +33,17 @@ app.set('view engine', 'hbs');
 
 app.use(indexRouter);
 
-// app.use(function(err, req, res, next) {
-//   console.log('err.stack');
-//   console.error(err.stack);
-//   res.status(500).send('Something broke!');
-// });
+app.use(function(err, req, res, next) {
+  console.log('err.stack');
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+  log2(res.statusCode + '|ERR');
+});
 
 
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that!' + req.url);
+  log2(res.statusCode + '|END');
   //console.log(err);
 });
 

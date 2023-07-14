@@ -1,5 +1,6 @@
 import  express  from "express";
 import {log2} from '../lib/logger.js';
+import * as db from '../lib/db.js';
 export const router = express.Router();
 
 const ip = function(req, res, next) {
@@ -8,27 +9,31 @@ const ip = function(req, res, next) {
   s += 'req.ip: ' + req.ip + '<br>';
   s += 'import.meta.url: ' + import.meta.url + '<br>';
   s += 'process.cwd(): ' + process.cwd() + '<br>';
-  s += '<a href="/">Home</a><br>';
+  s += '<a href="/">Home </a><br>';
   //next('route');
   res.send(s);
+  log2(res.statusCode + '|ip' );
 }
 
 const ip2 = function(req, res) {
   //res.send('next route');
-  res.redirect('/hbs')
+  res.redirect('/hbs');
+  log2(res.statusCode + '|redirect /hbs' );
   //res.render('regular');
 }
 
 
 const hbs = function(req, res) {
-  log2(req, 'Привед медвед, я хбс');
-  res.send([1,2,3].toString());
+
+  res.send([1,2,3,4].toString());
   //res.render('index', {title: "Veda"});
   //res.render('regular');
-}
+  log2(res.statusCode + '|Привед медвед, я hbs...' );
+  }
 
 const applocals = function(req, res) {
   res.json(req.app.locals);
+  log2(res.statusCode + '|applocals' );
   //res.render('regular');
 }
 
@@ -37,8 +42,16 @@ router.get('/ip', ip2);
 router.get('/ip2', ip2);
 router.get('/hbs', hbs);
 router.get('/applocals', applocals);
+router.get('/db', db_test);
 
 
+
+async function db_test  (req, res, next) {
+  const result = await db.query('SELECT * FROM phones WHERE id = 1');
+  //log2('db_test');
+  res.send(result.rows[0]);
+  log2(res.statusCode + '|db_test' );
+}
 
 //
 router.get('/sendFile', function (req, res, next) {
@@ -59,4 +72,5 @@ router.get('/sendFile', function (req, res, next) {
       console.log('Sent:', fileName)
     }
   })
+  log2(res.statusCode + '|sendFile ' + fileName);
 })
