@@ -10,7 +10,8 @@ import {log1, log2} from './lib/logger.js';
 // import fs from 'fs';
 // import path from 'path';
 
-//app.use((req, res, next) => { console.log('rid = ' + ++reqId); next();});
+app.use((req, res, next) => { console.log('rid = ' + ++reqId); next();});
+//++reqId;
 app.use(logger('dev'));
 app.use(log1);
 
@@ -36,7 +37,7 @@ app.use(indexRouter);
 app.use(function(err, req, res, next) {
   console.log('err.stack');
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Something broke! status(500)');
   log2(res.statusCode + '|ERR');
 });
 
