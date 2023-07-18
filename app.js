@@ -10,10 +10,10 @@ import {log1, log2} from './lib/logger.js';
 // import fs from 'fs';
 // import path from 'path';
 
-app.use((req, res, next) => { console.log('rid = ' + ++reqId); next();});
-//++reqId;
+app.use((req, res, next) => { ++reqId; next();}, log1);
+//app.use(log1);
+
 app.use(logger('dev'));
-app.use(log1);
 
 const PORT = process.env.PORT || 3000
 console.log('PORT = ' + PORT);
@@ -38,19 +38,20 @@ app.use(function(err, req, res, next) {
   console.log('err.stack');
   console.error(err.stack);
   res.status(500).send('Something broke! status(500)');
-  log2(res.statusCode + '|ERR');
+  log2('ERR', res.statusCode);
 });
 
 
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that!' + req.url);
-  log2(res.statusCode + '|END');
+  log2('END', res.statusCode);
   //console.log(err);
 });
 
 
 app.listen(PORT, () => {
   console.log('Server started at port ' + PORT);
+  //log2('Server started at port ' + PORT, 'START');
 });
 
 // process.on('SIGTERM', () => {

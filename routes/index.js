@@ -12,13 +12,13 @@ const ip = function(req, res, next) {
   s += '<a href="/">Home </a><br>';
   //next('route');
   res.send(s);
-  log2(res.statusCode + '|ip' );
+  log2('ip', res.statusCode);
 }
 
 const ip2 = function(req, res) {
   //res.send('next route');
   res.redirect('/hbs');
-  log2(res.statusCode + '|redirect /hbs' );
+  log2('redirect /hbs', res.statusCode );
   //res.render('regular');
 }
 
@@ -28,12 +28,12 @@ const hbs = function(req, res) {
   res.send([1,2,3,4].toString());
   //res.render('index', {title: "Veda"});
   //res.render('regular');
-  log2(res.statusCode + '|Привед медвед, я hbs...' );
+  log2('Привед медвед, я hbs...', res.statusCode );
   }
 
 const applocals = function(req, res) {
   res.json(req.app.locals);
-  log2(res.statusCode + '|applocals' );
+  log2('applocals', res.statusCode );
   //res.render('regular');
 }
 
@@ -50,7 +50,7 @@ async function db_test  (req, res, next) {
   const result = await db.query('SELECT * FROM phones WHERE id = 1');
   //log2('db_test');
   res.send(result.rows[0]);
-  log2(res.statusCode + '|db_test' );
+  log2('db_test', res.statusCode);
 }
 
 //
@@ -70,7 +70,7 @@ router.get('/sendFile', function (req, res, next) {
       next(err)
     } else {
       console.log('Sent:', fileName)
-    }
+    } 
   })
-  log2(res.statusCode + '|sendFile ' + fileName);
+  log2('sendFile ' + fileName, res.statusCode);
 })
