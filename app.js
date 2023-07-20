@@ -1,6 +1,8 @@
 import express from 'express';
 export const app = express();
 
+import session from 'express-session';
+
 export let reqId = 0; 
 
 import 'dotenv/config';
@@ -10,17 +12,25 @@ import {log1, log2} from './lib/logger.js';
 // import fs from 'fs';
 // import path from 'path';
 
+const PORT = process.env.PORT || 3000; 
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  rolling: true,
+  cookie: { 
+    maxAge: 1*5*1000 
+    
+  }
+}));
+
+// Увеличиваю id запроса и вывожу запись в лог
 app.use((req, res, next) => { ++reqId; next();}, log1);
-//app.use(log1);
-
 app.use(logger('dev'));
-
-const PORT = process.env.PORT || 3000
-console.log('PORT = ' + PORT);
 
 
 app.use(express.static('public'));
-
 
 
 import {router as indexRouter} from './routes/index.js'; 
@@ -30,7 +40,9 @@ app.set('views', 'views');
 app.set('view engine', 'hbs'); 
 
 
-
+app.get('/x', (req, res) => {
+  res.send('Hello World!')
+})
 
 app.use(indexRouter);
 
@@ -49,6 +61,9 @@ app.use(function(req, res, next) {
 });
 
 
+
+
+
 app.listen(PORT, () => {
   console.log('Server started at port ' + PORT);
   //log2('Server started at port ' + PORT, 'START');
@@ -60,3 +75,5 @@ app.listen(PORT, () => {
 //     console.log('HTTP server closed')
 //   })
 // })
+
+

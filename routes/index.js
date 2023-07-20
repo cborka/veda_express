@@ -37,13 +37,26 @@ const applocals = function(req, res) {
   //res.render('regular');
 }
 
+const session_info = function(req, res) {
+  res.write('<p>sessionID: ' + req.sessionID + '</p>');
+  res.write('<p>maxAge: ' + req.session.cookie.maxAge + '</p>');
+  res.write('<p>originalMaxAge: ' + req.session.cookie.originalMaxAge + '</p>');
+  res.write('<p>name: ' + req.session.name + '</p>');
+  res.write(JSON.stringify(req.session, null, 2));
+  res.end();
+  //res.json(req.session);
+  log2('session_info', res.statusCode );
+}
+
+
+
 router.get('/ip',  ip);
 router.get('/ip', ip2);
 router.get('/ip2', ip2);
 router.get('/hbs', hbs);
 router.get('/applocals', applocals);
 router.get('/db', db_test);
-
+router.get('/session_info', session_info);
 
 
 async function db_test  (req, res, next) {
