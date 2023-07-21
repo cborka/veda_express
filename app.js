@@ -9,29 +9,29 @@ import 'dotenv/config';
 import logger from 'morgan';
 import {log1, log2} from './lib/logger.js';
 
+import hbs from 'hbs';
 // import fs from 'fs';
 // import path from 'path';
 
 const PORT = process.env.PORT || 3000; 
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'secret keyboard cat',
   resave: false,
   saveUninitialized: true,
-  rolling: true,
+  rolling: true,            // при каждом запросе переустанавливается maxAge
   cookie: { 
-    maxAge: 1*5*1000 
+    maxAge: 3*60*1000 
+    //maxAge: 24*60*60*1000 // cутки 
     
   }
 }));
 
 // Увеличиваю id запроса и вывожу запись в лог
 app.use((req, res, next) => { ++reqId; next();}, log1);
-app.use(logger('dev'));
-
+app.use(logger('dev')); //morgan
 
 app.use(express.static('public'));
-
 
 import {router as indexRouter} from './routes/index.js'; 
 
@@ -39,10 +39,8 @@ import {router as indexRouter} from './routes/index.js';
 app.set('views', 'views');
 app.set('view engine', 'hbs'); 
 
-
-app.get('/x', (req, res) => {
-  res.send('Hello World!')
-})
+// устанавливаем путь к каталогу с частичными представлениями
+hbs.registerPartials("views/partials");
 
 app.use(indexRouter);
 

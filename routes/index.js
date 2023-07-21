@@ -15,6 +15,12 @@ const ip = function(req, res, next) {
   log2('ip', res.statusCode);
 }
 
+const index = function(req, res) {
+  res.render('index', {title: "Veda"});
+  log2('/', res.statusCode );
+
+}
+
 const ip2 = function(req, res) {
   //res.send('next route');
   res.redirect('/hbs');
@@ -25,8 +31,8 @@ const ip2 = function(req, res) {
 
 const hbs = function(req, res) {
 
-  res.send([1,2,3,4].toString());
-  //res.render('index', {title: "Veda"});
+  //res.send([1,2,3,4].toString());
+  res.render('index', {title: "Veda"});
   //res.render('regular');
   log2('Привед медвед, я hbs...', res.statusCode );
   }
@@ -50,6 +56,7 @@ const session_info = function(req, res) {
 
 
 
+router.get('/',  index);
 router.get('/ip',  ip);
 router.get('/ip', ip2);
 router.get('/ip2', ip2);

@@ -1,8 +1,15 @@
 body {
+  padding: 50px;
 
-  background-color:azure;
+
+
+
   font-size: large;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+.wrapper_1 {
+  background-color:azure;
 }
 
 .w700 {
