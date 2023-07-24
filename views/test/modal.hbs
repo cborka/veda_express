@@ -1,0 +1,41 @@
+{{!-- <div class="mywrapper"> --}}
+<h2>Здесь будет модальное окно</h2>
+<button onclick="show_modal()">Показать модальное окно</button>
+
+<br>
+
+
+<div class="mymodal closed" id="mymodal-window">
+ <p id="mytext">Модальное окно</p>
+<button onclick="add_text()">Добавить текст</button>
+<button class="close_modal" onclick="show_modal()"><b>X</b></button>
+<br>
+<br>
+      <p id="text2">
+          то, что прокручивается<br>
+      </p>
+
+</div>
+<div class="mymodal-overlay  closed" id="mymodal-overlay">
+</div>
+
+{{!-- </div> --}}
+<script>
+
+
+let modal = document.getElementById("mymodal-window")
+let modalOverlay = document.getElementById("mymodal-overlay")
+
+  function show_modal() {
+//    document.getElementById("mymodal-window").classList.toggle("closed");
+    modal.classList.toggle("closed");
+    modalOverlay.classList.toggle("closed");
+  }
+
+
+  function add_text() {
+    document.getElementById("text2").innerHTML += "то, что прокручивается<br>";
+  }
+
+
+</script>

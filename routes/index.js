@@ -54,7 +54,11 @@ const session_info = function(req, res) {
   log2('session_info', res.statusCode );
 }
 
+const show_modal = function(req, res) {
+  res.render('test/modal', {title: "Modal window"});
+  log2('/modal', res.statusCode );
 
+}
 
 router.get('/',  index);
 router.get('/ip',  ip);
@@ -64,6 +68,7 @@ router.get('/hbs', hbs);
 router.get('/applocals', applocals);
 router.get('/db', db_test);
 router.get('/session_info', session_info);
+router.get('/modal', show_modal);
 
 
 async function db_test  (req, res, next) {
