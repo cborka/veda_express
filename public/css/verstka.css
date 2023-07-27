@@ -1,0 +1,43 @@
+p {
+  color: red;
+  color: rgb(117, 211, 80);
+  width: 100px;
+  text-align: left;
+  line-height: 1.8;
+  font: bold italic 16px/1.8 Arial;
+  text-indent: 20px;
+  text-decoration: underline;
+}
+
+h2 {
+  color: blue;
+  font-weight: normal;
+  cursor: cell;
+}
+
+h2::selection {
+	color: red;
+	background-color: black;
+}
+
+th {
+  text-align: left;
+}
+
+.red {
+  color: red;
+}
+
+.div {
+  border: 1px solid green;
+}
+
+ul {
+  border-width: 1px;    /* толщина 1px */
+	border-style: solid;  /* в виде линии */
+	border-color: red;    /* красный цвет */
+  /* или одной строкой */
+  border: 1px solid red;
+  border-radius: 10px 20px 30px 40px;
+  box-sizing: border-box;  /* убираем расширение padding и border*/
+}

@@ -1,7 +1,7 @@
 body {
-  padding: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 15px 20px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
 
 
 
@@ -12,6 +12,7 @@ body {
 
 .wrapper_1 {
   background-color:azure;
+  margin: 10px auto;
 }
 
 .w700 {
@@ -42,19 +43,23 @@ body {
 
   width: 600px;
   max-width: 96%;
-  height: 400px;
+  height: 600px;
   max-height: 96%;
 
   overflow: auto;
 
   z-index: 1010;
 
-  border-width: 1px;
-  border-color: chartreuse;
+  /* border-width: 1px;
+  border-color: chartreuse; */
   border-radius:7px;
-  border-style: double;
+  /* border-style: double; */
 
-  box-shadow: inset;
+   /*Тень описывается смещениями по оси X и Y относительно элемента, 
+   радиусом размытия и распространения, а также цветом.*/
+  /* box-shadow: inset; */
+  /* box-shadow: 1px 1px 13px red; */
+  box-shadow: 3px  3px 3px 3px grey;
  
   background-color:aliceblue;
 
@@ -93,6 +98,7 @@ body {
   position: absolute;
   right: 3px;
   top: 3px;
+  border-radius:10px;
   /* width: 30px;
   height: 30px; */
  }
