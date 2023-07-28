@@ -30,12 +30,18 @@ const ip2 = function(req, res) {
 
 
 const hbs = function(req, res) {
-
   //res.send([1,2,3,4].toString());
   res.render('index', {title: "Veda"});
   //res.render('regular');
   log2('Привед медвед, я hbs...', res.statusCode );
-  }
+}
+
+const hbs2 = function(req, res) {
+  //res.send([1,2,3,4].toString());
+  res.render('index', {title: "Veda2", layout: "layout_bulma"});
+  //res.render('regular');
+  log2('Привед медвед, я hbs...', res.statusCode );
+}
 
 const applocals = function(req, res) {
   res.json(req.app.locals);
@@ -65,6 +71,7 @@ router.get('/ip',  ip);
 router.get('/ip', ip2);
 router.get('/ip2', ip2);
 router.get('/hbs', hbs);
+router.get('/hbs2', hbs2);
 router.get('/applocals', applocals);
 router.get('/db', db_test);
 router.get('/session_info', session_info);

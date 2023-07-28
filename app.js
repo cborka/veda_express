@@ -38,7 +38,6 @@ import {router as indexRouter} from './routes/index.js';
 // view engine setup
 app.set('views', 'views');
 app.set('view engine', 'hbs'); 
-
 // устанавливаем путь к каталогу с частичными представлениями
 hbs.registerPartials("views/partials");
 
