@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="/css/style.css" /> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    
+    <link rel="shortcut icon" href="/favicon.bmp" type="image/x-icon">
+  </head>
+  <body align="center">
+    <div class="w700">
+      <nav>
+        <a href="/">Home |</a>  
+
+      </nav>
+    </div>
+
+    <div id="app">
+      {{ message }}
+    </div>
+
+    <div id="app-2">
+      <span v-bind:title="message">
+        Наведи на меня курсор на пару секунд,
+        чтобы увидеть динамически связанное значение title!
+      </span>
+      <div>
+        <span v-if="seen">Сейчас меня видно</span>
+        <button v-on:click="toggleMessage">Показать/спрятать</button>
+      </div>
+      
+    </div>
+
+    <div id="app-5">
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMessage">Перевернуть сообщение</button>
+    </div>
+
+    <script src="/js/vue_app.js"></script>
+
+  </body>
+</html>
