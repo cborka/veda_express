@@ -16,7 +16,7 @@ const ip = function(req, res, next) {
 }
 
 const index = function(req, res) {
-  res.render('index', {title: "Veda"});
+  res.render('index', {title: "Veda", message2: "Hello!"});
   log2('/', res.statusCode );
 
 }

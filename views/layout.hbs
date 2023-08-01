@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body >
-    <section>
-    {{> header}}
-    {{> menu_top}}  
+    <div id="wrapper">
+      {{> header}}
+      {{> menu_top}}  
 
-    <div class="wrapper_1"  align="center" id="wrapper1">
+      <div id="container">
+          {{> sidebar_left}}
 
-        {{{body}}}
+          <div id="content"> {{{body}}} </div> 
 
+          {{> sidebar_right}}  
+      </div>
+
+      {{> footer}}
     </div>
-
-    {{> footer}}
-    </section>
-
+    {{!-- <script src="/js/vue_app.js"></script> --}}
   </body>
 </html>

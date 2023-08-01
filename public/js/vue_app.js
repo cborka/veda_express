@@ -1,3 +1,4 @@
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -24,12 +25,23 @@ var app2 = new Vue({
 var app5 = new Vue({
   el: '#app-5',
   data: {
-    message: 'Привет, Vue.js!'
+    //message: 'Привет, Vue.js!',
+    messagez: 'Привет, Vue.jz!'
   },
   methods: {
     reverseMessage: function () {
-      this.message = this.message.split('').reverse().join('')
+      this.messagez = 'Привет, Vue.js!'
+      alert('vue!!!'+(this.messagez));
+      //this.message = this.message.split('').reverse().join('')
     }
+  }
+})
+
+
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    mess: 'Привет, 7!'
   }
 })
 //alert('vue!!!'+(app.el));
