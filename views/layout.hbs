@@ -8,19 +8,25 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body >
-    <div id="wrapper">
-      {{> header}}
-      {{> menu_top}}  
+    <div id="maxwrapper">
+      <div id="space_left">Left space</div>
+      <div id="wrapper">
+        {{> header}}
+        {{> menu_top}}  
 
-      <div id="container">
-          {{> sidebar_left}}
+        <div id="container">
+            {{> sidebar_left}}
 
-          <div id="content"> {{{body}}} </div> 
+            <div id="content"> {{{body}}} </div> 
 
-          {{> sidebar_right}}  
+            {{!-- {{> sidebar_right}}   --}}
+        </div>
+
+        {{> footer}}
       </div>
 
-      {{> footer}}
+      <div id="space_right">Right space</div>
+
     </div>
     {{!-- <script src="/js/vue_app.js"></script> --}}
   </body>

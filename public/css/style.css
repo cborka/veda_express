@@ -6,9 +6,39 @@ body {
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
 
-#wrapper {
-  width: 1192px;
+#maxwrapper {
+  display:flex;
+  width: 100%;
+  min-height: 85vh;
   margin: 4px auto;
+  /* background-color: blueviolet; */
+  /* border: 1px solid lime; */
+  
+}
+
+#space_left {
+  /* width: 19%; */
+  flex-grow: 1;
+  margin-right: 4px;
+  border: 1px solid magenta;
+}
+
+#space_right {
+  /* width: 2px; */
+  flex-grow: 1;
+  margin-left: 4px;
+  border: 1px solid magenta;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 1200px;
+  margin: 4px auto;
+  margin-bottom: 0px;
+  
   /* background-color: blueviolet; */
   
 }
@@ -18,13 +48,17 @@ header, #menu_top, #container, footer {
   margin-bottom: 4px;
 }
 
-header, #menu_top, #content, #sidebar_right, #sidebar_left, #footer {
+footer {
+  margin-bottom: 0px;
+}
+
+header, #menu_top, #content, #sidebar_right, #sidebar_left, footer {
   padding: 8px;
   border: 1px solid gold;
 }
 
 header {
-  xbackground-color: ivory;
+  background-color: ivory;
  
 }
 
@@ -33,9 +67,11 @@ header {
 }
 
 #container {
-  display:flex;
+  display:flex; /* Содержит флекс элементы*/
+  flex-grow: 1; /* Занимает всё доступное пространство */
 
-  xbackground-color:azure;
+  /* flex-direction: row; */
+  /* flex-direction: column; */
 }
 
 #sidebar_right, #sidebar_left, #content {
@@ -43,28 +79,26 @@ header {
 
 }
 
-
 #sidebar_left {
-  width: 200px;
+  width: 19%;
   margin-right: 4px;
-  xbackground-color: aquamarine;
 }
 
 #sidebar_right {
-  width: 200px;
+  width: 2px;
   margin-left: 4px;
-  xbackground-color: aquamarine;
 }
 
 #content {
-  width: 800px;
-  height: 700px;
+  
+  width: 80%;
+  min-width: 600px;
+  flex-grow: 1;
+  /* min-height: 500px; */
+  /* height: 700px; */
   text-align: center;
-  xbackground-color: bisque;
 
 }
-
-
 
 footer {
   margin-bottom: 0;
@@ -75,11 +109,8 @@ footer {
 
 
 .wrapper_1 {
-  xbackground-color:azure;
   margin: 10px auto;
 }
-
-
 
 .w700 {
   /* расположение по центру */
@@ -89,12 +120,9 @@ footer {
   margin-left: -350px; 
 
   width: 700px;
-
-  
-  xbackground-color:azure;
 }
 
-
+/* Модальное окно */
 .mymodal {
   position: fixed;
   top: 50%;
@@ -121,7 +149,6 @@ footer {
   /* box-shadow: 1px 1px 13px red; */
   box-shadow: 3px  3px 3px 3px grey;
  
-  xbackground-color:aliceblue;
   background-color:white;
 
   padding-left: 30px;
