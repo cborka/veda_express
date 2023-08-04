@@ -1,28 +1,30 @@
-<div id="menu_top" ondblclick="">
-  <nav>
+<div>
+  <nav  class="menu_top_row">
     {{!-- <a href="/">Главная</a> |
     <a href="/users/login">Вход</a> |
     <a href="/users/reg">Регистрация |</a> --}}
 
 
-    <a href="/">Home |</a>  
-    <a href="/ip">ip |</a>  
-    <a href="/ip2">ip2 |</a>  
-    <a href="/hbs">hbs |</a>  
-    <a href="/hbs2">hbs2 |</a>  
-    <a href="/sendFile">sendFile |</a>  
-    <a href="/applocals">applocals |</a>  
-    <a href="/db">db_test |</a>  
-    <a href="/session_start">session_start |</a>  
-    <a href="/session_info">session_info |</a>  
-    <a href="/modal">modal |</a>  
-     <a href="/vuetest.html">vuetest.html |</a>
-    <a href="/404">404 |</a>  
-
+    <div class="menu_point"><a href="/">Home</a></div>
+    <div class="menu_point"><a href="/ip">ip</a></div>
+    <div class="menu_point"><a href="/ip2">ip2</a></div>
+    <div class="menu_point"><a href="/hbs">hbs</a></div>
+    <div class="menu_point"><a href="/hbs2">hbs2</a></div>
+    <div class="menu_point"><a href="/sendFile">sendFile</a></div>
+    <div class="menu_point"><a href="/applocals">applocals</a></div>
+    <div class="menu_point"><a href="/db">db_test</a></div>
+    <div class="menu_point"><a href="/session_info">session_info</a></div>
+    <div class="menu_point"><a href="/modal">modal</a></div>
+    <div class="menu_point"><a href="/vuetest.html">vuetest.html</a></div>
+    <div class="menu_point"><a href="/404">404</a>  </div>
+    {{!-- <div class="menu_point" onclick="me()">press me</a>  </div> --}}
+    
   </nav>
 </div>
 
 
 <script>
- 
+  function me() {
+    alert('menu');
+  }
 </script>
