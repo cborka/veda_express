@@ -42,8 +42,7 @@ const hbs2 = function(req, res) {
   //res.render('regular');
   log2('Привед медвед, я hbs...', res.statusCode );
 }
-
-const applocals = function(req, res) {
+ const applocals = function(req, res) {
   res.json(req.app.locals);
   log2('applocals', res.statusCode );
   //res.render('regular');
@@ -79,10 +78,16 @@ router.get('/modal', show_modal);
 
 
 async function db_test  (req, res, next) {
-  const result = await db.query('SELECT * FROM phones WHERE id = 1');
-  //log2('db_test');
-  res.send(result.rows[0]);
-  log2('db_test', res.statusCode);
+  try {
+    const result = await db.query('SELECT * FROM phones WHERE id = 1');
+    res.send(result?.rows[0]);
+  }
+  catch (error) {
+     res.statusCode = '500';
+     res.send('Ошибка БД');
+  } finally {
+       log2('db_test', res.statusCode);
+   }
 }
 
 //
