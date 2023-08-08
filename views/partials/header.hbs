@@ -7,17 +7,21 @@
     </a>
   </div>
 
-
   <div id="title">
     ИЗДЕЛИЕ XZ-321 
   </div>
  
 
-  <button id="buter_button">
+  <button id="buter_button" onclick="show_menu()">
     <span class="buter_span"></span>
     <span class="buter_span"></span>
     <span class="buter_span"></span>
   </button>
 
-
 </header>
+
+<script>
+  function show_menu() {
+    document.getElementById('menu_top').classList.toggle('flex');
+  }
+</script>

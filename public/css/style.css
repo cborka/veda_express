@@ -1,20 +1,45 @@
+:root {
+  --g0-color: #ffffff; 
+  --g01-color: #f1f1f1; 
+  --g1-color: #e1e1e1;
+  --g11-color: #d1d1d1;
+  --g2-color: #c2c2c2;
+  --g21-color: #b7b7b7;
+  --g3-color: #959595;
+  --g31-color: #898989;
+  --g4-color: #7d7d7d;
+  --g41-color: #707070;
+  --g5-color: #626262;
+  --g51-color: #555555;
+  --g6-color: #464646;
+  --g61-color: #363636;
+  --g7-color: #262626;
+  --g8-color: #000000;
+
+  --v1-color: blueviolet;
+  --v2-color: indigo;
+
+  --border-color: #a8fff8fd;
+  --border-color: white;
+  --border-color: none;
+}
+
 body {
   padding: 0px;
   margin: 0px;
   
+  color: var(--g61-color);
   font-size: large;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
 
-/* ================== Макет =================== */
+/* ================================ Макет ================================ */
 
 #maxwrapper {
   display:flex;
   width: 100%;
-  min-height: 85vh;
+  min-height: 99vh;
   margin: 0px auto;
-  /* background-color: blueviolet; */
-  /* border: 1px solid lime; */
 }
 
 /* =================================== */
@@ -23,14 +48,14 @@ body {
   /* width: 19%; */
   flex-grow: 1;
   margin-right: 4px;
-  border: 1px solid magenta;
+  border: 1px solid var(--border-color);
 }
 
 #space_right {
   /* width: 2px; */
   flex-grow: 1;
   margin-left: 4px;
-  border: 1px solid magenta;
+  border: 1px solid var(--border-color);
 }
 
 #wrapper {
@@ -38,22 +63,25 @@ body {
   flex-direction: column;
 
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 4px auto;
   margin-bottom: 0;
   margin-top: 0;
+  border-left: 1px solid var(--g1-color);
+  border-right: 1px solid var(--g1-color);
 }
 
 /* =================================== */
 
-header, #menu_top, #container, footer {
+header, .menu_top, #container, footer {
   margin: 0;
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
+  border-bottom: 1px solid var(--g1-color);
 }
 
-header, #menu_top, #content, footer, #sidebar_right, #sidebar_left {
+header, .menu_top, #content, footer, #sidebar_right, #sidebar_left {
   padding: 8px;
-  border: 1px solid gainsboro;
+  /* border: 1px solid var(--border-color); */
 }
 
 /* header {
@@ -80,13 +108,17 @@ footer {
 } */
 
 #sidebar_left {
-  width: 19%;
-  margin-right: 4px;
+  width: 25%;
+  margin: 4px;
+  margin-left: 0px;
+  /* border-right: 1px solid var(--g1-color); */
+  background-color: var(--g01-color);
 }
 
 #sidebar_right {
   width: 19%;
   margin-left: 4px;
+  background-color: var(--g1-color);
 }
 
 #content {
@@ -96,9 +128,8 @@ footer {
   text-align: center;
 }
 
-/* ================ header ================ */
+/* ================================ header ================================ */
 header {
-  /* margin: 4px 0; */
   padding: 0;
   display: flex;
   flex-direction: row;
@@ -107,7 +138,8 @@ header {
 
 #div_logo {
   margin: 4px;
-}
+  padding: 0;
+}  
 
 #logo {
   height: 48px;
@@ -119,7 +151,7 @@ header {
 header div {
   margin: 0;
   padding: 0;
-  border: 1px solid lightpink;
+  border: 1px solid var(--border-color);
 }
 #title {
   flex-grow: 1;
@@ -141,13 +173,19 @@ button {
 }
 
 #buter_button {
-  display: inline-block;
+  /* display: inline-block; */
   display: none;
   padding: 0 auto;
   margin: 0 4px;
   font-size: smaller;
   font-weight: bold;
   line-height: 0.6;
+  border: 0;
+  background-color: #ffffff;
+}
+
+#buter_button:hover {
+  background-color: var(--g01-color);
 }
 
 .buter_span  {
@@ -158,6 +196,7 @@ button {
   width: 20px;
 }
 
+/* ================================================================ */
 
 .wrapper_1 {
   margin: 10px auto;
@@ -173,109 +212,60 @@ button {
   width: 700px;
 }
 
-/* Адаптивной или отзывчивая (responsive) вёрстка */
 
-@media (max-width: 1407px) {
-
-  footer {
-    border: 1px solid red;
-  }
-
-  #space_left, #space_right {
-    display: none;
-    border: 1px solid violet;
-  }
-
-}
-
-@media (max-width: 1215px) {
-
-  footer {
-    border: 1px solid blue;
-  }
-
-}
-@media (max-width: 1023px) {
-
-  footer {
-    border: 1px solid green;
-  }
-
-  #buter_button {
-    display: inline-block;
-  }
-
-}
-@media (max-width: 768px) {
-
-  footer {
-    border: 1px solid magenta;
-  }
-
-  #container {
-    /* flex-direction: row; */
-    flex-direction: column;
-  }
-  #sidebar_left {
-    width: auto;
-    margin-right: 0;
-    margin-bottom: 4px;
-  }
-  
-  #sidebar_right {
-    width: auto;
-    margin-left: 0x;
-  }
-  
-  #content {
-    
-    width: auto;
-    min-width: auto;
-    /* flex-grow: 1; */
-    /* min-height: 500px; */
-    /* height: 700px; */
-    text-align: center;
-  
-  }
-
-}
-
-/* ============================================ */
 
 a {
-  color: indigo;
+  /* color: indigo; */
+  color: var(--g7-color);
   text-decoration: none;
 }
 
 a:hover, a:visited:hover {
-  color: magenta;
+  /* color: magenta; */
+  color: var(--g6-color);
+  background-color: var(--g0-color);
 }
 
 a:visited {
-  color: darkviolet;
+  color: var(--g5-color);
+  /* color: darkviolet; */
 }
 
-/* ===================== Меню ==================== */
+/* ================================ Меню ================================ */
 
-/* #menu_top {
-  text-align: center;
-} */
 
-.menu_top_row {
+.menu_top {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  /* margin: 0;
-  padding: 0; */
-  border: 1px solid lightpink;
+  margin: 0;
+  padding: 0;
+  background-color: var(--g01-color);
+  /* border: 1px solid var(--border-color); */
 }
 
 .menu_point {
   margin: 0 4px;
 }
 
+/* .menu_top_col {
+  display: flex;
+  flex-direction: column; 
+} */
+/* .menu_point_col {
+  border-bottom: 0px solid var(--g1-color);
+  flex-basis: 100%;
+} */
+/* ================================ footer ================================ */
+
+footer {
+  color: var(--g1-color);
+  background-color: var(--g5-color);
+}
 
 
-/* ===================== Модальное окно ==================== */
+
+/* ================================ Модальное окно ================================ */
 .mymodal {
   position: fixed;
   top: 50%;
@@ -340,3 +330,140 @@ a:visited {
   /* width: 30px;
   height: 30px; */
  }
+
+ /* ===================== Оттенки серого ==================== */
+
+ /* .g0H { color: #ffffff; }
+ .g1G { color: #f1f1f1; }
+ .g2F { color: #e1e1e1; }
+
+ .g3E { color: #d1d1d1; }
+ .g4D { color: #c2c2c2; }
+ .g5C { color: #b7b7b7; }
+ 
+ .g6B { color: #acacac; }
+ .g7A { color: #a0a0a0; }
+ .g89 { color: #959595; }
+
+ .g98 { color: #898989; }
+ .gA7 { color: #7d7d7d; }
+ .gB6 { color: #707070; }
+
+ .gC5 { color: #626262; }
+ .gD4 { color: #555555; }
+ .gE3 { color: #464646; }
+ 
+ .gF2 { color: #363636; }
+ .gG1 { color: #262626; }
+ .gH0 { color: #000000; }
+
+ .g0 { color: #ffffff; }
+ .g1 { color: #e1e1e1; }
+ .g2 { color: #c2c2c2; }
+ .g3 { color: #acacac; }
+ .g4 { color: #959595; }
+ .g5 { color: #7d7d7d; }
+ .g6 { color: #626262; }
+ .g7 { color: #464646; }
+ .g8 { color: #262626; }
+ .g9 { color: #000000; }
+ */
+
+/* ============= Адаптивной или отзывчивая (responsive) вёрстка ============= */
+
+@media (max-width: 1407px) {
+
+  footer {
+    border: 1px solid red;
+  }
+
+  #space_left, #space_right {
+    display: none;
+  }
+
+}
+
+@media (max-width: 1215px) {
+
+  footer {
+    border: 1px solid blue;
+  }
+  /* .menu_top {
+    flex-direction: row;
+    display: flex;
+  } */
+}
+
+@media (max-width: 1023px) {
+
+  footer {
+    border: 1px solid green;
+  }
+
+  #buter_button {
+    display: inline-block;
+  }
+
+  .menu_top {
+    flex-direction: column;
+    display: none;
+  }
+  .menu_point {
+    border-bottom: 1px solid var(--g1-color);
+    /* flex-basis: 100%; */
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  footer {
+    border: 1px solid magenta;
+  }
+
+  /* Размещаю сайдбары сверху и снизу */
+  #container {
+    /* flex-direction: row; */
+    flex-direction: column;
+  }
+  #sidebar_left {
+    width: auto;
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+  
+  #sidebar_right {
+    width: auto;
+    margin-left: 0x;
+  }
+  
+  #content {
+    width: auto;
+    min-width: auto;
+    /* flex-grow: 1; */
+    /* min-height: 500px; */
+    /* height: 700px; */
+    text-align: center;
+  }
+
+}
+
+/* ============================================ */
+
+#user_login {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--g0-color);
+}
+
+
+/* ============================================ */
+
+.flex {
+  display: flex; 
+}
+
+.vert {
+  flex-direction: column;
+}

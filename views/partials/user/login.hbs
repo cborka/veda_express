@@ -1,0 +1,44 @@
+<div id="user_login">
+
+  <div id="login_form">
+    <button onclick="show_login_form">Login</button>
+    {{!-- <form>
+      <label> Id </label>
+        <input id="user_id" type="number" value="11" caption="Id"> 
+      <br>
+      <label> Login 
+        <input id="user_name" type="text" value="John"> 
+      </label>
+    </form> --}}
+<br>
+ Вход 
+<form name="userlogin" action="/users/userLogin" method="POST">
+    <table class="form">
+        <tr>
+            <td><label>Логин</label></td>
+            <td><input id="login" type="text" name="login" placeholder="login" value="" maxlength="31"></td>
+        </tr>
+        <tr>
+            <td><label>Пароль</label></td>
+            <td><input id="password" type="password" name="password" placeholder="***" value=""></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button name="button_submit" type="submit">Вход</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="red" id="hint" ></div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+  </div>
+
+
+</div> 
+
