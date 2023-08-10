@@ -34,6 +34,7 @@ app.use(logger('dev')); //morgan
 app.use(express.static('public'));
 
 import {router as indexRouter} from './routes/index.js'; 
+import {router as userRouter} from './routes/user.js'; 
 
 // view engine setup
 app.set('views', 'views');
@@ -42,6 +43,7 @@ app.set('view engine', 'hbs');
 hbs.registerPartials("views/partials");
 
 app.use(indexRouter);
+app.use(userRouter);
 
 app.use(function(err, req, res, next) {
   console.log('err.stack');
@@ -52,7 +54,8 @@ app.use(function(err, req, res, next) {
 
 
 app.use(function(req, res, next) {
-  res.status(404).send('Sorry cant find that!' + req.url);
+  // res.status(404).send('Sorry cant find that!' + req.url);
+  res.status(404).render('404', {url: req.url});
   log2('END', res.statusCode);
   //console.log(err);
 });

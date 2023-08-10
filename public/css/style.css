@@ -16,11 +16,32 @@
   --g7-color: #262626;
   --g8-color: #000000;
 
-  --v1-color: blueviolet;
-  --v2-color: indigo;
+  --orange-color: #f26520;
+  --gold-color: #f7941d;
+  --yellow-color: #fdf202;
+  
+  --green-color: #00a650;
+  --marine-color: #00a99e;
+  --skyblue-color: #00adef;
 
-  --border-color: #a8fff8fd;
-  --border-color: white;
+  --blue-color: #0171bb;
+  --darkblue-color: #0054a5;
+  --navy-color: #2e3192;
+
+  --indigo-color: #652d92;
+  --violet-color: #8e288e;
+  --fuchsia-color: #ee008c;
+
+  --red-color: #ee1157;
+  --darkred-color: #9d0a10;
+  --brown-color: #a1410f;
+
+  --brown2-color: #a4620b;
+  --olive-color: #aca000;
+  --green2-color: #588528;
+
+  /* --border-color: #a8fff8fd; */
+  /* --border-color: white; */
   --border-color: none;
 }
 
@@ -44,18 +65,21 @@ body {
 
 /* =================================== */
 
-#space_left {
-  /* width: 19%; */
+#space_right, #space_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex-grow: 1;
+  /* border: 1px solid var(--border-color); */
+}  
+
+
+#space_left {
   margin-right: 4px;
-  border: 1px solid var(--border-color);
 }
 
 #space_right {
-  /* width: 2px; */
-  flex-grow: 1;
   margin-left: 4px;
-  border: 1px solid var(--border-color);
 }
 
 #wrapper {
@@ -159,7 +183,17 @@ header div {
   font-family: "Segoe Script", Helvetica, Arial, sans-serif;
   font-size: larger;
   font-weight: bolder;
-  color: blueviolet;
+  color: var(--violet-color);
+}
+
+header #login a {
+  padding: 0 4px;
+  margin-right: 4px;
+  color: var(--marine-color);
+  font-weight: 500;
+  border-right: 1px solid var(--g1-color);
+  border-bottom: 1px solid var(--g1-color);
+
 }
 
 
@@ -198,6 +232,22 @@ button {
 
 /* ================================================================ */
 
+#notfound h1 {
+  color: var(--red-color);
+}
+#notfound p {
+  font-size: large;
+}
+#notfound p span {
+  color: var(--red-color);
+  font-weight: 500;
+}
+#notfound a {
+  font-size: large;
+}
+
+/* ================================================================ */
+
 .wrapper_1 {
   margin: 10px auto;
 }
@@ -218,6 +268,7 @@ a {
   /* color: indigo; */
   color: var(--g7-color);
   text-decoration: none;
+  /* padding: 0 4px; */
 }
 
 a:hover, a:visited:hover {
@@ -241,12 +292,15 @@ a:visited {
   margin: 0;
   padding: 0;
   background-color: var(--g01-color);
-  /* border: 1px solid var(--border-color); */
+  border: 1px solid var(--border-color);
 }
 
 .menu_point {
-  margin: 0 4px;
+  padding: 0 4px;
+  border-right: 1px solid var(--g1-color);
 }
+
+
 
 /* .menu_top_col {
   display: flex;
@@ -451,8 +505,9 @@ footer {
 /* ============================================ */
 
 #user_login {
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
+  text-align: center;
 
   background-color: var(--g0-color);
 }
@@ -466,4 +521,75 @@ footer {
 
 .vert {
   flex-direction: column;
+}
+
+.shadow {
+  border-right: 1px solid var(--g1-color);
+  border-bottom: 1px solid var(--g1-color);
+}
+
+a.button {
+  padding: 0 4px;
+  color: var(--blue-color);
+  font-weight: 500;
+  border-right: 2px solid var(--g1-color);
+  border-bottom: 2px solid var(--g1-color);
+}
+
+.center {
+  text-align: center;
+  /* position: fixed; */
+  /* top: 50%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
+
+  /* width: 600px;
+  max-width: 96%;
+  height: 600px;
+  max-height: 96%; */
+
+  /* overflow: auto; */
+
+  /* z-index: 1010; */
+
+  /* border-width: 1px;
+  border-color: chartreuse; */
+  border-radius:7px;
+  /* border-style: double; */
+
+   /*Тень описывается смещениями по оси X и Y относительно элемента, 
+   радиусом размытия и распространения, а также цветом.*/
+  /* box-shadow: inset; */
+  /* box-shadow: 1px 1px 13px red; */
+  box-shadow: 3px  3px 3px 3px grey;
+ 
+  /* background-color:white; */
+
+  /* padding-left: 30px; */
+  /* margin-right: 30px; */
+
+}
+
+.form {
+  display: inline-block;
+}
+
+.form table tr td:first-child {
+  /* color: red; */
+  text-align: right;
+  padding-right: 4px;
+}
+
+.form table tr td:last-child {
+  color: var(--green-color);
+  /* text-align: left; */
+}
+
+/* #space_right, #space_l { */
+#space_r, #space_l {
+  padding: 8px 0;
+  margin: 8px;
+  /* background-color: var(--g01-color); */
+  text-align: center;
+  /* border: 1px solid lime; */
 }
