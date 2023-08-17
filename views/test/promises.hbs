@@ -1,0 +1,37 @@
+<div style="text-align:center">
+
+/* Тесты разные */
+<br>
+<br>
+<button onclick="one()">One</button>
+
+</div>
+
+
+<script>
+
+
+
+// Promises
+
+function info(str) {
+  alert(str);
+}
+
+function one() {
+
+new Promise(r => r(1))
+  .then(alert); // показывает 2 через 1000мс
+
+return;
+  let promise = new Promise(function(resolve, reject) {
+    // эта функция выполнится автоматически, при вызове new Promise
+    // через 1 секунду сигнализировать, что задача выполнена с результатом "done"
+    setTimeout(() => resolve("done"), 1000);
+  //}).then(alert);
+  }).then( (r) => alert(r));
+
+}
+
+
+</script>

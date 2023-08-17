@@ -76,7 +76,6 @@ router.get('/db', db_test);
 router.get('/session_info', session_info);
 router.get('/modal', show_modal);
 
-
 async function db_test  (req, res, next) {
   try {
     const result = await db.query('SELECT * FROM phones WHERE id = 1');
@@ -111,3 +110,7 @@ router.get('/sendFile', function (req, res, next) {
   })
   log2('sendFile ' + fileName, res.statusCode);
 })
+
+router.get('/promises', function(req, res, next) {
+  res.render('test/promises');
+});
