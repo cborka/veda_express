@@ -21,7 +21,12 @@ function info(str) {
 function one() {
 
 new Promise(r => r(1))
-  .then(alert); // показывает 2 через 1000мс
+  .then(alert); // показывает 1
+
+  
+new Promise( function(r) { r(2) } )
+  .then(alert); // показывает 2
+
 
 return;
   let promise = new Promise(function(resolve, reject) {
