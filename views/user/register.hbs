@@ -1,12 +1,63 @@
+<div class="form_background">
 
-<div>
 <h1> Регистрация </h1>
+
 <form name="userreg" action="/users/reg" method="POST" class="form">
+
+
+
+<fieldset>
+ <legend>Контактная информация</legend>
+ <div><label>Имя<input type="text" required></label></div>
+ <div><label>E-mail<input type="email" required></label></div>
+</fieldset>
+
+<div class="controls">
+<fieldset>
+ <legend>Контактная информация</legend>
+    <label>Label</label><br>
+    <input type="text"><br>
+    <span class="mini" id="isloginfree">Хорошее имя!</span>
+<br>
+    <label>Label</label><br>
+    <input type="text"><br>
+    <span class="mini" id="xisloginfree">Хорошее имя!</span>
+</fieldset>
+</div>
+
+{{!-- <div class="controls">
+    <label>Label</label><br>
+    <input type="text"><br>
+    <span class="mini" id="xisloginfree">Хорошее имя!</span>
+</div> --}}
+
+
+
+      <div class="field control">
+        <div class="label">
+          <label class="label">Телефон<br>
+            <input name="tel" class="input is-success" type="text" placeholder="11-11-11" required value="{form?.tel ?? phone.tel}">
+          </label>
+        </div>
+        <p class="mini">Хорошее имя!</p>
+      </div>
+
+      <div class="field control">
+        <div class="label">
+          <label class="label">Телефонxbnbnlskjljk<br>
+            <input name="tel" class="input is-success" type="text" placeholder="11-11-11" required value="sdsdf">
+          </label>
+        </div>
+        <p class="mini">Хорошее имя!</p>
+      </div>
+
+
     <table >
         <tr>
             <td><label>Логин (имя для входа):</label></td>
-            <td><input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()">
-                <span class="red" id="isloginfree"></span></td>
+            <td><input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> </td>
+
+            <td> <span class="red" id="isloginfree">Нет такой буквы</span></td>
         </tr>
         <tr>
             <td><label>Почта (email):</label></td>
@@ -45,13 +96,20 @@
     </table>
 </form>
 
+<br><br><br><br>
 <!--<button onclick="atest()">atest</button>-->
+<button onclick="test1()">test1</button>
 
 </div>
 
 
-
 <script>
+
+function test1() {
+    //alert('t1');
+    document.getElementById('isloginfree').innerHTML = 'Нет такой буквы В этом слове';
+}
+
 
     //
     //  Проверка правильности занесения данных

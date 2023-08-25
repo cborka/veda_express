@@ -1,14 +1,32 @@
 <div style="text-align:center">
 
-/* Тесты разные */
-<br>
-<br>
-<button onclick="one()">One</button>
+  /* Тесты разные */
+  <br>
+  <br>
+  <button onclick="one()">One</button>
+  <button onclick="fetch2()">fetch</button>
 
 </div>
 
 
 <script>
+
+//fetch
+
+async function fetch2() {
+
+  //let response = await fetch('/testfetch');
+  let response = await fetch('/session_info');
+
+  if (response.ok) { 
+    let txt = await response.text();
+    alert(txt);
+  } else {
+    alert("Ошибка HTTP: " + response.status);
+  }
+
+}
+
 
 
 
@@ -20,21 +38,19 @@ function info(str) {
 
 function one() {
 
-new Promise(r => r(1))
-  .then(alert); // показывает 1
+  new Promise(r => r(1))
+    .then(alert); // показывает 1
+    
+  new Promise( function(r) { r(2) } )
+    .then(alert); // показывает 2
 
-  
-new Promise( function(r) { r(2) } )
-  .then(alert); // показывает 2
-
-
-return;
-  let promise = new Promise(function(resolve, reject) {
-    // эта функция выполнится автоматически, при вызове new Promise
-    // через 1 секунду сигнализировать, что задача выполнена с результатом "done"
-    setTimeout(() => resolve("done"), 1000);
-  //}).then(alert);
-  }).then( (r) => alert(r));
+  return;
+    let promise = new Promise(function(resolve, reject) {
+      // эта функция выполнится автоматически, при вызове new Promise
+      // через 1 секунду сигнализировать, что задача выполнена с результатом "done"
+      setTimeout(() => resolve("done"), 1000);
+    //}).then(alert);
+    }).then( (r) => alert(r));
 
 }
 

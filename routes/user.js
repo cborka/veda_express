@@ -15,3 +15,7 @@ router.get('/user/login', function(req, res) {
 router.get('/user/register', function(req, res) {
   res.render('user/register');
 });
+
+router.get('/user/profile', function(req, res) {
+  res.render('user/profile');
+});

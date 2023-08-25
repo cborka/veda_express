@@ -572,6 +572,18 @@ a.button {
 
 .form {
   display: inline-block;
+  text-align: center;
+}
+
+.form table {
+  display: inline-block;
+  width: 90%;
+  border: 1px solid magenta;
+}
+
+form table tr td {
+  border: 1px solid lime;
+  width:33%;
 }
 
 .form table tr td:first-child {
@@ -582,7 +594,10 @@ a.button {
 
 .form table tr td:last-child {
   color: var(--green-color);
-  /* text-align: left; */
+  min-width: 100px;
+  text-align: left;
+  border: 1px solid red;
+  font-size: small;
 }
 
 /* #space_right, #space_l { */
@@ -592,4 +607,46 @@ a.button {
   /* background-color: var(--g01-color); */
   text-align: center;
   /* border: 1px solid lime; */
+}
+
+
+.form_background {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* В центре по вертикали */
+  background-color: var(--g01-color);
+  /* text-align: center; */
+}
+
+.frm {
+  padding: 8px 0;
+  margin: 8px;
+  /* background-color: var(--fuchsia-color);   */
+  text-align: center;
+  /* border: 1px solid lime; */
+}
+
+.mini {
+  font-size: x-small;
+}
+
+input {
+  font-size: medium;
+}
+
+div.label {
+  /* float: left; */
+   background-color: var(--fuchsia-color);  
+
+}
+
+div.controls {
+  /* float: left; */
+  float: 
+  display: inline-block;
+  max-width: 80%;
+   background-color: var(--g0-color);  
+   text-align: left;
+
 }
