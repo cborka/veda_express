@@ -1,68 +1,44 @@
 <div class="form_background">
 
-<h1> Регистрация </h1>
+{{!-- <h1> Регистрация </h1> --}}
 
 <form name="userreg" action="/users/reg" method="POST" class="form">
 
 
 <fieldset>
- {{!-- <legend>Контактная информация</legend> --}}
-
+ <legend>&nbsp; Регистрация &nbsp;</legend>
+<br>
     <label>Id</label>
     <input type="number">
 
-    <label>LabelLabel LabelLabel LabelLabel  </label>
-    <input type="text">
+    <label>Логин</label>
+    <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()">
 
-    <label>Label</label>
-    <input type="number">
+    <label>Почта (email)</label>
+    <input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
+
+    <label>Пароль</label>
+    <input id="password" type="password" name="password" placeholder="***" value=""  onchange="check_data()" >
+
+    <label>Подтверждение пароля</label>
+    <input id="password2" type="password" name="password2" placeholder="***" value="" onchange="check_data()" >
+
+    <label>А вы не робот? Проверка</label>
+    <input id="test" type="text" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
+
+    <label>Ваше имя</label>
+    <input id="name" type="text" name="name" placeholder="Иван Иванов" value=""  onchange="check_data()" >
+
+    <label> </label>
+    <input type="submit" value="Регистрация" >
+    <input type="button" value="Отмена" >
+
+
+    <button name="button_submit" type="submit" disabled>Регистрация</button>
 </fieldset>
 
 
 
-{{!-- <div>
- <label>Имя<input type="text" required></label>
- <br>
- <span class="mini" id="isloginfree">Хорошее имя!</span>
- <label>E-mail<input type="email" required></label>
-</div>
-
-<div class="xcontrols">
-    <label>LabelLabel LabelLabel LabelLabel </label>
-    <input type="text">
-    <span class="mini" id="isloginfree">Хорошее имя!</span>
-<br>
-    <label>Label</label>
-    <input type="text">
-    <span class="mini" id="xisloginfree">Хорошее имя!</span>
-
-</div> --}}
-
-{{!-- <div class="controls">
-    <label>Label</label><br>
-    <input type="text"><br>
-    <span class="mini" id="xisloginfree">Хорошее имя!</span>
-</div> --}}
-
-
-{{!-- 
-      <div class="field control">
-        <div class="label">
-          <label class="label">Телефон<br>
-            <input name="tel" class="input is-success" type="text" placeholder="11-11-11" required value="{form?.tel ?? phone.tel}">
-          </label>
-        </div>
-        <p class="mini">Хорошее имя!</p>
-      </div>
-
-      <div class="field control">
-        <div class="label">
-          <label class="label">Телефонxbnbnlskjljk<br>
-            <input name="tel" class="input is-success" type="text" placeholder="11-11-11" required value="sdsdf">
-          </label>
-        </div>
-        <p class="mini">Хорошее имя!</p>
-      </div> --}}
 
 
     {{!-- <div>

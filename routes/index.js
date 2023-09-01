@@ -119,3 +119,23 @@ router.get('/testfetch', function(req, res, next) {
   res.send('test/fetch');
   log2('testfetch ', res.statusCode);
 });
+
+router.get('/testhbs', function(req, res, next) {
+
+  let date = new Date();
+			
+  let year  = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day   = date.getDate();
+  
+  let dt = year + '-' + month + '-' + day;
+
+
+	res.render('test/hbs', {
+    dt: dt,
+		user: {name: 'john', age: 30}
+	});
+
+//  res.render('test/hbs', {text: '<b>aaa</b>'});
+  log2('testhbs ', res.statusCode);
+});
