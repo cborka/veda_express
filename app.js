@@ -3,9 +3,12 @@ export const app = express();
 
 import session from 'express-session';
 
+import bodyParser from 'body-parser';
+
 export let reqId = 0; 
 
 import 'dotenv/config';
+
 import logger from 'morgan';
 import {log1, log2} from './lib/logger.js';
 
@@ -23,7 +26,6 @@ app.use(session({
   cookie: { 
     maxAge: 3*60*1000 
     //maxAge: 24*60*60*1000 // cутки 
-    
   }
 }));
 
@@ -41,6 +43,8 @@ app.set('views', 'views');
 app.set('view engine', 'hbs'); 
 // устанавливаем путь к каталогу с частичными представлениями
 hbs.registerPartials("views/partials");
+
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(indexRouter);
 app.use(userRouter);

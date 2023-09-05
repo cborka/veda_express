@@ -2,14 +2,13 @@
 
 {{!-- <h1> Регистрация </h1> --}}
 
-<form name="userreg" action="/users/reg" method="POST" class="form">
-
+<form name="userreg" action="/user/register" method="POST" class="form">
 
 <fieldset>
  <legend>&nbsp; Регистрация &nbsp;</legend>
-<br>
+    <br>
     <label>Id</label>
-    <input type="number">
+    <input id="id" name="id" type="number" value="0" readonly>
 
     <label>Логин</label>
     <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()">
@@ -27,17 +26,15 @@
     <input id="test" type="text" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
 
     <label>Ваше имя</label>
-    <input id="name" type="text" name="name" placeholder="Иван Иванов" value=""  onchange="check_data()" >
+    <input id="name" type="text" name="fio" placeholder="Иван Иванов" value=""  onchange="check_data()" >
 
     <label> </label>
-    <input type="submit" value="Регистрация" >
+    <input type="submit" id="submit" value="Регистрация" >
     <input type="button" value="Отмена" >
 
-
-    <button name="button_submit" type="submit" disabled>Регистрация</button>
 </fieldset>
-
-
+                <div id="hint">hint</div>
+                <div id="erro">erro</div>
 
 
 
@@ -102,7 +99,8 @@
 
 function test1() {
     //alert('t1');
-    document.getElementById('isloginfree').innerHTML = 'Нет такой буквы В этом слове';
+    document.getElementById('hint').innerHTML = 'Нет такой буквы В этом слове';
+ 
 }
 
 
@@ -111,10 +109,12 @@ function test1() {
     //
     function check_data()
     {
-        userreg.button_submit.disabled = true;
+        info(userreg.login.value.length);
+        userreg.submit.disabled = true;
 
         if (userreg.login.value.length < 3) {
             info("Поле 'Login' слишком короткое, меньше трёх символов");
+            return false;
         }
         if (!validate_email(userreg.email.value)) {
             info("Формат email неверный");
@@ -132,15 +132,15 @@ function test1() {
             info("А вы не робот случайно?");
             return false;
         }
-        if ($("#isloginfree").text() !== '') {
-            return false;
-        }
-        if ($("#isemailfree").text() !== '') {
-            return false;
-        }
+        //if ($("#isloginfree").text() !== '') {
+        //    return false;
+        //}
+        //if ($("#isemailfree").text() !== '') {
+        //    return false;
+        //} 
 
         info("OK");
-        userreg.button_submit.disabled = false;
+        userreg.submit.disabled = false;
         return true;
     }
 
@@ -149,27 +149,28 @@ function test1() {
     //
     function check_login_free()
     {
-        userreg.button_submit.disabled = true;
+         err("check_login_free");
+        //userreg.button_submit.disabled = true;
 
-        let login = userreg.login.value.trim();
+        //let login = userreg.login.value.trim();
 
         // Запрос серверу на проверку не занят ли этот логин
-        $.ajaxSetup({async:false});
-        response = '';
-            $.post("/users/isLoginFree",
-                {
-                    login: String(login)
-                },
-                function (data, status) {
-                    response = data;
-                }
-            );
+        //$.ajaxSetup({async:false});
+        //response = '';
+        //   $.post("/users/isLoginFree",
+        //        {
+        //            login: String(login)
+        //        },
+        //        function (data, status) {
+        //            response = data;
+        //        }
+        //    );
 
-        if (response !== '0') {
-            $("#isloginfree").text("Логин занят");
-        } else {
-            $("#isloginfree").text('');
-        }
+        //if (response !== '0') {
+        //    $("#isloginfree").text("Логин занят");
+        //} else {
+        //    $("#isloginfree").text('');
+        //}
 
         return check_data();
     }
@@ -179,27 +180,27 @@ function test1() {
     //
     function check_email_free()
     {
-        userreg.button_submit.disabled = true;
+        //userreg.button_submit.disabled = true;
 
-        let email = userreg.email.value.trim();
+        //let email = userreg.email.value.trim();
 
         // Запрос серверу на проверку не занят ли этот email
-        $.ajaxSetup({async:false});
-        response = '';
-        $.post("/users/isEmailFree",
-            {
-                email: String(email)
-            },
-            function (data, status) {
-                response = data;
-            }
-        );
+        //$.ajaxSetup({async:false});
+        //response = '';
+        //$.post("/users/isEmailFree",
+        //    {
+        //       email: String(email)
+        //    },
+        //    function (data, status) {
+        //        response = data;
+        //    }
+        //);
 
-        if (response !== '0') {
-            $("#isemailfree").text("Уже есть такая почта");
-        } else {
-            $("#isemailfree").text('');
-        }
+        //if (response !== '0') {
+        //    $("#isemailfree").text("Уже есть такая почта");
+        //} else {
+        //    $("#isemailfree").text('');
+       // }
 
         return check_data();
     }
@@ -217,8 +218,11 @@ function test1() {
     //
     function info(str)
     {
-        $("#hint").text(str);
-//        document.getElementById("hint").innerHTML=str;
+        document.getElementById("hint").innerHTML=str;
+    }
+    function err(str)
+    {
+        document.getElementById("erro").innerHTML=str;
     }
 
 

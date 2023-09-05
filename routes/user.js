@@ -15,6 +15,10 @@ router.get('/user/login', function(req, res) {
 router.get('/user/register', function(req, res) {
   res.render('user/register');
 });
+router.post('/user/register', function(req, res) {
+  res.send('x '+JSON.stringify(req.body));
+  // res.send('user/register post' + req.body);
+});
 
 router.get('/user/profile', function(req, res) {
   res.render('user/profile');
