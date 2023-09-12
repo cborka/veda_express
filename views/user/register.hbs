@@ -7,27 +7,29 @@
 <fieldset>
  <legend>&nbsp; Регистрация &nbsp;</legend>
     <br>
+    <div>
     <label>Id</label>
-    <input id="id" name="id" type="number" value="0" readonly>
-
+        <input id="id" name="id" type="number" value="0" readonly>
+</div><div>
     <label>Логин</label>
-    <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()">
-
+    <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> 
+    <span id="isloginfree" class="red">Нет такой буквы</span>
+</div><div>
     <label>Почта (email)</label>
     <input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
-
+</div><div>
     <label>Пароль</label>
     <input id="password" type="password" name="password" placeholder="***" value=""  onchange="check_data()" >
-
+</div><div>
     <label>Подтверждение пароля</label>
     <input id="password2" type="password" name="password2" placeholder="***" value="" onchange="check_data()" >
-
+</div><div>
     <label>А вы не робот? Проверка</label>
-    <input id="test" type="text" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
-
+    <input id="test" type="number" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
+</div><div>
     <label>Ваше имя</label>
     <input id="name" type="text" name="fio" placeholder="Иван Иванов" value=""  onchange="check_data()" >
-
+</div><div>
     <label> </label>
     <input type="submit" id="submit" value="Регистрация" >
     <input type="button" value="Отмена" >
@@ -42,7 +44,7 @@
     <table >
         <tr>
             <td><label>Логин (имя для входа):</label></td>
-            <td><input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> </td>
+            <td><input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="xcheck_login_free()"> </td>
 
             <td> <span class="red" id="isloginfree">Нет такой буквы</span></td>
         </tr>
@@ -91,16 +93,172 @@
 <button onclick="test1()">test1</button>
 <br><br>
 <br><br>
+<button onclick="fetch23()">ajax</button>
+<button onclick="fetch22()">fetch</button>
 
 </div>
-
+  
 
 <script>
+
+// Инициализация документа
+const set_init_doc = function (reply)
+{
+    alert(reply);
+//    document.getElementById("doc").innerHTML = reply;
+
+};
+function fetch23()
+{
+    doQuery ("/user/isLoginFree", set_init_doc,
+        "mode=22"
+//        "&doc_name=" + encodeURIComponent("zxcv")
+//        "&doc_name=" + encodeURIComponent(document.getElementById("doc_name").innerHTML)
+    );
+}
+
+
+//import fetch from 'node-fetch';
+
+function fetch22() {
+    fetch2();
+}
+
+async function fetch21() {
+
+let user = {
+  name: 'John',
+  surname: 'Smith'
+};
+
+let response = await fetch('/user/isLoginFree', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json'},
+  body: JSON.stringify(user)
+//  body: 'mode=22' 
+//  body: 'modemode'
+});
+//alert(response.message);
+
+
+   // let response = await fetch('/user/isLoginFree');
+
+    if(response.ok) {
+    let txt = await response.text();
+    alert(txt);
+    } else {
+    alert('Ошибка HTTP: ' + response.statusText);
+    }
+}
+
+    //
+    //  Правильный ли формат email
+    //
+    function validate_email(email) {
+        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    //
+    //  Просто выводит сообщение
+    //
+    function info(str)
+    {
+        document.getElementById("hint").innerHTML=str;
+    }
+    function err(str)
+    {
+        document.getElementById("erro").innerHTML=str;
+    }
+
+    //
+    //  Проверка правильности занесения данных
+    //
+    function check_data()
+    {
+//        info(userreg.login.value.length);
+        userreg.submit.disabled = true;
+  
+        if (userreg.login.value.length < 3) {
+            info("Поле 'Login' слишком короткое, меньше трёх символов");
+            return false;
+        }
+        if (!validate_email(userreg.email.value)) {
+            info("Формат email неверный");
+            return false;
+        }
+        if (userreg.password.value === "") {
+            info("Пароль не заполнен");
+            return false;
+        }
+        if (userreg.password.value !== userreg.password2.value) {
+            info("Пароли не совпадают");
+            return false;
+        }
+        if (userreg.test.value != 144) {
+            info("А вы не робот случайно?");
+            return false;
+        }
+        //if ($("#isloginfree").text() !== '') {
+        //    return false;
+        //}
+        //if ($("#isemailfree").text() !== '') {
+        //    return false;
+        //} 
+
+        info("OK");
+        userreg.submit.disabled = false;
+        return true;
+    }
+    //
+    //  Не занят ли логин?
+    //
+    async function check_login_free()
+    {
+        let login = userreg.login.value.trim();
+        let user = {
+  name: 'John',
+  surname: 'Smith'
+};
+        err(login);
+
+        // Запрос серверу на проверку не занят ли этот логин
+         let response = await fetch('/user/isLoginFree', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(user)
+//            body: `{login: '${login}'}`
+         });
+
+         if(response.ok) {
+            let txt = await response.text();
+            if (txt != '') {
+                document.getElementById("isloginfree").innerHTML = `Логин ${login} занят.`;
+            } else {
+                document.getElementById("isloginfree").innerHTML = ''; 
+            }
+            //return txt;
+            alert(txt);
+         } else {
+            alert('Ошибка HTTP: ' + response.status);
+         }
+
+
+        //userreg.button_submit.disabled = true;
+
+//        return 222;
+        return check_data();
+    }
+
+</script>
+
+
 
 function test1() {
     //alert('t1');
     document.getElementById('hint').innerHTML = 'Нет такой буквы В этом слове';
- 
 }
 
 
@@ -147,9 +305,25 @@ function test1() {
     //
     //  Не занят ли логин?
     //
-    function check_login_free()
+    async check_login_free()
     {
-         err("check_login_free");
+//         err("check_login_free");
+
+         let response = await fetch('/userss/isLoginFree');
+
+         if(response.ok) {
+            let txt = await response.text();
+            alert(txt);
+         } else {
+            alert('Ошибка HTTP: ' + response.status);
+         }
+
+        
+
+
+
+
+
         //userreg.button_submit.disabled = true;
 
         //let login = userreg.login.value.trim();
@@ -209,7 +383,9 @@ function test1() {
     //  Правильный ли формат email
     //
     function validate_email(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        err(email);
+        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        err(re);
         return re.test(email);
     }
 
@@ -241,6 +417,21 @@ function test1() {
 //             }
 //         });
 //     }
+
+
+ function fetch21() {
+    alert('txt');
+  //let response = await fetch('/testfetch');
+  //let response = await fetch('/session_info');
+
+  //if (response.ok) { 
+    //let txt = await response.text();
+   // alert(txt);
+  //} else {
+    //alert("Ошибка HTTP: " + response.status);
+ // }
+
+}
 
 
 </script>

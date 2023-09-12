@@ -499,14 +499,16 @@ a.button {
 }
 
 .form {
-  display: inline-block;
+  /* display: inline-block; */
   text-align: center;
   /* border: 1px solid green; */
 }
 
 .form fieldset {
-  display: inline-block;
-  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  /* display: inline-block; */
+  /* width: 95%; */
   border: 1px solid var(--g1-color);
 }
 
@@ -520,23 +522,58 @@ fieldset label, fieldset input {
   display: block;
   float: left;
   margin-bottom: 8px;
+  font-size: medium;
+  /* border: 1px solid violet; */
 }
 
 fieldset label {
   /* background-color: var(--skyblue-color);   */
-  width: 40%;
+  display: block;
+  width: 33%;
   text-align: right;
   padding-right: 4px;
+  /* border: 1px solid violet; */
 }
-
+/*  */
 fieldset input[type="text"] {
-  width: 55%;
+  width: 400px;
 }
+/* fieldset input {
+  width: 58%;
+} */
 fieldset input[type="button"], fieldset input[type="submit"] {
   margin-right: 8px;
+  width: auto;
+}
+fieldset input[type="number"] {
+  width: 100px;
+  min-width: 100px;
+}
+fieldset input[type="email"] {
+  width: 200px;
+}
+fieldset input[type="password"] {
+  width: 100px;
+}
+fieldset input[name="login"] {
+  width: 200px;
 }
 
+fieldset span {
+  display: block;
+  float: left;
+  margin-left: 8px;
+  text-align: left;
+  /* font-size: x-small; */
+  /* width: 47%; */
+  /* color: var(--red-color); */
+  /* border: 1px solid magenta; */
+}
 
+fieldset div {
+  /* width: 90%; */
+  /* border: 1px solid violet; */
+}
 /* .mini {
   font-size: x-small;
   color: var(--fuchsia-color); 
@@ -582,27 +619,25 @@ form table tr td {
   /* border: 1px solid lime; */
 }
 
+/* ============================= Формы ============================= */
 
-
-
-.frm {
+/* .frm {
   padding: 8px 0;
   margin: 8px;
-  /* background-color: var(--fuchsia-color);   */
+  background-color: var(--fuchsia-color);  
   text-align: center;
-  /* border: 1px solid lime; */
+  border: 1px solid lime;
 }
-
 
 
 input {
   font-size: medium;
-}
+} */
 
-div.label {
-  /* float: left; */
+/* div.label {
+  float: left;
    background-color: var(--fuchsia-color);  
-}
+} */
 
 
 
@@ -718,11 +753,11 @@ div.label {
 
 /* Form */
 
-  fieldset input[type="text"] {
+  /* fieldset input[type="text"] {
     width: 98%;
-  }
+  } */
   fieldset label {
-      width: 100%;
+      width: 98%;
       text-align: left;
   }
   
@@ -737,4 +772,14 @@ div.label {
 .vert {
   display: flex;
   flex-direction: column;
+}
+
+.red {
+  /* display: block; */
+  /* text-align: left; */
+  color: var(--red-color);
+  /* border: 1px solid magenta; */
+}
+.green {
+  color: var(--green-color);
 }

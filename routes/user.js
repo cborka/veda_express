@@ -23,3 +23,16 @@ router.post('/user/register', function(req, res) {
 router.get('/user/profile', function(req, res) {
   res.render('user/profile');
 });
+
+
+router.post('/user/isLoginFree', function(req, res) {
+//  let login = req.body.login;
+//  let name = req.body.name;
+
+//req.body.name = 'zxcv';
+
+//  res.send('user/isLoginFree da?' + req.body);
+console.log(JSON.stringify(req.body));
+  res.send('user/isLoginFree da?' + JSON.stringify(req.body));
+});
+
