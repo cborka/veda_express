@@ -1,6 +1,7 @@
 import express from 'express';
 export const app = express();
 
+import cors from 'cors';
 import session from 'express-session';
 
 import bodyParser from 'body-parser';
@@ -17,6 +18,8 @@ import hbs from 'hbs';
 // import path from 'path';
 
 const PORT = process.env.PORT || 3000; 
+
+
 
 app.use(session({
   secret: 'secret keyboard cat',
@@ -45,6 +48,7 @@ app.set('view engine', 'hbs');
 hbs.registerPartials("views/partials");
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 app.use(indexRouter);
 app.use(userRouter);
