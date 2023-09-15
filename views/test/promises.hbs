@@ -5,14 +5,50 @@
   <br>
   <button onclick="one()">One</button>
   <button onclick="fetch2()">fetch</button>
+  <button onclick="async3()">async</button>
 
 </div>
 
 
 <script>
 
-//fetch
+// async
 
+function  get_promise () {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, 1000, 1);
+  } );
+
+}
+
+function async3() {
+ async2().then(alert);
+}  
+// 1 ряд Борис Толя Гриша Слава 2ряд Миша Незнаю Света Груня Саша Фрося Сергей
+function  async2() {
+  //alert('async2()');
+  //alert('async2()' + await get_promise());
+  //let x = await get_promise();
+  //x.then(alert);
+  //alert('x = ' + x);
+  let x = get_promise();
+  x.then(x=>x*2).then(x=>x*2).then(alert);
+  x.then(x=>x*3).then(alert);
+  x.then(alert);
+
+  //alert('x = ' + await x);
+  //return x;
+  //get_promise().then(alert);
+}
+setTimeout(async2, 10);
+//async2();
+//async2().then(alert);
+
+
+
+
+
+//fetch
 async function fetch2() {
 
   //let response = await fetch('/testfetch');
