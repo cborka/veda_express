@@ -22,9 +22,9 @@ function  get_promise () {
 }
 
 function async3() {
- async2().then(alert);
+ async2().then(x => {alert(x*100)});
 }  
-// 1 ряд Борис Толя Гриша Слава 2ряд Миша Незнаю Света Груня Саша Фрося Сергей
+
 function  async2() {
   //alert('async2()');
   //alert('async2()' + await get_promise());
@@ -37,10 +37,20 @@ function  async2() {
   x.then(alert);
 
   //alert('x = ' + await x);
-  //return x;
+  return x;
   //get_promise().then(alert);
 }
-setTimeout(async2, 10);
+
+
+//alert('Boolean({}) = ' + Boolean({})); // true
+//alert('Boolean({x: 0}?.y) = ' + Boolean({x: 0}?.y)); // false
+//alert('Boolean(undefined?.y) = ' + Boolean(undefined?.y)); // false
+( x => alert('Boolean(Отсутствующий параметр) = ' + Boolean(x) ) )();
+let f = x => alert('Boolean(Отсутствующий параметр) = ' + Boolean(x) );
+f();
+
+//setTimeout(async2, 10);
+
 //async2();
 //async2().then(alert);
 
