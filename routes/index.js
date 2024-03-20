@@ -33,7 +33,7 @@ const hbs = function(req, res) {
   //res.send([1,2,3,4].toString());
   res.render('index', {title: "Veda"});
   //res.render('regular');
-  log2('Привед медвед, я hbs...', res.statusCode );
+  log2('Привед< медвед, я hbs...', res.statusCode );
 }
 
 const bulma = function(req, res) {
