@@ -570,10 +570,11 @@ fieldset span {
   /* border: 1px solid magenta; */
 }
 
-fieldset div {
+/* fieldset div { */
   /* width: 90%; */
   /* border: 1px solid violet; */
-}
+/* } */
+
 /* .mini {
   font-size: x-small;
   color: var(--fuchsia-color); 
