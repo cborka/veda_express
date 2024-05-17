@@ -19,8 +19,7 @@ import hbs from 'hbs';
 
 const PORT = process.env.PORT || 3000; 
 
-
-
+// Сессия
 app.use(session({
   secret: 'secret keyboard cat',
   resave: false,
@@ -32,27 +31,38 @@ app.use(session({
   }
 }));
 
-// Увеличиваю id запроса и вывожу запись в лог
-app.use((req, res, next) => { ++reqId; next();}, log1);
+
+// Мой журнал
+app.use((req, res, next) => { ++reqId; next();}, log1); // Увеличиваю id запроса и вывожу запись в лог
+
+// Morgan logger
 app.use(logger('dev')); //morgan
+//app.use(logger('short')); //morgan
+//app.use(logger(':id :method :url :response-time'));
 
-app.use(express.static('public'));
+// Статика (неизменяемые файлы)
+app.use(express.static('public')); 
 
+// Routers
 import {router as indexRouter} from './routes/index.js'; 
 import {router as userRouter} from './routes/user.js'; 
 
 // view engine setup
 app.set('views', 'views');
 app.set('view engine', 'hbs'); 
-// устанавливаем путь к каталогу с частичными представлениями
-hbs.registerPartials("views/partials");
+hbs.registerPartials("views/partials"); // каталог с частичными представлениями
 
+// bodyParser
+app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(cors());
 
+// Routers
 app.use(indexRouter);
 app.use(userRouter);
 
+// Обработка ошибок
 app.use(function(err, req, res, next) {
   console.log('err.stack');
   console.error(err.stack);
@@ -60,15 +70,13 @@ app.use(function(err, req, res, next) {
   log2('ERR', res.statusCode);
 });
 
-
+// Страница не найдена
 app.use(function(req, res, next) {
   // res.status(404).send('Sorry cant find that!' + req.url);
   res.status(404).render('404', {url: req.url});
-  log2('END', res.statusCode);
+  log2('END 404', res.statusCode);
   //console.log(err);
 });
-
-
 
 
 

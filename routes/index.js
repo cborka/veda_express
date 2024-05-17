@@ -7,8 +7,16 @@ const ip = function(req, res, next) {
   let s = "Your IP Addresss is: " + req.socket.localAddress + '<br>';
   s += 'Remote IP Address is: ' + req.socket.remoteAddress + '<br>';
   s += 'req.ip: ' + req.ip + '<br>';
+  s += 'req.socket.remoteAddress: ' + req.socket.remoteAddress + '<br>';
+  s += 'req._remoteAddress: ' + req._remoteAddress + '<br>';
+  s += '(req.connection && req.connection.remoteAddress): ' + (req.connection && req.connection.remoteAddress) + '<br>';
   s += 'import.meta.url: ' + import.meta.url + '<br>';
   s += 'process.cwd(): ' + process.cwd() + '<br>';
+  s += 'req.headers[x-forwarded-for]: ' + req.headers + '<br>';
+  s += 'res._startAt: ' + res._startAt + '<br>';
+  s += 'req._startAt: ' + req._startAt + '<br>';
+  s += 'req._startAt[0]: ' + req._startAt[0] + '<br>';
+  s += 'req._startAt[1]: ' + req._startAt[1] + '<br>';
   s += '<a href="/">Home </a><br>';
   //next('route');
   res.send(s);
@@ -23,8 +31,12 @@ const index = function(req, res) {
 
 const ip2 = function(req, res) {
   //res.send('next route');
-  res.redirect('/hbs');
-  log2('redirect /hbs', res.statusCode );
+//  console.log(req);
+//  res.send(req.body);
+  res.json(req.body);
+
+//  res.redirect('/hbs');
+//  log2('redirect /hbs', res.statusCode );
   //res.render('regular');
 }
 
