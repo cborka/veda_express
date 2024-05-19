@@ -132,7 +132,7 @@ footer {
 } */
 
 #sidebar_left {
-  width: 25%;
+  width: 20%;
   margin: 4px;
   margin-left: 0px;
   /* border-right: 1px solid var(--g1-color); */
@@ -373,6 +373,7 @@ footer {
 .closed {
   display: none;
 }
+
 /* Кнопка закрытия модального окна */
 .close_modal {
   display: block;
@@ -490,15 +491,18 @@ a.button {
 
 /*====================== Form ======================*/
 
-.form_background {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* В центре по вертикали */
+/* .form_background { */
+  /* height: 100%; */
+  /* width: 100%; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; /* В центре по вертикали */
   /* background-color: var(--g01-color); */
-}
+/* } */
 
 .form {
+  /* width: 75%; */
   /* display: inline-block; */
   text-align: center;
   /* border: 1px solid green; */
@@ -508,7 +512,7 @@ a.button {
   display: flex;
   flex-direction: column;
   /* display: inline-block; */
-  /* width: 95%; */
+  /* width: 75%; */
   border: 1px solid var(--g1-color);
 }
 
@@ -523,6 +527,7 @@ fieldset label, fieldset input {
   float: left;
   margin-bottom: 8px;
   font-size: medium;
+  min-width: 150px;
   /* border: 1px solid violet; */
 }
 
@@ -535,28 +540,26 @@ fieldset label {
   /* border: 1px solid violet; */
 }
 /*  */
+
 fieldset input[type="text"] {
-  width: 400px;
+  /* width: 400px; */
+  width: 63%;
 }
-/* fieldset input {
-  width: 58%;
-} */
 fieldset input[type="button"], fieldset input[type="submit"] {
   margin-right: 8px;
   width: auto;
 }
 fieldset input[type="number"] {
-  width: 100px;
-  min-width: 100px;
+  width: 20%;
 }
 fieldset input[type="email"] {
-  width: 200px;
+  width: 40%;
 }
 fieldset input[type="password"] {
-  width: 100px;
+  width: 20%;
 }
 fieldset input[name="login"] {
-  width: 200px;
+  width: 20%;
 }
 
 fieldset span {
@@ -762,7 +765,22 @@ input {
       text-align: left;
   }
   
-
+  fieldset input[type="text"] {
+    /* width: 400px; */
+    width: 98%;
+  }
+  fieldset input[type="number"] {
+    width: 50%;
+  }
+  fieldset input[type="email"] {
+    width: 98%;
+  }
+  fieldset input[type="password"] {
+    width: 98%;
+  }
+  fieldset input[name="login"] {
+    width: 98%;
+  }
 }
 
 
@@ -773,6 +791,21 @@ input {
 .vert {
   display: flex;
   flex-direction: column;
+}
+
+
+.hint {
+  text-align: left;
+  color: var(--green-color);
+}
+
+.error {
+  text-align: left;
+  color: var(--red-color);
+}
+
+.hidden {
+  display: none;
 }
 
 .red {

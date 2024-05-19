@@ -1,97 +1,59 @@
 <div class="form_background">
 
 {{!-- <h1> Регистрация </h1> --}}
-
+<br>
+<br>
+<br>
 <form name="userreg" action="/user/register" method="POST" class="form">
 
 <fieldset>
  <legend>&nbsp; Регистрация &nbsp;</legend>
     <br>
+    <div hidden>
+        <label>Id</label>
+        <input id="id" name="id" type="number" value="0" readonly >
+    </div>
     <div>
-    <label>Id</label>
-        <input id="id" name="id" type="number" value="0" readonly>
-</div><div>
-    <label>Логин</label>
-    <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> 
-    <span id="isloginfree" class="red">Нет такой буквы</span>
-</div><div>
-    <label>Почта (email)</label>
-    <input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
-</div><div>
-    <label>Пароль</label>
-    <input id="password" type="password" name="password" placeholder="***" value=""  onchange="check_data()" >
-</div><div>
-    <label>Подтверждение пароля</label>
-    <input id="password2" type="password" name="password2" placeholder="***" value="" onchange="check_data()" >
-</div><div>
-    <label>А вы не робот? Проверка</label>
-    <input id="test" type="number" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
-</div><div>
-    <label>Ваше имя</label>
-    <input id="name" type="text" name="fio" placeholder="Иван Иванов" value=""  onchange="check_data()" >
-</div><div>
-    <label> </label>
-    <input type="submit" id="submit" value="Регистрация" >
-    <input type="button" value="Отмена" >
-
+        <label>Логин</label>
+        <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> 
+        <span id="isloginfree" class="red">Нет такой буквы</span>
+    </div>
+    <div>
+        <label>Почта (email)</label>
+        <input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
+    </div>
+    <div>
+        <label>Пароль</label>
+        <input id="password" type="password" name="password" placeholder="***" value=""  onchange="check_data()" >
+    </div>
+    <div>
+        <label>Подтверждение пароля</label>
+        <input id="password2" type="password" name="password2" placeholder="***" value="" onchange="check_data()" >
+    </div>
+    <div>
+        <label>А вы не робот? Проверка</label>
+        <input id="test" type="number" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" >
+    </div>
+    <div>
+        <label>Ваше имя</label>
+        <input id="name" type="text" name="fio" placeholder="Иван Иванов" value=""  onchange="check_data()" >
+    </div>
+    <div>
+        <label> </label>
+        <input type="submit" id="submit" value="Регистрация" >
+        <input type="button" value="Отмена" >
+    </div>
+    <div>
+        <span class="hint" id="hint"></span>&nbsp;
+        <span class="error" id="error"></span>
+    </div>
 </fieldset>
-                <div id="hint">hint</div>
-                <div id="erro">erro</div>
-
-
-
-    {{!-- <div>
-    <table >
-        <tr>
-            <td><label>Логин (имя для входа):</label></td>
-            <td><input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="xcheck_login_free()"> </td>
-
-            <td> <span class="red" id="isloginfree">Нет такой буквы</span></td>
-        </tr>
-        <tr>
-            <td><label>Почта (email):</label></td>
-            <td><input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
-                <span class="red" id="isemailfree"></span></td>
-        </tr>
-        <tr>
-            <td><label>Пароль:</label></td>
-            <td><input id="password" type="password" name="password" placeholder="***" value=""  onchange="check_data()" ></td>
-        </tr>
-        <tr>
-            <td><label>Подтверждение пароля:</label></td>
-            <td><input id="password2" type="password" name="password2" placeholder="***" value="" onchange="check_data()" ></td>
-        </tr>
-        <tr>
-            <td><label>А вы не робот? Проверка:</label></td>
-            <td><input id="test" type="text" name="test" placeholder="12 х 12 =" value="" maxlength="63" onchange="check_data()" ></td>
-        </tr>
-        <tr>
-            <td><label>Ваше имя</label></td>
-            <td><input id="name" type="text" name="name" placeholder="Иван Иванов" value="" ></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button name="button_submit" type="submit" disabled>Регистрация</button>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <div class="red" id="hint" ></div>
-                <div id="erro"></div>
-            </td>
-        </tr>
-    </table>
-    </div> --}}
-
 </form>
 
 <br><br>
 
 <!--<button onclick="atest()">atest</button>-->
 <button onclick="test1()">test1</button>
-<br><br>
 <br><br>
 <button onclick="fetch23()">ajax</button>
 <button onclick="fetch22()">fetch</button>
@@ -255,7 +217,7 @@ let response = await fetch('/user/isLoginFree', {
 </script>
 
 
-
+{{!-- 
 function test1() {
     //alert('t1');
     document.getElementById('hint').innerHTML = 'Нет такой буквы В этом слове';
@@ -434,4 +396,4 @@ function test1() {
 }
 
 
-</script>
+</script> --}}

@@ -1,7 +1,8 @@
 import  express  from "express";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db.js'
-import cors from 'cors';;
+import * as cbw from '../lib/cbw.js'
+import cors from 'cors';
 import fetchh from 'node-fetch';
 
 export const router = express.Router();
@@ -13,6 +14,9 @@ router.get('/user', function(req, res, next) {
 
 router.get('/user/login', function(req, res) {
   res.render('user/login');
+});
+router.post('/user/login', function(req, res) {
+  res.send('login: '+JSON.stringify(req.body));
 });
 
 router.get('/user/register', function(req, res) {
@@ -31,27 +35,43 @@ router.get('/user/profile', function(req, res) {
 //router.post('/user/isLoginFree', cors(), function(req, res) {
 router.post('/user/isLoginFree', function(req, res) {
   let login = req.body.login;
-//  let name = req.body.name;
-  let a = req.body.a;
 
-//req.body.name = 'zxcv';
-
-//  res.send('user/isLoginFree da?' + req.body);
-//console.log('req.body=' + JSON.stringify(req.body));
-console.log('req.body=' + JSON.stringify(req.body));
-console.log('a=' + a);
-  res.send('user/isLoginFree da?'  + JSON.stringify(req.body));
-//  res.send(JSON.stringify(req.body));
-  //res.send('user/isLoginFree da?' + req.bbbbb + JSON.stringify(req.body));
+  res.send(req.body.name);
+  //res.send('isLoginFree: '+JSON.stringify(req.body));
 });
 
 router.get('/user/isLoginFree', async function(req, res) {
 //  fetch3();
-// res.send('fetch3()');
- res.send(await fetch4());
+// let url = 'https://' + req.hostname + req.url;
+ //let url = 'http://' + req.hostname + ':' + '3000' + req.url;
+ //let url = 'http://127.0.0.1:3000/user/isLoginFree';
+ //let ret = await cbw.getContent(url, {name: "Bobbb"});
+ let ret = await fetch5();
+ res.send('Вернулось ' + ret);
+ //res.send('Вернулось ' + req);
 
 });
 
+router.get('/user/getlogin', async function(req, res) {
+  //  fetch3();
+  // res.send('fetch3()');
+   res.send('getlogin');
+  
+});
+
+async function fetch5() {
+  const response = await fetch('http://127.0.0.1:3000/user/getlogin');
+  
+  if(response.ok) {
+    let txt = await response.text();
+//    console.log('body = ' + JSON.stringify(user));
+    console.log('txt = ' + txt);
+    return txt;
+  } else {
+    console.log('Ошибка HTTP: ' + response.statusText);
+    return 'ErrorXXX';
+  }
+}
 
 async function fetch4() {
   const user = {
@@ -59,32 +79,22 @@ async function fetch4() {
     surname: 'Smith'
   };
   
-  // const response = await fetch('https://httpbin.org/post', {
-  //   method: 'post',
-  //   body: JSON.stringify(body),
-  //   headers: {'Content-Type': 'application/json'}
-  // });
-  // const data = await response.json();
-
-  const body = {a: 1};
-//   const response = await fetchh('https://httpbin.org/post', {
-   const response = await fetchh('http://127.0.0.1:3000/user/isLoginFree', {
+  const response = await fetch('http://127.0.0.1:3000/user/isLoginFree', {
     method: 'post',
-    body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json'}
-//    headers: { 'Content-Type': 'multipart/form-data'}
-//    mode: "same-origin",
-//    credentials: "same-origin",
+    body: JSON.stringify(user),
+    headers: { 'Content-Type': 'application/json'},
+    //mode: "same-origin",
+    //credentials: "same-origin",
   });
   
   if(response.ok) {
     let txt = await response.text();
 //    console.log('body = ' + JSON.stringify(user));
     console.log('txt = ' + txt);
-//    return '['+JSON.stringify(txt)+']';
     return txt;
   } else {
-    alert('Ошибка HTTP: ' + response.statusText);
+    console.log('Ошибка HTTP: ' + response.statusText);
+    return 'ErrorXXX';
   }
 }
 

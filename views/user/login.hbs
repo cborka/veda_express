@@ -1,37 +1,39 @@
-<div id="xuser_login" >
-
-<h1>Вход </h1>
-{{!-- <form name="xuserlogin" action="/user/userLogin" method="POST" class="form { --}}
-<form name="xuserlogin" action="/user/isLoginFree" method="POST" class="form {
-">
-    <table class="чcenter">
-        <tr>
-            <td>Логин</td>
-            <td><input id="login" type="text" name="login" placeholder="login" value="" maxlength="31"></td>
-        </tr>
-        <tr>
-            <td>Пароль</td>
-            <td><input id="password" type="password" name="password" placeholder="***" value=""></td>
-        </tr>
-        <tr>
-            <td>num</td>
-            <td><input id="mum" type="number" name="num" placeholder="1" value="2"></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button name="button_submit" type="submit">Вход</button>
-                <a href="/user/register">Регистрация</a> 
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <div class="red" id="hint" ></div>
-            </td>
-        </tr>
-    </table>
+<div class="form_background">
+<br>
+<br>
+<br>
+<form name="userreg" action="/user/login" method="POST" class="form">
+<fieldset>
+    <legend>&nbsp; Вход &nbsp;</legend>
+    <br>
+    <div>
+        <label>Логин</label>
+        <input id="login" type="text" name="login" placeholder="login" value="" maxlength="31" >
+    </div>
+    <div>
+        <label>Пароль</label>
+        <input id="password" type="password" name="password" placeholder="***" value="">
+    </div>
+    <div>
+        <label>Проверка</label>
+        <input id="mum" type="number" name="num" placeholder="1" value="2">
+    </div>
+    <div>
+        <label></label>
+        <input type="submit" id="enter" formtarget="_self" value="Вход">
+        <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm">
+        {{!-- <a href="/user/register" type="button">Регистрация</a>  --}}
+    </div>
+    <div>
+        <span class="hint" id="hint">hint</span>&nbsp;
+        <span class="error" id="error">error</span>
+    </div>
+</fieldset>
 </form>
+</div>
 
-</div> 
+<form id="hrefForm" method="GET"></form>
+
+{{!-- <button onclick="window.location.href='/user/register';">На вертолёт!</button> --}}
+
 
