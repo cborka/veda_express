@@ -37,7 +37,8 @@ router.post('/user/isLoginFree', function(req, res) {
   let login = req.body.login;
 
 
-  res.send(req.body.name + '=====');
+  console.log('name= ' + req.body.name);
+  res.send(req.body.name);
   //res.send('isLoginFree: '+JSON.stringify(req.body));
 });
 

@@ -1,21 +1,31 @@
 
-async function fetch2() {
+async function fetch2(url, params) {
 
-  //alert("cbw/fetch2");
-  let user = {
-    name: 'John',
-    surname: 'Smith'
-  };
+  if (params) {
+    response = await fetch(url, {
+      method: 'post',
+      body: params,
+      headers: { 'Content-Type': 'text/plain'}
+    });
+  }
+  else {
+    response = await fetch(url, {
+      method: 'get',
+//      headers: { 'Content-Type': 'application/json'}
+    });
+  }
+
   
-  let response = await fetch('http://127.0.0.1:3000/user/isLoginFree', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
+  //let response = await fetch('http://127.0.0.1:3000/user/isLoginFree', {
+  // let response = await fetch('/user/isLoginFree', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json'},
     //headers: { 'Content-Type': 'text/plain'},
     //bbbbb: 'xxx',
-    body: JSON.stringify(user)
+    // body: JSON.stringify(user)
 //    body: 'mode=22' 
   //  body: 'modemode'
-  });
+  // });
   //alert(response.message);
   
   

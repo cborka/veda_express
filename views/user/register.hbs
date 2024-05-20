@@ -73,7 +73,7 @@ const set_init_doc = function (reply)
 function fetch23()
 {
     doQuery ("/user/isLoginFree", set_init_doc,
-        "mode=22"
+        "name='Mike'"
 //        "&doc_name=" + encodeURIComponent("zxcv")
 //        "&doc_name=" + encodeURIComponent(document.getElementById("doc_name").innerHTML)
     );
@@ -83,35 +83,11 @@ function fetch23()
 //import fetch from 'node-fetch';
 
 function fetch22() {
-    fetch2();
+    fetch2('/user/isLoginFree', 'user="Mike"');
 }
 
-async function fetch21() {
-
-let user = {
-  name: 'John',
-  surname: 'Smith'
-};
-
-let response = await fetch('/user/isLoginFree', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json'},
-  body: JSON.stringify(user)
-//  body: 'mode=22' 
-//  body: 'modemode'
-});
-//alert(response.message);
 
 
-   // let response = await fetch('/user/isLoginFree');
-
-    if(response.ok) {
-    let txt = await response.text();
-    alert(txt);
-    } else {
-    alert('Ошибка HTTP: ' + response.statusText);
-    }
-}
 
     //
     //  Правильный ли формат email
@@ -178,10 +154,7 @@ let response = await fetch('/user/isLoginFree', {
     async function check_login_free()
     {
         let login = userreg.login.value.trim();
-        let user = {
-  name: 'John',
-  surname: 'Smith'
-};
+
         err(login);
 
         // Запрос серверу на проверку не занят ли этот логин
