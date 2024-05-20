@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request } from 'express';
 export const app = express();
 
 import cors from 'cors';
@@ -7,6 +7,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 
 export let reqId = 0; 
+export let ServerHost = 'host';
 
 import 'dotenv/config';
 
@@ -31,9 +32,15 @@ app.use(session({
   }
 }));
 
+// Запоминаю ServerHost для использования в Fetch
+app.use((req, res, next) => {
+   //или так req.protocol + '://' + req.hostname + ':' + req.socket.localPort + req.url;
+   ServerHost = req.protocol + '://' + req.headers.host; // + req.url;
+  next();
+});
 
 // Мой журнал
-app.use((req, res, next) => { ++reqId; next();}, log1); // Увеличиваю id запроса и вывожу запись в лог
+app.use((req, res, next) => {++reqId; next();}, log1); // Увеличиваю id запроса и вывожу запись в лог
 
 // Morgan logger
 app.use(logger('dev')); //morgan
