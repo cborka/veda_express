@@ -16,7 +16,7 @@
     <div>
         <label>Логин</label>
         <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> 
-        <span id="isloginfree" class="red">Нет такой буквы</span>
+        <span id="isloginfree" class="red"></span>
     </div>
     <div>
         <label>Почта (email)</label>
@@ -56,7 +56,7 @@
 <button onclick="test1()">test1</button>
 <br><br>
 <button onclick="fetch23()">ajax</button>
-<button onclick="fetch22()">fetch</button>
+<button onclick="check_data()">fetch</button>
 
 </div>
   
@@ -66,14 +66,14 @@
 // Инициализация документа
 const set_init_doc = function (reply)
 {
-    alert(reply);
-//    document.getElementById("doc").innerHTML = reply;
+    //alert(reply);
+    document.getElementById("isloginfree").innerHTML = reply;
 
 };
 function fetch23()
 {
     doQuery ("/user/isLoginFree", set_init_doc,
-        "name='Mike'"
+        "name=Mike"
 //        "&doc_name=" + encodeURIComponent("zxcv")
 //        "&doc_name=" + encodeURIComponent(document.getElementById("doc_name").innerHTML)
     );
@@ -82,8 +82,15 @@ function fetch23()
 
 //import fetch from 'node-fetch';
 
-function fetch22() {
-    fetch2('/user/isLoginFree', 'user="Mike"');
+// Проверка, свободно ли имя (логин)
+async function check_login_free() {
+
+    fetch2('/user/isLoginFree', {login: userreg.login.value.trim()})
+    .then((x) => {
+        document.getElementById("isloginfree").innerHTML = (x == 0) ? '' : 'Логин занят';
+    })
+    .catch((x) => {});
+    //.catch(show_error);
 }
 
 
@@ -106,7 +113,7 @@ function fetch22() {
     }
     function err(str)
     {
-        document.getElementById("erro").innerHTML=str;
+        document.getElementById("error").innerHTML=str;
     }
 
     //
@@ -118,23 +125,27 @@ function fetch22() {
         userreg.submit.disabled = true;
   
         if (userreg.login.value.length < 3) {
-            info("Поле 'Login' слишком короткое, меньше трёх символов");
+            err("Поле 'Login' слишком короткое, меньше трёх символов");
             return false;
         }
         if (!validate_email(userreg.email.value)) {
-            info("Формат email неверный");
+            err("Формат email неверный");
             return false;
         }
         if (userreg.password.value === "") {
-            info("Пароль не заполнен");
+            err("Пароль не заполнен");
             return false;
         }
         if (userreg.password.value !== userreg.password2.value) {
-            info("Пароли не совпадают");
+            err("Пароли не совпадают");
             return false;
         }
         if (userreg.test.value != 144) {
-            info("А вы не робот случайно?");
+            err("А вы не робот случайно?");
+            return false;
+        }
+        if (document.getElementById("isloginfree").innerHTML != '') {
+            err("Похоже, что этот логин уже занят, придумайте другой.");
             return false;
         }
         //if ($("#isloginfree").text() !== '') {
@@ -144,14 +155,15 @@ function fetch22() {
         //    return false;
         //} 
 
-        info("OK");
+        err('');
+        info("ОК, с ваших слов заполнено верно.");
         userreg.submit.disabled = false;
         return true;
     }
     //
     //  Не занят ли логин?
     //
-    async function check_login_free()
+    async function OLDcheck_login_free()
     {
         let login = userreg.login.value.trim();
 
@@ -188,185 +200,3 @@ function fetch22() {
     }
 
 </script>
-
-
-{{!-- 
-function test1() {
-    //alert('t1');
-    document.getElementById('hint').innerHTML = 'Нет такой буквы В этом слове';
-}
-
-
-    //
-    //  Проверка правильности занесения данных
-    //
-    function check_data()
-    {
-        info(userreg.login.value.length);
-        userreg.submit.disabled = true;
-
-        if (userreg.login.value.length < 3) {
-            info("Поле 'Login' слишком короткое, меньше трёх символов");
-            return false;
-        }
-        if (!validate_email(userreg.email.value)) {
-            info("Формат email неверный");
-            return false;
-        }
-        if (userreg.password.value === "") {
-            info("Пароль не заполнен");
-            return false;
-        }
-        if (userreg.password.value !== userreg.password2.value) {
-            info("Пароли не совпадают");
-            return false;
-        }
-        if (userreg.test.value != 144) {
-            info("А вы не робот случайно?");
-            return false;
-        }
-        //if ($("#isloginfree").text() !== '') {
-        //    return false;
-        //}
-        //if ($("#isemailfree").text() !== '') {
-        //    return false;
-        //} 
-
-        info("OK");
-        userreg.submit.disabled = false;
-        return true;
-    }
-
-    //
-    //  Не занят ли логин?
-    //
-    async check_login_free()
-    {
-//         err("check_login_free");
-
-         let response = await fetch('/userss/isLoginFree');
-
-         if(response.ok) {
-            let txt = await response.text();
-            alert(txt);
-         } else {
-            alert('Ошибка HTTP: ' + response.status);
-         }
-
-        
-
-
-
-
-
-        //userreg.button_submit.disabled = true;
-
-        //let login = userreg.login.value.trim();
-
-        // Запрос серверу на проверку не занят ли этот логин
-        //$.ajaxSetup({async:false});
-        //response = '';
-        //   $.post("/users/isLoginFree",
-        //        {
-        //            login: String(login)
-        //        },
-        //        function (data, status) {
-        //            response = data;
-        //        }
-        //    );
-
-        //if (response !== '0') {
-        //    $("#isloginfree").text("Логин занят");
-        //} else {
-        //    $("#isloginfree").text('');
-        //}
-
-        return check_data();
-    }
-
-    //
-    //  Есть ли такая почта в БД?
-    //
-    function check_email_free()
-    {
-        //userreg.button_submit.disabled = true;
-
-        //let email = userreg.email.value.trim();
-
-        // Запрос серверу на проверку не занят ли этот email
-        //$.ajaxSetup({async:false});
-        //response = '';
-        //$.post("/users/isEmailFree",
-        //    {
-        //       email: String(email)
-        //    },
-        //    function (data, status) {
-        //        response = data;
-        //    }
-        //);
-
-        //if (response !== '0') {
-        //    $("#isemailfree").text("Уже есть такая почта");
-        //} else {
-        //    $("#isemailfree").text('');
-       // }
-
-        return check_data();
-    }
-
-    //
-    //  Правильный ли формат email
-    //
-    function validate_email(email) {
-        err(email);
-        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        err(re);
-        return re.test(email);
-    }
-
-    //
-    //  Просто выводит сообщение
-    //
-    function info(str)
-    {
-        document.getElementById("hint").innerHTML=str;
-    }
-    function err(str)
-    {
-        document.getElementById("erro").innerHTML=str;
-    }
-
-
-//     function atest() {
-// //        alert('atest');
-//         $.ajax({
-//             type: "POST",
-//             url: "/pdo/sql_one",
-//             data: 'select count(*) from test',
-// //            dataType: "json",
-//             success: function(data) {
-//                 alert('success');
-//             },
-//             error: function(data) {
-//                 alert('error');
-//             }
-//         });
-//     }
-
-
- function fetch21() {
-    alert('txt');
-  //let response = await fetch('/testfetch');
-  //let response = await fetch('/session_info');
-
-  //if (response.ok) { 
-    //let txt = await response.text();
-   // alert(txt);
-  //} else {
-    //alert("Ошибка HTTP: " + response.status);
- // }
-
-}
-
-
-</script> --}}

@@ -4,18 +4,26 @@ async function fetch2(url, params) {
   if (params) {
     response = await fetch(url, {
       method: 'post',
-      body: params,
-      headers: { 'Content-Type': 'text/plain'}
+      body: JSON.stringify(params),
+      headers: { 'Content-Type': 'application/json'}
     });
   }
   else {
     response = await fetch(url, {
       method: 'get',
-//      headers: { 'Content-Type': 'application/json'}
     });
   }
 
-  
+  if(response.ok) {
+    let txt = await response.text();
+    // alert('txt2 = ' + txt);
+    check_error(txt);
+    return txt;
+  } else {
+    console.log('Ошибка HTTP: ' + response.statusText);
+    return 'Ошибка getContent' + response.statusText;
+  }
+
   //let response = await fetch('http://127.0.0.1:3000/user/isLoginFree', {
   // let response = await fetch('/user/isLoginFree', {
   //   method: 'POST',

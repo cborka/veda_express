@@ -13,6 +13,19 @@ function erro(message)
   show_msg("erro", message);
 }
 
+function check_error(message)
+{
+  if (message[0] == 'E') {
+    show_msg("error", message);
+    throw new Error(message);
+    //throw new Error('ошибочка');
+  }
+}
+function show_error(message)
+{
+  show_msg("error", message);
+}
+
 function onERRdefault(msg)
 {
   erro(msg);
