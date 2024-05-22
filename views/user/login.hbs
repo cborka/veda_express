@@ -23,6 +23,7 @@
         <input type="submit" id="enter" formtarget="_self" value="Вход">
         <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm">
         {{!-- <a href="/user/register" type="button">Регистрация</a>  --}}
+        <input type="button" value="Назад" onclick="back()">
     </div>
     <div>
         <span class="hint" id="hint"></span>&nbsp;
@@ -38,4 +39,16 @@
 {{!-- Можно и так имитировать --}}
 {{!-- <button onclick="window.location.href='/user/register';">На вертолёт!</button> --}}
 
+<script>
 
+async function back() {
+hint('back');
+
+    myFetch2('/back')
+    .then(alert)
+    .catch((x) => {});
+    //.catch(show_error);
+    hint('es');
+}
+
+</script>

@@ -151,3 +151,14 @@ router.get('/testhbs', function(req, res, next) {
 //  res.render('test/hbs', {text: '<b>aaa</b>'});
   log2('testhbs ', res.statusCode);
 });
+
+
+router.get('/show_error', function(req, res, next) {
+  //res.send('test/fetch');
+  res.redirect('back');
+});
+
+router.get('/back', function(req, res, next) {
+  //res.send('test/fetch');
+  res.redirect('back');
+});

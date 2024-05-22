@@ -43,6 +43,7 @@
         <label> </label>
         <input type="submit" id="submit" value="Регистрация" >
         <input type="button" value="Отмена" >
+        <input type="button" value="Назад" onclick="back()">
     </div>
     <div>
         <span class="hint" id="hint"></span>&nbsp;
@@ -63,6 +64,16 @@
   
 
 <script>
+
+// Назад
+async function back() {
+
+    myFetch2('/back')
+    .then()
+    .catch((x) => {});
+    //.catch(show_error);
+}
+
 
 // Инициализация документа
 const set_init_doc = function (reply)
