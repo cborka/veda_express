@@ -3,15 +3,16 @@ function show_msg(element_id, message)
   document.getElementById(element_id).innerHTML = message;
 }
 
-function hint(message)
+function show_info(message)
 {
-  show_msg("hint", message);
+  show_msg("info", message);
 }
 
-function erro(message)
+function show_err(str)
 {
-  show_msg("erro", message);
+    document.getElementById("error").innerHTML=str;
 }
+
 
 function check_error(message)
 {

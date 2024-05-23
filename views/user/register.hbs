@@ -16,12 +16,12 @@
     <div>
         <label>Логин</label>
         <input id="login" type="text" name="login" placeholder="Такое как alex или vlad" value="" maxlength="31" onchange="check_login_free()"> 
-        <span id="isloginfree" class="red"></span>
+        <span id="isloginfree" class="error"></span>
     </div>
     <div>
         <label>Почта (email)</label>
         <input id="email" type="email" name="email" placeholder="my@email" value="" maxlength="63" onchange="check_email_free()">
-        <span id="isemailfree" class="red"></span>
+        <span id="isemailfree" class="error"></span>
     </div>
     <div>
         <label>Пароль</label>
@@ -46,7 +46,7 @@
         <input type="button" value="Назад" onclick="back()">
     </div>
     <div>
-        <span class="hint" id="hint"></span>&nbsp;
+        <span class="info" id="info"></span>&nbsp;
         <span class="error" id="error"></span>
     </div>
 </fieldset>
@@ -105,6 +105,7 @@ async function check_login_free() {
     myFetch2('/user/isLoginFree', {login: userreg.login.value.trim()})
     .then((x) => {
         document.getElementById("isloginfree").innerHTML = (x == 0) ? '' : 'Логин занят';
+        check_data();
     })
     .catch((x) => {});
     //.catch(show_error);
@@ -116,6 +117,7 @@ async function check_email_free() {
     myFetch2('/user/isEmailFree', {email: userreg.email.value.trim()})
     .then((x) => {
         document.getElementById("isemailfree").innerHTML = (x == 0) ? '' : 'Такая почта уже есть';
+        check_data();
     })
     .catch((x) => {});
 }
@@ -129,47 +131,35 @@ function validate_email(email) {
 }
 
 //
-//  Просто выводит сообщение
-//
-function info(str)
-{
-    hint(str);
-    //document.getElementById("hint").innerHTML=str;
-}
-function err(str)
-{
-    document.getElementById("error").innerHTML=str;
-}
-
-//
 //  Проверка правильности занесения данных
 //
 function check_data()
 {
     userreg.submit.disabled = true;
+    show_info('');
 
     if (userreg.login.value.length < 3) {
-        err("Поле 'Login' слишком короткое, меньше трёх символов");
+        show_err("Поле 'Login' слишком короткое, меньше трёх символов");
         return false;
     }
     if (!validate_email(userreg.email.value)) {
-        err("Формат email неверный");
+        show_err("Формат email неверный");
         return false;
     }
     if (userreg.password.value === "") {
-        err("Пароль не заполнен");
+        show_err("Пароль не заполнен");
         return false;
     }
     if (userreg.password.value !== userreg.password2.value) {
-        err("Пароли не совпадают");
+        show_err("Пароли не совпадают");
         return false;
     }
     if (userreg.test.value != 144) {
-        err("А вы не робот случайно?");
+        show_err("А вы не робот случайно?");
         return false;
     }
     if (document.getElementById("isloginfree").innerHTML != '') {
-        err("Похоже, что этот логин уже занят, придумайте другой.");
+        show_err("Похоже, что этот логин уже занят, придумайте другой.");
         return false;
     }
     //if ($("#isloginfree").text() !== '') {
@@ -179,8 +169,8 @@ function check_data()
     //    return false;
     //} 
 
-    err('');
-    info("ОК, с ваших слов заполнено верно.");
+    show_err('');
+    show_info("ОК, с ваших слов заполнено верно.");
     userreg.submit.disabled = false;
     return true;
 }

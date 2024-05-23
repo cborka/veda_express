@@ -1,4 +1,5 @@
 import  express  from "express";
+import md5 from "md5";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db.js'
 import * as cbw from '../lib/cbw.js'
@@ -26,25 +27,23 @@ router.get('/user/register', function(req, res) {
 });
 router.post('/user/register', function(req, res) {
   //res.send('x '+JSON.stringify(req.body));
-  // {"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"}
+  // req.body = {"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"}
 
   let sql = `
-    INSERT INTO users(id, 
+    INSERT INTO users(
       login, fullname, email, phone, notes, password)
-      VALUES ($1, $2, $3, $4, $5, $6, $7);
+      VALUES ($1, $2, $3, $4, $5, $6);
   `;
 
-  let params = [111, req.body.login, req.body.fio, req.body.email, '', '', req.body.password];
+  let params = [req.body.login, req.body.fio, req.body.email, '', '', md5(req.body.password)];
 
-  res.redirect('/show_error');
-  //res.redirect('/user/login');
-
-  //res.send(sql);
-  // db.query(sql, params)
+  db.query(sql, params)
   // .then (result => res.send('OK'))
-  // .catch (err => res.send('Error: ' + err.message));
-
-  log2('Зарегистрирован пользователь '+req.body.login, res.statusCode);
+    .then (() => {
+      log2('Зарегистрирован пользователь '+req.body.login, res.statusCode);
+      res.redirect('/user/login')
+    })
+    .catch (err => res.send('Error: ' + err.message));
 });
 
 // Профиль пользователя
@@ -91,10 +90,12 @@ router.get('/user/isLoginFree', async function(req, res) {
  res.send('Вернулось ' + ret); 
 });
 
-router.get('/user/getlogin', async function(req, res) {
-  //  fetch3();
-  // res.send('fetch3()');
-   res.send('getlogin');
-  
+router.get('/user/getlogin/:pass/:salt', async function(req, res) {
+  res.send('getlogin');
 });
+
+router.get('/user/md5/:pass', async function(req, res) {
+   res.send(md5(req.params.pass));
+});
+
 

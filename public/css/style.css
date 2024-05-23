@@ -32,6 +32,7 @@
   --violet-color: #8e288e;
   --fuchsia-color: #ee008c;
 
+  --err-color: red;
   --red-color: #ee1157;
   --darkred-color: #9d0a10;
   --brown-color: #a1410f;
@@ -794,14 +795,14 @@ input {
 }
 
 
-.hint {
+.info {
   text-align: left;
   color: var(--green-color);
 }
 
 .error {
   text-align: left;
-  color: var(--red-color);
+  color: var(--err-color);
 }
 
 .hidden {

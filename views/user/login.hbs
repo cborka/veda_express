@@ -26,7 +26,7 @@
         <input type="button" value="Назад" onclick="back()">
     </div>
     <div>
-        <span class="hint" id="hint"></span>&nbsp;
+        <span class="info" id="info"></span>&nbsp;
         <span class="error" id="error"></span>
     </div>
 </fieldset>
@@ -42,13 +42,13 @@
 <script>
 
 async function back() {
-hint('back');
+show_info('back');
 
     myFetch2('/back')
     .then(alert)
     .catch((x) => {});
     //.catch(show_error);
-    hint('es');
+    show_info('es');
 }
 
 </script>
