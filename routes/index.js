@@ -1,7 +1,42 @@
 import  express  from "express";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db.js';
 export const router = express.Router();
+
+
+
+const jwttest = function(req, res) {
+
+  // синхронно
+  // let token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+  // res.send('token = ' + token);
+   res.send('uuidv4() = ' + uuidv4());
+
+  // асинхронно
+  jwt.sign({ foo: 'bar' }, 'shhhhh', function(err, token) {
+    res.send('tokenA = ' + token);
+  });
+
+
+  //log2('/jwttest', res.statusCode );
+}
+
+router.get('/jwt',  jwttest)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const ip = function(req, res, next) {
   let s = "Your IP Addresss is: " + req.socket.localAddress + '<br>';
@@ -26,7 +61,6 @@ const ip = function(req, res, next) {
 const index = function(req, res) {
   res.render('index', {title: "Veda", message2: "Hello!"});
   log2('/', res.statusCode );
-
 }
 
 const ip2 = function(req, res) {
