@@ -1,38 +1,27 @@
 import  express  from "express";
-import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db.js';
 export const router = express.Router();
 
 
 
-const jwttest = function(req, res) {
-
-  // синхронно
-  // let token = jwt.sign({ foo: 'bar' }, 'shhhhh');
-  // res.send('token = ' + token);
-   res.send('uuidv4() = ' + uuidv4());
-
-  // асинхронно
-  jwt.sign({ foo: 'bar' }, 'shhhhh', function(err, token) {
-    res.send('tokenA = ' + token);
-  });
-
-
-  //log2('/jwttest', res.statusCode );
+const qu1 = function(req, res) {
+  req.session.name = 'my name is Боря'; 
+  res.send('n='+req.session.name);
 }
+const qu = function(req, res) {
 
-router.get('/jwt',  jwttest)
-
-
-
-
+  //res.send('qu=' + req.cookies + ',' + req.signedCookies );
+  res.send(req.session.name);
 
 
+  //log2('/', res.statusCode );
+}
+router.get('/qu',  qu);
+router.get('/qu1',  qu1);
 
-
-
+ 
 
 
 

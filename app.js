@@ -22,7 +22,9 @@ const PORT = process.env.PORT || 3000;
 
 // Сессия
 app.use(session({
-  secret: 'secret keyboard cat',
+  name: 'VedaExpress',
+  //secret: 'secret keyboard cat',
+  secret: process.env.SECRET || 'secret keyboard elephant',
   resave: false,
   saveUninitialized: true,
   rolling: true,            // при каждом запросе переустанавливается maxAge
@@ -31,6 +33,9 @@ app.use(session({
     //maxAge: 24*60*60*1000 // cутки 
   }
 }));
+
+
+
 
 // Запоминаю ServerHost для использования в Fetch
 app.use((req, res, next) => {
