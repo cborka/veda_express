@@ -3,7 +3,7 @@
 // Fetch на клиенте (frontend)
 async function myFetch2(url, params) {
 
-  if (params) {
+  if (params) { 
     response = await fetch(url, {
       method: 'post',
       body: JSON.stringify(params),

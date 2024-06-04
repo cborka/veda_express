@@ -1,13 +1,13 @@
 import  express  from "express";
 //import { v4 as uuidv4 } from 'uuid';
 import {log2} from '../lib/logger.js';
-import * as db from '../lib/db.js';
+import * as db from '../lib/db_lib.js';
 export const router = express.Router();
 
 
 
 const qu1 = function(req, res) {
-  req.session.name = 'my name is Боря'; 
+  req.session.name = req.params.name; 
   res.send('n='+req.session.name);
 }
 const qu = function(req, res) {
@@ -19,13 +19,21 @@ const qu = function(req, res) {
   //log2('/', res.statusCode );
 }
 router.get('/qu',  qu);
-router.get('/qu1',  qu1);
+router.get('/qu1/:name',  qu1);
 
  
 
 
+router.get('/err', (req, res, next) => {
 
-
+  next(new Error('BROKEN next')); 
+  //throw new Error('BROKEN') // Express will catch this on its own.
+})
+ 
+router.get('/err', (req, res, next) => {
+  res.send('BROKEN next'); 
+  //throw new Error('BROKEN') // Express will catch this on its own.
+})
 
 const ip = function(req, res, next) {
   let s = "Your IP Addresss is: " + req.socket.localAddress + '<br>';
@@ -85,9 +93,9 @@ const bulma = function(req, res) {
 
 const session_info = function(req, res) {
   res.write('<p>sessionID: ' + req.sessionID + '</p>');
-  res.write('<p>maxAge: ' + req.session.cookie.maxAge + '</p>');
-  res.write('<p>originalMaxAge: ' + req.session.cookie.originalMaxAge + '</p>');
-  res.write('<p>name: ' + req.session.name + '</p>');
+//  res.write('<p>maxAge: ' + req.session.cookie.maxAge + '</p>');
+//  res.write('<p>originalMaxAge: ' + req.session.cookie.originalMaxAge + '</p>');
+//  res.write('<p>name: ' + req.session.name + '</p>');
   res.write(JSON.stringify(req.session, null, 2));
   res.end();
   //res.json(req.session);

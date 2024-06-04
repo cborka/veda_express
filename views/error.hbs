@@ -1,4 +1,7 @@
 <h1>ОШИБКА</h1>
 <h2>{{message}}</h2>
-<h3>{{error.status}}</h3>
-<pre>{{error.stack}}</pre>
+<div class="error">
+  <h2>{{error.message}}</h2>
+  <h3>status: {{error.status}}</h3>
+  <pre>{{error.stack}}</pre>
+</div>

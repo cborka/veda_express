@@ -2,7 +2,7 @@ import  express  from "express";
 import md5 from "md5";
 //import jwt from "jsonwebtoken";
 import {log2} from '../lib/logger.js';
-import * as db from '../lib/db.js'
+import * as db from '../lib/db_lib.js'
 import * as cbw from '../lib/cbw.js'
 import cors from 'cors';
 import fetchh from 'node-fetch';
@@ -19,7 +19,28 @@ router.get('/user/login', function(req, res) {
   res.render('user/login');
 });
 router.post('/user/login', function(req, res) {
-  res.send('login: '+JSON.stringify(req.body));
+  //res.send('login: '+JSON.stringify(req.body)); // {"login":"bor","password":"123","num":"2"}
+
+  db.query('SELECT id, login, fullname, email, phone, notes FROM users WHERE login = $1 AND password = $2', [req.body.login, md5(req.body.password)])
+  .then (result => {
+    if (result && (result.rows.length == 1)) {
+      //req.session.fullname = result.rows[0].fullname;
+      req.session.user = result.rows[0];
+
+      res.send('1');
+      //res.send('Строк: '+result.rows.length);
+    }
+    else {
+      req.session.user = null;
+      res.send('0');
+//      res.send('result is false');
+    }
+    //res.send(result?.rows[0].fullname)
+
+  })
+  .catch (err => res.send('Error: ' + err.message));
+
+  
 });
 
 // Регистрация нового пользователя
@@ -72,10 +93,10 @@ router.post('/user/isLoginFree', async function(req, res) {
   //   res.send('Error: ' + e.message);
   // }
 
-  db.query('SELECT count(*) AS cnt FROM users WHERE login = $1', [login])
+  db.query('SELECT count(*) AS cnt FROM xusers WHERE login = $1', [login])
   .then (result => res.send(result?.rows[0].cnt))
   .catch (err => res.send('Error: ' + err.message));
-
+ 
   // console.log(result?.rows[0]);
   // console.log(result?.rows[0].cnt);
 

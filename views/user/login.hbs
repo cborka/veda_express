@@ -2,7 +2,7 @@
 <br>
 <br>
 <br>
-<form name="userreg" action="/user/login" method="POST" class="form">
+<form name="userlogin" action="/user/login" method="POST" class="form">
 <fieldset>
     <legend>&nbsp; Вход &nbsp;</legend>
     <br>
@@ -20,10 +20,10 @@
     </div>
     <div>
         <label></label>
-        <input type="submit" id="enter" formtarget="_self" value="Вход">
+        <input type="button" id="enter" formtarget="_self" value="Вход" onclick="check_login()">
         <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm">
         {{!-- <a href="/user/register" type="button">Регистрация</a>  --}}
-        <input type="button" value="Назад" onclick="back()">
+        {{!-- <input type="button" value="Назад" onclick="back()"> --}}
     </div>
     <div>
         <span class="info" id="info"></span>&nbsp;
@@ -41,14 +41,27 @@
 
 <script>
 
-async function back() {
-show_info('back');
 
-    myFetch2('/back')
-    .then(alert)
-    .catch((x) => {});
-    //.catch(show_error);
-    show_info('es');
+// Проверка, свободно ли имя (логин)
+async function check_login() {
+    myFetch2('/user/login', {login: userlogin.login.value.trim(), password: userlogin.password.value })
+    .then((x) => {
+        if (x == 1) {
+            show_error('');
+            show_info(x);
+            window.location.href = '/qu1/Moris';
+        } else {
+            show_info('');
+            show_error('Неверные имя или пароль.');
+        }
+
+
+        //show_info(x);
+    })
+//    .catch((x) => {});
+    .catch(show_error);
 }
+
+
 
 </script>

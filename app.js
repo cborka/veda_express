@@ -2,7 +2,11 @@ import express, { request } from 'express';
 export const app = express();
 
 import cors from 'cors';
+
 import session from 'express-session';
+import connectpgsimple from 'connect-pg-simple';
+const pgSession = connectpgsimple(session);
+//const pgSession = require('connect-pg-simple')(expressSession);
 
 import bodyParser from 'body-parser';
 
@@ -20,9 +24,14 @@ import hbs from 'hbs';
 
 const PORT = process.env.PORT || 3000; 
 
+import {pool} from './db.js'
+
 // Сессия
 app.use(session({
-  name: 'VedaExpress',
+  store: new pgSession({
+    pool : pool,                    // Connection pool
+    pruneSessionInterval: 2*60*60   // 2 часа
+  }),
   //secret: 'secret keyboard cat',
   secret: process.env.SECRET || 'secret keyboard elephant',
   resave: false,
@@ -35,14 +44,14 @@ app.use(session({
 }));
 
 
-
-
 // Запоминаю ServerHost для использования в Fetch
 app.use((req, res, next) => {
    //или так req.protocol + '://' + req.hostname + ':' + req.socket.localPort + req.url;
    ServerHost = req.protocol + '://' + req.headers.host; // + req.url;
   next();
 });
+
+// console.log('cwd ='+process.cwd() ); // = C:\cborka\veda_express
 
 // Мой журнал
 app.use((req, res, next) => {++reqId; next();}, log1); // Увеличиваю id запроса и вывожу запись в лог
@@ -70,6 +79,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(cors());
 
+
 // Routers
 app.use(indexRouter);
 app.use(userRouter);
@@ -78,7 +88,8 @@ app.use(userRouter);
 app.use(function(err, req, res, next) {
   console.log('err.stack');
   console.error(err.stack);
-  res.status(500).send('Something broke! status(500)');
+  res.render('error', {message: "AAAAAAAAAAAAA", error: err});
+//  res.status(500).send('Что-то сломалось! status(500)');
   log2('ERR', res.statusCode);
 });
 
