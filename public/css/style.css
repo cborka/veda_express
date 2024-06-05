@@ -187,16 +187,19 @@ header div {
   color: var(--violet-color);
 }
 
-header #login a {
+header #login a, header #logout a {
   padding: 0 4px;
   margin-right: 4px;
-  color: var(--marine-color);
   font-weight: 500;
   border-right: 1px solid var(--g1-color);
   border-bottom: 1px solid var(--g1-color);
-
 }
-
+header #login a {
+  color: var(--marine-color);
+}
+header #logout a {
+  color: var( --orange-color);
+}
 
 /* .float-right {
   margin: 0;
@@ -353,6 +356,35 @@ footer {
   margin-right: 30px;
 
 }
+
+.mymodal_menu {
+  position: fixed;
+  /* top: 0;
+  left: 2%; */
+  /* transform: translate(-50%, -50%); */
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 96%;
+  /* max-width: 96%; */
+  height: 96%;
+  /* max-height: 96vh; */
+
+  overflow: auto;
+
+  z-index: 1010;
+  
+  background-color: var(--g0-color);
+
+  padding: 8px;
+  /* margin-right: 0px; */
+
+}
+
+
+
 
 .mymodal-overlay {
 
@@ -680,6 +712,16 @@ input {
 
 /* ============= Адаптивная или отзывчивая (responsive) вёрстка ============= */
 
+@media (min-width: 1024px) {
+
+  /* Здесь и дальше: при расширении окна если меню спрятано, то надо вернуть */
+  .menu_top {
+    flex-direction: row;
+    display: flex;
+  }
+
+}
+
 @media (max-width: 1407px) {
 
   footer {
@@ -701,6 +743,7 @@ input {
     flex-direction: row;
     display: flex;
   } */
+
 }
 
 @media (max-width: 1023px) {
@@ -715,10 +758,13 @@ input {
 
   .menu_top {
     flex-direction: column;
+    justify-content:start;
+    position: fixed;
     display: none;
   }
   .menu_point {
     border-bottom: 1px solid var(--g1-color);
+    border-right: 0px;
     /* flex-basis: 100%; */
   }
 
@@ -784,7 +830,7 @@ input {
   }
 }
 
-
+/*             Всякое разное            */
 .flex {
   display: flex; 
 }
@@ -794,6 +840,9 @@ input {
   flex-direction: column;
 }
 
+.message {
+  text-align: left;
+}
 
 .info {
   text-align: left;
@@ -817,4 +866,13 @@ input {
 }
 .green {
   color: var(--green-color);
+}
+.indigo {
+  color: var(--indigo-color);
+}
+.violet {
+  color: var(--violet-color);
+}
+.marine {
+  color: var(--marine-color);
 }

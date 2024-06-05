@@ -13,7 +13,7 @@ const qu1 = function(req, res) {
 const qu = function(req, res) {
 
   //res.send('qu=' + req.cookies + ',' + req.signedCookies );
-  res.send(req.session.name);
+  res.render('index', {message: req.session.name});
 
 
   //log2('/', res.statusCode );
@@ -51,7 +51,8 @@ const ip = function(req, res, next) {
   s += 'req._startAt[1]: ' + req._startAt[1] + '<br>';
   s += '<a href="/">Home </a><br>';
   //next('route');
-  res.send(s);
+  //res.send(s);
+  res.render('index', {title: "ip", message: s});
   log2('ip', res.statusCode);
 }
 
@@ -92,20 +93,22 @@ const bulma = function(req, res) {
 }
 
 const session_info = function(req, res) {
-  res.write('<p>sessionID: ' + req.sessionID + '</p>');
+  let message = '';
+  message += '<p>sessionID: ' + req.sessionID + '<br><br>';
+  // res.write('<p>sessionID: ' + req.sessionID + '</p>');
 //  res.write('<p>maxAge: ' + req.session.cookie.maxAge + '</p>');
 //  res.write('<p>originalMaxAge: ' + req.session.cookie.originalMaxAge + '</p>');
 //  res.write('<p>name: ' + req.session.name + '</p>');
-  res.write(JSON.stringify(req.session, null, 2));
-  res.end();
+  message += JSON.stringify(req.session, null, 2) + '</p>';
+  //res.end();
   //res.json(req.session);
+  res.render('index', {title: "Session_info", message});
   log2('session_info', res.statusCode );
 }
 
 const show_modal = function(req, res) {
   res.render('test/modal', {title: "Modal window"});
   log2('/modal', res.statusCode );
-
 }
 
 router.get('/',  index);

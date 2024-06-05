@@ -31,7 +31,8 @@ router.post('/user/login', function(req, res) {
       //res.send('Строк: '+result.rows.length);
     }
     else {
-      req.session.user = null;
+      //req.session.user = null;
+      delete req.session.user;
       res.send('0');
 //      res.send('result is false');
     }
@@ -39,9 +40,15 @@ router.post('/user/login', function(req, res) {
 
   })
   .catch (err => res.send('Error: ' + err.message));
-
-  
 });
+
+// Выход 
+router.get('/user/logout', function(req, res) {
+  delete req.session.user;
+  res.redirect('/');
+});
+
+
 
 // Регистрация нового пользователя
 router.get('/user/register', function(req, res) {
@@ -102,7 +109,10 @@ router.post('/user/isLoginFree', async function(req, res) {
 
 });
 
-
+// Вернуть пользователя
+router.get('/user/get_user', async function(req, res) {
+  res.json(req.session.user);
+});
 
 
 router.get('/user/isLoginFree', async function(req, res) {

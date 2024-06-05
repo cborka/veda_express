@@ -16,13 +16,63 @@
   <a href="/404"><div class="menu_point">404</div></a> 
   <a href="/promises"><div class="menu_point">promises</div></a> 
   <a href=""><div class="menu_point">ESC</div></a>
-  {{!-- <div class="menu_point" onclick="me()">press me</a>  </div> --}}
+
+  <div class="menu_point" onclick="me2()"> press me </div>
   
 </nav>
+{{!-- <div class="menu_point" onclick="show_modal_menu()"> show_modal_menu </div> --}}
+
+<div class="mymodal-overlay closed" id="mymodal-overlay" onclick="hide_modal_menu()">
+</div>
+
+
+
 
 
 <script>
-  function me() {
-    alert('menu');
+
+let modal = document.getElementById("menu_top");
+let modalOverlay = document.getElementById("mymodal-overlay");
+
+  function show_modal_menu() {
+    let menuParent = document.getElementById("container");
+
+//    document.getElementById("mymodal-window").classList.toggle("closed");
+    modal.classList.add('vert')
+    modal.classList.add('mymodal_menu');
+//    let coords = menuParent.getBoundingClientRect();
+    //alert(coords.top + 'px');
+    {{!-- modal.style.top = coords.top + 4 + 'px';
+    modal.style.left = coords.left + 4+ 'px';
+    modal.style.width = coords.width - 24 + 'px';
+    modal.style.height = coords.height - 16 + 'px'; --}}
+    {{!-- modal.clientTop = menuParent.clientTop; --}}
+    modal.classList.remove("closed");
+
+   modal.onclick=hide_modal_menu;
+   //modal.onkeyup=hide_modal_menu;
+   
+    modalOverlay.classList.remove("closed");
   }
+  function hide_modal_menu() {
+//    document.getElementById("mymodal-window").classList.toggle("closed");
+    modal.classList.remove('vert')
+    modal.classList.remove('mymodal_menu')
+    modal.classList.add("closed");
+   
+    modalOverlay.classList.add("closed");
+  }
+
+  function me2() {
+    alert('menu');
+    document.getElementById("sidebar_left").innerHTML = 'djjdjdjdjd';
+  }
+
+//me();
+
+function show_menu2() {
+  {{!-- document.getElementById('menu_top').classList.toggle('flex'); --}}
+  document.getElementById('menu_top').classList.toggle('vert');
+}
+
 </script>
