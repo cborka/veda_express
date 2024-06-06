@@ -30,7 +30,8 @@ import {pool} from './db.js'
 app.use(session({
   store: new pgSession({
     pool : pool,                    // Connection pool
-    pruneSessionInterval: 2*60*60   // 2 часа
+    //pruneSessionInterval: 2*60*60   // 2 часа
+    pruneSessionInterval: 20*60   // 20 минут
   }),
   //secret: 'secret keyboard cat',
   secret: process.env.SECRET || 'secret keyboard elephant',
@@ -67,6 +68,7 @@ app.use(express.static('public'));
 // Routers
 import {router as indexRouter} from './routes/index.js'; 
 import {router as userRouter} from './routes/user.js'; 
+import {router as testRouter} from './routes/test.js'; 
 
 // view engine setup
 app.set('views', 'views');
@@ -83,6 +85,7 @@ app.use(cors());
 // Routers
 app.use(indexRouter);
 app.use(userRouter);
+app.use(testRouter);
 
 // Обработка ошибок
 app.use(function(err, req, res, next) {

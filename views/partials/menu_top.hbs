@@ -1,23 +1,29 @@
-<nav class="menu_top" id="menu_top">
+<nav class="menu_top" id="menu_top"" onclick="hide_modal_menu()">
 
-  <div class="menu_point"> &nbsp; </div> {{!-- Вертикальная черта слева (padding-right) --}}
+  {{!-- <div class="menu_point"> &nbsp; </div> Вертикальная черта слева (padding-right) --}}
+
+  <a href="/"><div class="menu_point">&nbsp;</div></a>
   <a href="/"><div class="menu_point">Home</div></a>
-  <a href="/ip"><div class="menu_point">ip</div></a>
-  <a href="/ip2"><div class="menu_point">ip2</div></a>
-  <a href="/hbs"><div class="menu_point">hbs</div></a>
-  <a href="/testhbs"><div class="menu_point">testhbs</div></a>
-  <a href="/bulma"><div class="menu_point">bulma</div></a>
-  <a href="/sendFile"><div class="menu_point">sendFile</div></a>
-  <a href="/applocals"><div class="menu_point">applocals</div></a>
-  <a href="/db"><div class="menu_point">db_test</div></a>
-  <a href="/session_info"><div class="menu_point">session_info</div></a>
-  <a href="/modal"><div class="menu_point">modal</div></a>
-  <a href="/vuetest.html"><div class="menu_point">vuetest.html</div></a>
-  <a href="/404"><div class="menu_point">404</div></a> 
-  <a href="/promises"><div class="menu_point">promises</div></a> 
-  <a href=""><div class="menu_point">ESC</div></a>
+  <a class="button" href="/ip">ip</a>
+  <a class="button" href="/ip2">ip2</a>
+  <a class="menu_point" href="/hbs">hbs</a>
+  <a class="menu_point" href="/testhbs">testhbs</a>
+{{!-- 
+  <a class="menu_point" href="/bulma"> bulma </a>
+  <a class="menu_point" href="/sendFile"> sendFile </a>
+  <a class="menu_point" href="/applocals"> applocals </a>
+  <a class="menu_point" href="/db"> db_test </a>
+  <a class="menu_point" href="/session_info"> session_info </a>
+  <a class="menu_point" href="/modal"> modal </a>
+   --}}
+  <a class="menu_point" href="/vuetest.html"> vuetest.html </a> 
+  <a class="menu_point" href="/404"> 404 </a>
+  <a class="menu_point" href="/promises"> promises </a> 
+  <a class="menu_point" href=""> ESC </a>
 
-  <div class="menu_point" onclick="me2()"> press me </div>
+  <a href=""><div class="menu_point">ESC</div></a>
+  <button class="menu_point" onclick="me2()"> press me </button>
+  <button class="menu_point" onclick="me2()"> press me </button>
   
 </nav>
 {{!-- <div class="menu_point" onclick="show_modal_menu()"> show_modal_menu </div> --}}
@@ -27,52 +33,45 @@
 
 
 
-
-
 <script>
 
-let modal = document.getElementById("menu_top");
-let modalOverlay = document.getElementById("mymodal-overlay");
+let modal = document.getElementById('menu_top');
+let modalOverlay = document.getElementById('mymodal-overlay');
 
-  function show_modal_menu() {
-    let menuParent = document.getElementById("container");
-
-//    document.getElementById("mymodal-window").classList.toggle("closed");
-    modal.classList.add('vert')
-    modal.classList.add('mymodal_menu');
-//    let coords = menuParent.getBoundingClientRect();
-    //alert(coords.top + 'px');
-    {{!-- modal.style.top = coords.top + 4 + 'px';
-    modal.style.left = coords.left + 4+ 'px';
-    modal.style.width = coords.width - 24 + 'px';
-    modal.style.height = coords.height - 16 + 'px'; --}}
-    {{!-- modal.clientTop = menuParent.clientTop; --}}
-    modal.classList.remove("closed");
-
-   modal.onclick=hide_modal_menu;
-   //modal.onkeyup=hide_modal_menu;
-   
-    modalOverlay.classList.remove("closed");
+// Закрытие выпадающего главного меню по кнопке Esc
+let hide_menu2 = function(e) {
+  if ((e.code == 'Escape') && modal.classList.contains('vert')) {
+    //alert(e.code);
+    hide_modal_menu();
   }
-  function hide_modal_menu() {
-//    document.getElementById("mymodal-window").classList.toggle("closed");
-    modal.classList.remove('vert')
-    modal.classList.remove('mymodal_menu')
-    modal.classList.add("closed");
-   
-    modalOverlay.classList.add("closed");
-  }
+}  
+document.getElementById('menu_top').onkeyup = hide_menu2;
+document.getElementById('buter_button').onkeyup = hide_menu2;
 
-  function me2() {
-    alert('menu');
-    document.getElementById("sidebar_left").innerHTML = 'djjdjdjdjd';
-  }
+// Показать выпадающее главное меню
+function show_modal_menu() {
+  let menuParent = document.getElementById('container');
 
-//me();
+  modal.classList.add('vert')
+  modal.classList.add('mymodal_menu');
 
-function show_menu2() {
-  {{!-- document.getElementById('menu_top').classList.toggle('flex'); --}}
-  document.getElementById('menu_top').classList.toggle('vert');
+  modal.classList.remove('closed');
+
+  modalOverlay.classList.remove('closed');
+}
+
+// Спрятать выпадающее главное меню
+function hide_modal_menu() {
+  modal.classList.remove('vert')
+  modal.classList.remove('mymodal_menu')
+  modal.classList.add('closed');
+  
+  modalOverlay.classList.add('closed');
+}
+
+function me2() {
+//  alert('menu');
+  document.getElementById('sidebar_left').innerHTML = 'djjdjdjdjd';
 }
 
 </script>

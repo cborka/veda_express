@@ -9,6 +9,7 @@ import fetchh from 'node-fetch';
 
 export const router = express.Router();
 
+
 /* GET users listing. */
 router.get('/user', function(req, res, next) {
   res.send('respond with a resource');

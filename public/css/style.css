@@ -278,7 +278,7 @@ a {
 a:hover, a:visited:hover {
   /* color: magenta; */
   color: var(--g6-color);
-  background-color: var(--g0-color);
+  /* background-color: var(--g0-color); */
 }
 
 a:visited {
@@ -286,7 +286,7 @@ a:visited {
   /* color: darkviolet; */
 }
 
-/* ================================ Меню ================================ */
+/* ================================ Главное меню ================================ */
 
 
 .menu_top {
@@ -299,9 +299,11 @@ a:visited {
   border: 1px solid var(--border-color);
 }
 
-.menu_point {
+.xmenu_point {
   padding: 0 4px;
   border-right: 1px solid var(--g1-color);
+  color: var(--blue-color);
+  font-weight: 400;
 }
 
 
@@ -324,6 +326,8 @@ footer {
 
 
 /* ================================ Модальное окно ================================ */
+
+/* Тестовый образец модального окна */
 .mymodal {
   position: fixed;
   top: 50%;
@@ -357,20 +361,16 @@ footer {
 
 }
 
+/* Бутерброд-меню */
 .mymodal_menu {
   position: fixed;
-  /* top: 0;
-  left: 2%; */
-  /* transform: translate(-50%, -50%); */
 
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   width: 96%;
-  /* max-width: 96%; */
   height: 96%;
-  /* max-height: 96vh; */
 
   overflow: auto;
 
@@ -379,15 +379,11 @@ footer {
   background-color: var(--g0-color);
 
   padding: 8px;
-  /* margin-right: 0px; */
-
 }
 
 
-
-
+/* Оверлей - элемент, на его фоне которого показываем модальное окно. Закрывает собой весь документ */
 .mymodal-overlay {
-
   /* рекомендация:
      не зацикливайтесь на числе "1000", вместо этого используйте свою документированную систему для z-index и не забывайте следовать ей. Это число должно быть достаточно высоким в вашей системе.
   */
@@ -461,17 +457,12 @@ footer {
 
 /* ============================================ */
 
-#user_login {
-  /* display: flex; */
-  /* flex-direction: column; */
+/* #user_login {
   text-align: center;
-
   background-color: var(--g0-color);
-}
-
+} */
 
 /* ============================================ */
-
 
 
 .shadow {
@@ -479,13 +470,52 @@ footer {
   border-bottom: 1px solid var(--g1-color);
 }
 
+button.menu_point {
+  /* background-color: var(--yellow-color); */
+  background-color: inherit;
+  border: 0;
+  /* font-size: large; */
+  /* font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; */
+  font-size: inherit;
+  font-family: inherit;
+  text-align: justify;
+  padding-top: 0;
+  padding-bottom: 2px;
+  /* color: var(--marine-color); */
+  /* font-weight: 100; */
+  border-right: 2px solid var(--g1-color);
+  border-bottom: 0px solid var(--g1-color);
+}
+
 a.button {
   padding: 0 4px;
   color: var(--blue-color);
-  font-weight: 500;
+  /* font-weight: 500; */
   border-right: 2px solid var(--g1-color);
   border-bottom: 2px solid var(--g1-color);
 }
+
+.menu_point {
+  padding: 0 4px;
+  color: var(--blue-color);
+  /* font-weight: normal; */
+  border-right: 2px solid var(--g1-color);
+  border-bottom: 0px solid var(--g1-color);
+}
+
+.menu_point:hover, .menu_point:visited:hover {
+  color: var(--fuchsia-color);
+}
+
+a.menu_point:visited {
+  color: var(--blue-color);
+}
+
+div.menu_point:visited {
+  background-color: var(--yellow-color);
+}
+
+
 
 .center {
   text-align: center;
@@ -762,7 +792,7 @@ input {
     position: fixed;
     display: none;
   }
-  .menu_point {
+  .menu_point, button.menu_point {
     border-bottom: 1px solid var(--g1-color);
     border-right: 0px;
     /* flex-basis: 100%; */
