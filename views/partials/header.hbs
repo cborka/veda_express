@@ -11,12 +11,18 @@
     ИЗДЕЛИЕ XZ-444 
   </div>
  
-  <div id="login" class="">
-    <a href="/user/login">Вход</a> 
-  </div>
+  {{!-- <a id="logs" href="/user/login">Вход</a> --}}
 
-  <div id="logout">
-    <a href="/user/logout">Выход</a> 
+  <div class="logs">
+
+    <div id="login" class="">
+      <a href="/user/login">Вход</a> 
+    </div>
+
+    <div id="logout" class="hidden">
+      <a href="/user/logout">Выход</a> 
+    </div>
+
   </div>
 
   {{!-- <button id="buter_button" onclick="show_menu2()"> --}}
@@ -27,8 +33,27 @@
   </button>
 
 </header>
-
+ 
 <script>
+
+let x = 1;
+
+function test2() {
+  //let el = document.getElementById('logs');
+
+  //let caption = el.innerHTML;
+
+  if (x == 1) {
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('logout').classList.remove('hidden');
+  } else {
+            document.getElementById('login').classList.remove('hidden');
+            document.getElementById('logout').classList.add('hidden');
+  }
+
+  x = 1 - x;
+
+}  
 
 
 function show_menu() {

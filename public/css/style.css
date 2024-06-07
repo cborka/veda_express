@@ -164,6 +164,8 @@ header {
 #div_logo {
   margin: 4px;
   padding: 0;
+  width: 36px;
+  /* background-color: #00adef; */
 }  
 
 #logo {
@@ -905,4 +907,11 @@ input {
 }
 .marine {
   color: var(--marine-color);
+}
+
+div.logs {
+  float: right;
+  width: 64px;
+  text-align: center;
+  /* background-color: #00adef; */
 }
