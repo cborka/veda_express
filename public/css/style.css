@@ -1,4 +1,4 @@
-:root {
+:rootx {
   --g0-color: #ffffff; 
   --g01-color: #f1f1f1; 
   --g1-color: #e1e1e1;
@@ -41,6 +41,65 @@
   --olive-color: #aca000;
   --green2-color: #588528;
 
+  --title-color: --violet-color;
+  --title-color: #8e288e;
+  --menu-color: #0171bb;
+
+  /* --border-color: #a8fff8fd; */
+  /* --border-color: white; */
+  --border-color: none;
+}
+
+
+:root {
+  --g8-color: #ffffff; 
+  --g7-color: #f1f1f1; 
+  --g61-color: #e1e1e1;
+  --g6-color: #d1d1d1;
+  --g51-color: #c2c2c2;
+  --g5-color: #b7b7b7;
+  --g41-color: #959595;
+  --g4-color: #898989;
+  --g32-color: #7d7d7d;
+  --g3-color: #707070;
+  --g21-color: #626262;
+  --g2-color: #555555;
+  --g11-color: #464646;
+  --g1-color: #363636;
+  --g01-color: #262626;
+  --g0-color: #000000;
+
+  --orange-color: #f26520;
+  --gold-color: #f7941d;
+  --yellow-color: #fdf202;
+  
+  --green-color: #00a650;
+  --marine-color: #00a99e;
+  --skyblue-color: #00adef;
+
+  --blue-color: #0171bb;
+  --darkblue-color: #0054a5;
+  --navy-color: #2e3192;
+
+  --indigo-color: #652d92;
+  --violet-color: #8e288e;
+  --fuchsia-color: #ee008c;
+
+  --err-color: red;
+  --red-color: #ee1157;
+  --darkred-color: #9d0a10;
+  --brown-color: #a1410f;
+
+  --brown2-color: #a4620b;
+  --olive-color: #aca000;
+  --green2-color: #588528;
+
+
+  --title-color: --gold-color;
+  --title-color: #f7941d;
+  --menu-color:  #00adef;
+
+
   /* --border-color: #a8fff8fd; */
   /* --border-color: white; */
   --border-color: none;
@@ -50,6 +109,7 @@ body {
   padding: 0px;
   margin: 0px;
   
+  background-color: var(--g1-color);
   color: var(--g61-color);
   font-size: large;
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
@@ -57,6 +117,8 @@ body {
 
 /* ================================ Макет ================================ */
 
+
+/* Всё окно  */
 #maxwrapper {
   display:flex;
   width: 100%;
@@ -66,6 +128,7 @@ body {
 
 /* =================================== */
 
+/* Пространство слева и справа на широких мониторах  */
 #space_right, #space_left {
   display: flex;
   flex-direction: column;
@@ -83,6 +146,7 @@ body {
   margin-left: 4px;
 }
 
+/* Контент, включая header, footer и т.д.  */
 #wrapper {
   display: flex;
   flex-direction: column;
@@ -120,6 +184,7 @@ footer {
 
 /* =================================== */
 
+/* Контент + sidebars  */
 #container {
   display:flex; /* Содержит флекс элементы*/
   flex-grow: 1; /* Занимает всё доступное пространство */
@@ -187,6 +252,7 @@ header div {
   font-size: larger;
   font-weight: bolder;
   color: var(--violet-color);
+  color: var(--title-color);
 }
 
 header #login a, header #logout a {
@@ -222,6 +288,7 @@ button {
   line-height: 0.6;
   border: 0;
   background-color: #ffffff;
+  background-color: var(--g0-color);
 }
 
 #buter_button:hover {
@@ -233,6 +300,7 @@ button {
   padding: 0;
   margin: 6px 4px;
   border-bottom: 2px solid indigo;
+  border-bottom: 2px solid var(--title-color);
   width: 20px;
 }
 
@@ -305,6 +373,7 @@ a:visited {
   padding: 0 4px;
   border-right: 1px solid var(--g1-color);
   color: var(--blue-color);
+  color: var(--menu-color);
   font-weight: 400;
 }
 
@@ -492,6 +561,7 @@ button.menu_point {
 a.button {
   padding: 0 4px;
   color: var(--blue-color);
+  color: var(--menu-color);
   /* font-weight: 500; */
   border-right: 2px solid var(--g1-color);
   border-bottom: 2px solid var(--g1-color);
@@ -500,17 +570,19 @@ a.button {
 .menu_point {
   padding: 0 4px;
   color: var(--blue-color);
+  color: var(--menu-color);
   /* font-weight: normal; */
   border-right: 2px solid var(--g1-color);
   border-bottom: 0px solid var(--g1-color);
 }
 
-.menu_point:hover, .menu_point:visited:hover {
+.menu_point:hover, .menu_point:visited:hover, a.button:hover {
   color: var(--fuchsia-color);
 }
 
 a.menu_point:visited {
   color: var(--blue-color);
+  color: var(--menu-color);
 }
 
 div.menu_point:visited {
@@ -606,6 +678,13 @@ fieldset label {
 }
 /*  */
 
+/* fieldset input {
+  color: var(--g6-color);
+  background-color: var(--g0-color);
+  
+  border: 1px solid violet;
+} */
+
 fieldset input[type="text"] {
   /* width: 400px; */
   width: 63%;
@@ -613,7 +692,17 @@ fieldset input[type="text"] {
 fieldset input[type="button"], fieldset input[type="submit"] {
   margin-right: 8px;
   width: auto;
+  /* color: var(--g6-color);
+  background-color: var(--g0-color); */
+  /* color: red;
+  background-color: blue; */
 }
+
+/* fieldset input[type="button"]:hover, fieldset input[type="submit"]:hover {
+  color: var(--g0-color);
+  background-color: var(--g6-color);
+} */
+
 fieldset input[type="number"] {
   width: 20%;
 }
