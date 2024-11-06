@@ -34,6 +34,9 @@
 
 </header>
  
+
+
+
 <script>
 
 let x = 1;
@@ -55,6 +58,20 @@ function test2() {
 
 }  
 
+// Переключение светлой/тёмной темы
+function switch_theme() {
+    document.body.classList.toggle("dark_theme");
+};
+
+// Выбор темы в соответсвии с настройками ОС
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+function dark_light_theme() {
+  if (prefersDarkScheme.matches) {
+    document.body.classList.add("dark_theme");
+  } else {
+    document.body.classList.remove("dark_theme");
+  }
+};
 
 function show_menu() {
   {{!-- document.getElementById('menu_top').classList.toggle('flex'); --}}
@@ -80,5 +97,6 @@ async function is_logged_in() {
 }
 
 is_logged_in();
+dark_light_theme();
 
 </script>

@@ -5,7 +5,7 @@
 <br>
 
 
-<div class="mymodal closed" id="mymodal-window">
+<div class="mymodal closed" id="mymodal-window2">
  <p id="mytext">Модальное окно</p>
 <button onclick="add_text()">Добавить текст</button>
 <button class="close_modal" onclick="show_modal()"><b>X</b></button>
@@ -17,24 +17,28 @@
 
 </div>
 
-<div class="mymodal-overlay closed" id="mymodal-overlay">
+<div class="mymodal-overlay closed" id="mymodal-overlay2" onclick="show_modal()">
 </div>
 
 
 <script>
 
-
-let modal = document.getElementById("mymodal-window")
-let modalOverlay = document.getElementById("mymodal-overlay")
+// Аккуратно надо с наименованиями переменных, всё же они тут глобальные, час почти ошибку искал
+let modal2 = document.getElementById("mymodal-window2");
+let modalOverlay2 = document.getElementById("mymodal-overlay2");
 
   function show_modal() {
+    //alert("hi");
 //    document.getElementById("mymodal-window").classList.toggle("closed");
-    modal.classList.toggle("closed");
-    modalOverlay.classList.toggle("closed");
+//    document.getElementById("mymodal-overlay").classList.toggle("closed");
+    modal2.classList.toggle("closed");
+    modalOverlay2.classList.toggle("closed");
   }
 
 
   function add_text() {
+    //alert("hi");
+    //modal.classList.toggle("red");
     document.getElementById("text2").innerHTML += "то, что прокручивается<br>";
   }
 

@@ -1,4 +1,4 @@
-:rootx {
+body {
   --g0-color: #ffffff; 
   --g01-color: #f1f1f1; 
   --g1-color: #e1e1e1;
@@ -41,9 +41,16 @@
   --olive-color: #aca000;
   --green2-color: #588528;
 
-  --title-color: --violet-color;
+  --title-color: var(--violet-color);
   --title-color: #8e288e;
+  --header-color: var(--indigo-color);
+
   --menu-color: #0171bb;
+  --menu-color: var(--blue-color);
+  --menu-visited-color: #0054a5;
+  --menu-visited-color: var(--darkblue-color);
+  --menu-hover-color: #8e288e;
+  --menu-hover-color: var(--green-color);
 
   /* --border-color: #a8fff8fd; */
   /* --border-color: white; */
@@ -51,7 +58,7 @@
 }
 
 
-:root {
+body.dark_theme {
   --g8-color: #ffffff; 
   --g7-color: #f1f1f1; 
   --g61-color: #e1e1e1;
@@ -95,10 +102,12 @@
   --green2-color: #588528;
 
 
-  --title-color: --gold-color;
-  --title-color: #f7941d;
-  --menu-color:  #00adef;
+  --title-color: var(--fuchsia-color);
+  --header-color: var(--violet-color);
 
+  --menu-color:  var(--skyblue-color);
+  --menu-visited-color: var(--blue-color);
+  --menu-hover-color: var(--green-color);
 
   /* --border-color: #a8fff8fd; */
   /* --border-color: white; */
@@ -251,7 +260,7 @@ header div {
   font-family: "Segoe Script", Helvetica, Arial, sans-serif;
   font-size: larger;
   font-weight: bolder;
-  color: var(--violet-color);
+  /* color: var(--violet-color); */
   color: var(--title-color);
 }
 
@@ -341,18 +350,19 @@ button {
 a {
   /* color: indigo; */
   color: var(--g7-color);
+  color: var(--menu-color);
   text-decoration: none;
   /* padding: 0 4px; */
 }
 
 a:hover, a:visited:hover {
   /* color: magenta; */
-  color: var(--g6-color);
+  color: var(--menu-hover-color);
   /* background-color: var(--g0-color); */
 }
 
 a:visited {
-  color: var(--g5-color);
+  color: var(--menu-visited-color);
   /* color: darkviolet; */
 }
 
@@ -372,7 +382,6 @@ a:visited {
 .xmenu_point {
   padding: 0 4px;
   border-right: 1px solid var(--g1-color);
-  color: var(--blue-color);
   color: var(--menu-color);
   font-weight: 400;
 }
@@ -423,9 +432,9 @@ footer {
    радиусом размытия и распространения, а также цветом.*/
   /* box-shadow: inset; */
   /* box-shadow: 1px 1px 13px red; */
-  box-shadow: 3px  3px 3px 3px grey;
+  box-shadow: 3px  3px 3px 3px var(--g4-color);
  
-  background-color:white;
+  background-color:var(--g1-color);
 
   padding-left: 30px;
   margin-right: 30px;
@@ -466,7 +475,7 @@ footer {
   width: 100%;
   height: 100%;
   /* background-color: floralwhite;  */
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
 
 }
 
@@ -481,60 +490,13 @@ footer {
   position: fixed;
   right: 3px;
   top: 3px;
-  border-radius:10px;
+  border-radius:5px;
   /* width: 30px;
   height: 30px; */
  }
 
- /* ===================== Оттенки серого ==================== */
-
- /* .g0H { color: #ffffff; }
- .g1G { color: #f1f1f1; }
- .g2F { color: #e1e1e1; }
-
- .g3E { color: #d1d1d1; }
- .g4D { color: #c2c2c2; }
- .g5C { color: #b7b7b7; }
- 
- .g6B { color: #acacac; }
- .g7A { color: #a0a0a0; }
- .g89 { color: #959595; }
-
- .g98 { color: #898989; }
- .gA7 { color: #7d7d7d; }
- .gB6 { color: #707070; }
-
- .gC5 { color: #626262; }
- .gD4 { color: #555555; }
- .gE3 { color: #464646; }
- 
- .gF2 { color: #363636; }
- .gG1 { color: #262626; }
- .gH0 { color: #000000; }
-
- .g0 { color: #ffffff; }
- .g1 { color: #e1e1e1; }
- .g2 { color: #c2c2c2; }
- .g3 { color: #acacac; }
- .g4 { color: #959595; }
- .g5 { color: #7d7d7d; }
- .g6 { color: #626262; }
- .g7 { color: #464646; }
- .g8 { color: #262626; }
- .g9 { color: #000000; }
- */
-
-
 
 /* ============================================ */
-
-/* #user_login {
-  text-align: center;
-  background-color: var(--g0-color);
-} */
-
-/* ============================================ */
-
 
 .shadow {
   border-right: 1px solid var(--g1-color);
@@ -560,7 +522,6 @@ button.menu_point {
 
 a.button {
   padding: 0 4px;
-  color: var(--blue-color);
   color: var(--menu-color);
   /* font-weight: 500; */
   border-right: 2px solid var(--g1-color);
@@ -569,7 +530,6 @@ a.button {
 
 .menu_point {
   padding: 0 4px;
-  color: var(--blue-color);
   color: var(--menu-color);
   /* font-weight: normal; */
   border-right: 2px solid var(--g1-color);
@@ -577,16 +537,16 @@ a.button {
 }
 
 .menu_point:hover, .menu_point:visited:hover, a.button:hover {
-  color: var(--fuchsia-color);
+  color: var(--menu-hover-color);
 }
 
 a.menu_point:visited {
-  color: var(--blue-color);
+  /* color: var(--menu-visited-color); */
   color: var(--menu-color);
 }
 
 div.menu_point:visited {
-  background-color: var(--yellow-color);
+  background-color: var(--menu-visited-color);
 }
 
 

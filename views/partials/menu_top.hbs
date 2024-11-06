@@ -14,7 +14,7 @@
   <a class="menu_point" href="/applocals"> applocals </a>
   {{!-- <a class="menu_point" href="/db"> db_test </a> --}}
   <a class="menu_point" href="/session_info"> session_info </a>
-  {{!-- <a class="menu_point" href="/modal"> modal </a> --}}
+  <a class="menu_point" href="/modal"> modal </a>
 
   {{!-- <a class="menu_point" href="/vuetest.html"> vuetest.html </a>  --}}
   <a class="menu_point" href="/404"> 404 </a>
@@ -22,10 +22,12 @@
   <a class="menu_point" href=""> ESC </a>
 
   {{!-- <button class="menu_point" onclick="me2()"> press me </button> --}}
-  <button class="menu_point" onclick="test2()"> test2 </button>
+  {{!-- <button class="menu_point" onclick="test2()"> test2 </button> --}}
+  <button class="menu_point" onclick="switch_theme()"> Тема </button>
   
 </nav>
 {{!-- <div class="menu_point" onclick="show_modal_menu()"> show_modal_menu </div> --}}
+
 
 <div class="mymodal-overlay closed" id="mymodal-overlay" onclick="hide_modal_menu()">
 </div>
@@ -49,7 +51,7 @@ document.getElementById('buter_button').onkeyup = hide_menu2;
 
 // Показать выпадающее главное меню
 function show_modal_menu() {
-  let menuParent = document.getElementById('container');
+  //let menuParent = document.getElementById('container');
 
   modal.classList.add('vert')
   modal.classList.add('mymodal_menu');
