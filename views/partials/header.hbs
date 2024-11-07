@@ -14,15 +14,8 @@
   {{!-- <a id="logs" href="/user/login">Вход</a> --}}
 
   <div class="logs">
-
-    <div id="login" class="">
-      <a href="/user/login">Вход</a> 
-    </div>
-
-    <div id="logout" class="hidden">
-      <a href="/user/logout">Выход</a> 
-    </div>
-
+    <a id="login" class="button" href="/user/login">Вход</a> 
+    <a id="logout" class="button" href="/user/logout">Выход</a> 
   </div>
 
   {{!-- <button id="buter_button" onclick="show_menu2()"> --}}
@@ -39,13 +32,8 @@
 
 <script>
 
-let x = 1;
-
+{{!-- let x = 1;
 function test2() {
-  //let el = document.getElementById('logs');
-
-  //let caption = el.innerHTML;
-
   if (x == 1) {
             document.getElementById('login').classList.add('hidden');
             document.getElementById('logout').classList.remove('hidden');
@@ -53,33 +41,58 @@ function test2() {
             document.getElementById('login').classList.remove('hidden');
             document.getElementById('logout').classList.add('hidden');
   }
-
   x = 1 - x;
-
-}  
+}   --}}
 
 // Переключение светлой/тёмной темы
 function switch_theme() {
-    document.body.classList.toggle("dark_theme");
+
+  let theme = localStorage.getItem('dark_or_light_theme');
+  
+  if (theme == "dark") {
+    document.body.classList.remove("dark_theme");
+    localStorage.setItem('dark_or_light_theme', "light");
+  } else {
+    document.body.classList.add("dark_theme");
+    localStorage.setItem('dark_or_light_theme', "dark");
+  }
 };
 
-// Выбор темы в соответсвии с настройками ОС
-const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-function dark_light_theme() {
-  if (prefersDarkScheme.matches) {
+// Выбор светлой или тёмной темы в соответсвии с настройками
+function check_theme() {
+
+  let theme = localStorage.getItem('dark_or_light_theme');
+
+  // Если тема ещё не была выбрана
+  if (!theme) {
+    // Проверяем и устанавливаем системную тему
+    if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      theme = "dark";
+    } else {
+      theme = "light";
+    }
+    localStorage.setItem('dark_or_light_theme', theme);
+  }
+
+  if (theme == "dark") {
     document.body.classList.add("dark_theme");
   } else {
     document.body.classList.remove("dark_theme");
   }
 };
 
-function show_menu() {
-  {{!-- document.getElementById('menu_top').classList.toggle('flex'); --}}
-  document.getElementById('menu_top').classList.toggle('vert');
-}
+//
+// Показать меню
+//
+//function show_menu() {
+//  {{!-- document.getElementById('menu_top').classList.toggle('flex'); --}}
+//  document.getElementById('menu_top').classList.toggle('vert');
+//}
  
-// Проверка, свободно ли имя (логин)
-async function is_logged_in() {
+//
+// Получить данные пользователя и т.д.
+//
+async function check_logged_in() {
     myFetch2('/user/get_user')
     .then((x) => {
         if (x) {
@@ -92,11 +105,12 @@ async function is_logged_in() {
             //show_info('x');
             //show_error('Привет, гость!');
         }
+        //alert(x); // {"id":4,"login":"cborka","fullname":"","email":"1@1.ru","phone":"","notes":""} // или ничего
     })
     .catch(show_error);
 }
 
-is_logged_in();
-dark_light_theme();
+check_logged_in();
+check_theme();
 
 </script>

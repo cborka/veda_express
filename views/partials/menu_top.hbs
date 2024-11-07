@@ -1,11 +1,13 @@
+{{!-- На узком экране вместо меню будет показана бутер-кнопка, которая будет показывать меню в вертикальном МОДАЛЬНОМ окне --}}
+
 <nav class="menu_top" id="menu_top"" onclick="hide_modal_menu()">
 
   {{!-- <div class="menu_point"> &nbsp; </div> Вертикальная черта слева (padding-right) --}}
 
-  <a href="/"><div class="menu_point">&nbsp;</div></a>
+  <a href="/"><div class="menu_point">&nbsp;</div></a> {{!-- Вертикальная черта слева --}}
   <a href="/"><div class="menu_point">Home</div></a>
-  <a class="button" href="/ip">ip</a>
-  <a class="button" href="/ip2">ip2</a>
+  <a class="menu_point" href="/ip">ip</a>
+  <a class="menu_point" href="/ip2">ip2</a>
   <a class="menu_point" href="/hbs">hbs</a>
   <a class="menu_point" href="/testhbs">testhbs</a>
  
@@ -21,23 +23,23 @@
   {{!-- <a class="menu_point" href="/promises"> promises </a>  --}}
   <a class="menu_point" href=""> ESC </a>
 
-  {{!-- <button class="menu_point" onclick="me2()"> press me </button> --}}
   {{!-- <button class="menu_point" onclick="test2()"> test2 </button> --}}
-  <button class="menu_point" onclick="switch_theme()"> Тема </button>
+
+  <button class="menu_point" onclick="switch_theme()" title="Переключение - светлая или тёмная тема"> Тема </button>
   
 </nav>
 {{!-- <div class="menu_point" onclick="show_modal_menu()"> show_modal_menu </div> --}}
 
 
-<div class="mymodal-overlay closed" id="mymodal-overlay" onclick="hide_modal_menu()">
+<div class="mymodal-overlay closed" id="menu-modal-overlay" onclick="hide_modal_menu()">
 </div>
 
 
 
 <script>
 
-let modal = document.getElementById('menu_top');
-let modalOverlay = document.getElementById('mymodal-overlay');
+let menuModal = document.getElementById('menu_top');
+let menuModalOverlay = document.getElementById('menu-modal-overlay');
 
 // Закрытие выпадающего главного меню по кнопке Esc
 let hide_menu2 = function(e) {
@@ -46,33 +48,33 @@ let hide_menu2 = function(e) {
     hide_modal_menu();
   }
 }  
+
 document.getElementById('menu_top').onkeyup = hide_menu2;
 document.getElementById('buter_button').onkeyup = hide_menu2;
 
+//
 // Показать выпадающее главное меню
+//
 function show_modal_menu() {
   //let menuParent = document.getElementById('container');
 
-  modal.classList.add('vert')
-  modal.classList.add('mymodal_menu');
+  menuModal.classList.add('vert')
+  menuModal.classList.add('mymodal_menu');
 
-  modal.classList.remove('closed');
+  menuModalOverlay.classList.remove('closed');
 
-  modalOverlay.classList.remove('closed');
+  menuModalOverlay.classList.remove('closed');
 }
 
+//
 // Спрятать выпадающее главное меню
+//
 function hide_modal_menu() {
-  modal.classList.remove('vert')
-  modal.classList.remove('mymodal_menu')
-  modal.classList.add('closed');
+  menuModal.classList.remove('vert')
+  menuModal.classList.remove('mymodal_menu')
+  menuModal.classList.add('closed');
   
-  modalOverlay.classList.add('closed');
-}
-
-function me2() {
-//  alert('menu');
-  document.getElementById('sidebar_left').innerHTML = 'djjdjdjdjd';
+  menuModalOverlay.classList.add('closed');
 }
 
 </script>

@@ -139,27 +139,27 @@ function check_data()
     show_info('');
 
     if (userreg.login.value.length < 3) {
-        show_err("Поле 'Login' слишком короткое, меньше трёх символов");
+        show_error("Поле 'Login' слишком короткое, меньше трёх символов");
         return false;
     }
     if (!validate_email(userreg.email.value)) {
-        show_err("Формат email неверный");
+        show_error("Формат email неверный");
         return false;
     }
     if (userreg.password.value === "") {
-        show_err("Пароль не заполнен");
+        show_error("Пароль не заполнен");
         return false;
     }
     if (userreg.password.value !== userreg.password2.value) {
-        show_err("Пароли не совпадают");
+        show_error("Пароли не совпадают");
         return false;
     }
     if (userreg.test.value != 144) {
-        show_err("А вы не робот случайно?");
+        show_error("А вы не робот случайно?");
         return false;
     }
     if (document.getElementById("isloginfree").innerHTML != '') {
-        show_err("Похоже, что этот логин уже занят, придумайте другой.");
+        show_error("Похоже, что этот логин уже занят, придумайте другой.");
         return false;
     }
     //if ($("#isloginfree").text() !== '') {
@@ -169,7 +169,7 @@ function check_data()
     //    return false;
     //} 
 
-    show_err('');
+    show_error('');
     show_info("ОК, с ваших слов заполнено верно.");
     userreg.submit.disabled = false;
     return true;

@@ -47,7 +47,7 @@ const ip = function(req, res, next) {
   s += 'req._startAt: ' + req._startAt + '<br>';
   s += 'req._startAt[0]: ' + req._startAt[0] + '<br>';
   s += 'req._startAt[1]: ' + req._startAt[1] + '<br>';
-  s += '<a href="/">Home </a><br>';
+  s += '<a class="button" href="/">Home </a><br>';
   //next('route');
   //res.send(s);
   res.render('index', {title: "ip", message: s});

@@ -4,8 +4,8 @@ import md5 from "md5";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db_lib.js'
 import * as cbw from '../lib/cbw.js'
-import cors from 'cors';
-import fetchh from 'node-fetch';
+//import cors from 'cors';
+//import fetchh from 'node-fetch';
 
 export const router = express.Router();
 
@@ -116,9 +116,11 @@ router.get('/user/get_user', async function(req, res) {
 });
 
 
+// ДАЛЕЕ ТЕСТЫ
+
 router.get('/user/isLoginFree', async function(req, res) {
  // let ret = await cbw.myFetch(url, {name: "Bobb123"});
- let ret = await cbw.myFetch('/user/getlogin');
+ let ret = await cbw.myFetch('/user/getlogin/1/1');
  //let ret = JSON.stringify(req.headers);
  res.send('Вернулось ' + ret); 
 });

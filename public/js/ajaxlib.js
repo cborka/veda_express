@@ -8,12 +8,13 @@ function show_info(message)
   show_msg("info", message);
 }
 
-function show_err(str)
+function show_error(message)
 {
-    document.getElementById("error").innerHTML=str;
+  show_msg("error", message);
+  //document.getElementById("error").innerHTML=message;
 }
 
-
+//
 function check_error(message)
 {
   if (message[0] == 'E') {
@@ -22,14 +23,10 @@ function check_error(message)
     //throw new Error('ошибочка');
   }
 }
-function show_error(message)
-{
-  show_msg("error", message);
-}
 
-function onERRdefault(msg)
+function onERRdefault(message)
 {
-  erro(msg);
+  show_error(message);
 }
 
 //
@@ -73,7 +70,7 @@ function doQuery (url, onOK, params, async = true)
 
 
 //
-// Эмуляция Fetch через XMLHttpRequest
+// Эмуляция Fetch через XMLHttpRequest (пока нигде не используется, возможно не работает)
 //
 //function cbwFetch (url, onOK, params, async = true)
 function cbwFetch (url, params)
@@ -85,7 +82,7 @@ function cbwFetch (url, params)
     xhr.timeout = 30000; // 30 секунд (в миллисекундах)
 
     xhr.ontimeout = function() {
-      alert( 'Извините, запрос превысил максимальное время '+xhr.timeout/1000+" секунд." );
+      alert( 'Запрос превысил максимальное время '+xhr.timeout/1000+" секунд." );
     }
 
     xhr.onreadystatechange = function()

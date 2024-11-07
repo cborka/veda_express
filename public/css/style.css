@@ -1,21 +1,4 @@
-body {
-  --g0-color: #ffffff; 
-  --g01-color: #f1f1f1; 
-  --g1-color: #e1e1e1;
-  --g11-color: #d1d1d1;
-  --g2-color: #c2c2c2;
-  --g21-color: #b7b7b7;
-  --g3-color: #959595;
-  --g31-color: #898989;
-  --g4-color: #7d7d7d;
-  --g41-color: #707070;
-  --g5-color: #626262;
-  --g51-color: #555555;
-  --g6-color: #464646;
-  --g61-color: #363636;
-  --g7-color: #262626;
-  --g8-color: #000000;
-
+:root {
   --orange-color: #f26520;
   --gold-color: #f7941d;
   --yellow-color: #fdf202;
@@ -40,20 +23,34 @@ body {
   --brown2-color: #a4620b;
   --olive-color: #aca000;
   --green2-color: #588528;
+}
+
+/* .light_theme */
+body {
+  --g0-color: #ffffff; 
+  --g01-color: #f1f1f1; 
+  --g1-color: #e1e1e1;
+  --g11-color: #d1d1d1;
+  --g2-color: #c2c2c2;
+  --g21-color: #b7b7b7;
+  --g3-color: #959595;
+  --g31-color: #898989;
+  --g4-color: #7d7d7d;
+  --g41-color: #707070;
+  --g5-color: #626262;
+  --g51-color: #555555;
+  --g6-color: #464646;
+  --g61-color: #363636;
+  --g7-color: #262626;
+  --g8-color: #000000;
 
   --title-color: var(--violet-color);
-  --title-color: #8e288e;
-  --header-color: var(--indigo-color);
+  --header-color: var(--violet-color);
 
-  --menu-color: #0171bb;
   --menu-color: var(--blue-color);
-  --menu-visited-color: #0054a5;
   --menu-visited-color: var(--darkblue-color);
-  --menu-hover-color: #8e288e;
   --menu-hover-color: var(--green-color);
 
-  /* --border-color: #a8fff8fd; */
-  /* --border-color: white; */
   --border-color: none;
 }
 
@@ -76,41 +73,13 @@ body.dark_theme {
   --g01-color: #262626;
   --g0-color: #000000;
 
-  --orange-color: #f26520;
-  --gold-color: #f7941d;
-  --yellow-color: #fdf202;
-  
-  --green-color: #00a650;
-  --marine-color: #00a99e;
-  --skyblue-color: #00adef;
-
-  --blue-color: #0171bb;
-  --darkblue-color: #0054a5;
-  --navy-color: #2e3192;
-
-  --indigo-color: #652d92;
-  --violet-color: #8e288e;
-  --fuchsia-color: #ee008c;
-
-  --err-color: red;
-  --red-color: #ee1157;
-  --darkred-color: #9d0a10;
-  --brown-color: #a1410f;
-
-  --brown2-color: #a4620b;
-  --olive-color: #aca000;
-  --green2-color: #588528;
-
-
   --title-color: var(--fuchsia-color);
-  --header-color: var(--violet-color);
+  --header-color: var(--fuchsia-color);
 
   --menu-color:  var(--skyblue-color);
   --menu-visited-color: var(--blue-color);
   --menu-hover-color: var(--green-color);
 
-  /* --border-color: #a8fff8fd; */
-  /* --border-color: white; */
   --border-color: none;
 }
 
@@ -124,6 +93,9 @@ body {
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
 
+.header {
+  color: var(--header-color);
+}
 /* ================================ Макет ================================ */
 
 
@@ -296,8 +268,7 @@ button {
   font-weight: bold;
   line-height: 0.6;
   border: 0;
-  background-color: #ffffff;
-  background-color: var(--g0-color);
+  background-color: inherit;
 }
 
 #buter_button:hover {
@@ -499,44 +470,63 @@ footer {
 /* ============================================ */
 
 .shadow {
-  border-right: 1px solid var(--g1-color);
-  border-bottom: 1px solid var(--g1-color);
+  border-right: 2px solid var(--g2-color);
+  border-bottom: 2px solid var(--g2-color);
 }
 
-button.menu_point {
+ .button {
+  background-color: inherit;
+  color: var(--menu-color);
+
+  border: 0;
+  font-size: inherit;
+  font-family: inherit;
+  text-align: justify;
+
+  padding-top: 0;
+  padding-bottom: 2px;
+
+  border-right: 2px solid var(--g2-color);
+  border-bottom: 2px solid var(--g2-color);
+} 
+
+buttonx, .menu_point {
   /* background-color: var(--yellow-color); */
   background-color: inherit;
+  color: var(--menu-color);
   border: 0;
   /* font-size: large; */
   /* font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; */
   font-size: inherit;
   font-family: inherit;
   text-align: justify;
+  padding: 0 4px;
   padding-top: 0;
   padding-bottom: 2px;
   /* color: var(--marine-color); */
   /* font-weight: 100; */
   border-right: 2px solid var(--g1-color);
-  border-bottom: 0px solid var(--g1-color);
+  border-bottom: 0px solid var(--g2-color);
 }
+
 
 a.button {
   padding: 0 4px;
   color: var(--menu-color);
   /* font-weight: 500; */
-  border-right: 2px solid var(--g1-color);
-  border-bottom: 2px solid var(--g1-color);
+  border-right: 2px solid var(--g2-color);
+  border-bottom: 2px solid var(--g2-color);
 }
 
-.menu_point {
+/* .menu_point {
   padding: 0 4px;
   color: var(--menu-color);
-  /* font-weight: normal; */
+
   border-right: 2px solid var(--g1-color);
   border-bottom: 0px solid var(--g1-color);
-}
+} */
 
-.menu_point:hover, .menu_point:visited:hover, a.button:hover {
+.menu_point:hover, .menu_point:visited:hover, a.button:hover, .button:hover {
   color: var(--menu-hover-color);
 }
 
@@ -957,6 +947,7 @@ input {
 .marine {
   color: var(--marine-color);
 }
+
 
 div.logs {
   float: right;

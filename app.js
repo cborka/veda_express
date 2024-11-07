@@ -39,12 +39,13 @@ app.use(session({
   saveUninitialized: true,
   rolling: true,            // при каждом запросе переустанавливается maxAge
   cookie: { 
-    maxAge: 3*60*1000 
+    maxAge: 3*60*1000 // 3 минуты
     //maxAge: 24*60*60*1000 // cутки 
   }
 }));
+//SELECT sid, (sess::json->>'cookie')::json->>'expires', sess FROM public.session ORDER BY 2 ASC 
 
-
+ 
 // Запоминаю ServerHost для использования в Fetch
 app.use((req, res, next) => {
    //или так req.protocol + '://' + req.hostname + ':' + req.socket.localPort + req.url;

@@ -42,7 +42,7 @@
 <script>
 
 
-// Проверка, свободно ли имя (логин)
+// Проверка входных данных
 async function check_login() {
     myFetch2('/user/login', {login: userlogin.login.value.trim(), password: userlogin.password.value })
     .then((x) => {
