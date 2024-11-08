@@ -10,9 +10,105 @@ import * as cbw from '../lib/cbw.js'
 export const router = express.Router();
 
 
+function objs2table(objs) {
+  if (objs.length == 0) 
+    return 'x';
+
+  let table = '<table>';
+  
+  // table += '<tr>';
+  // table += '<td>xcvb0</td>';
+  // table += '<td>xcvb1</td>';
+  // table += '<td>xcvb2</td>';
+  // table += '</tr>';
+  // table += '<tr>';
+  // table += '<td>xcvb0</td>';
+  // table += '<td>xcvb1</td>';
+  // table += '<td>xcvb2</td>';
+  // table += '</tr>';
+  // table += '<tr>';
+  // table += '<td>xcvb0</td>';
+  // table += '<td>xcvb1</td>';
+  // table += '<td>xcvb2</td>';
+  // table += '</tr>';
+  // table += '</table>';
+  // return table;
+  
+  table += '<thead>';
+
+  for(let key in objs[0]) {
+    table += '<th>' +key + '</th>';
+  }
+  table += '</thead>';
+
+  for (let i=0; i<objs.length; i++) {
+    table += '<tr>';
+    let user = objs[i];
+    for(let key in user) {
+      table += '<td>' +user[key] + '</td>';
+    }
+    table += '</tr>';
+  }
+
+
+  table += '</table>';
+
+  //return 'zxcv';
+  return table;
+
+}
+
+
+
 /* GET users listing. */
-router.get('/user', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/user/list', function(req, res, next) {
+  let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};'
+
+  db.query('SELECT id, login, fullname, email, phone, notes FROM users', [])
+  .then (result => {
+    if (result && (result.rows.length > 0)) {
+      //req.session.fullname = result.rows[0].fullname;
+
+      // message = '';
+
+      // for(let key in result.rows[0]) {
+      //   message += key + '|';
+      // }
+      // message += '<br>';
+
+      // for (let i=0; i<result.rows.length; i++) {
+      //   let user = result.rows[i];
+      //   for(let key in user) {
+      //     message += user[key] + '|';
+      //   }
+      //   message += '<br>';
+      // }
+
+       message = objs2table(result.rows);
+
+//      res.send('1');
+      //res.send(message);
+      res.render('index', {title: "Пользователи", message});
+      //res.send('Строк: '+result.rows.length);
+    }
+    else {
+      //req.session.user = null;
+      delete req.session.user;
+      res.send('0');
+//      res.send('result is false');
+    }
+    //res.send(result?.rows[0].fullname)
+
+  })
+  .catch (err => {message = err.message; res.render('index', {title: "Error", message});});
+
+
+
+
+
+  // res.render('index', {title: "Пользователи", message});
+
+  //res.send('respond with a resource');
 });
 
 // Логин (авторизация)

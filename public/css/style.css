@@ -778,6 +778,27 @@ input {
 
 } */
 
+/* ======================== ТАБЛИЦЫ  ===================== */
+
+table {
+  border: 1px solid var(--g4-color);
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0;
+  margin: auto;
+  /* font-size: var(--table-font-size, medium); */
+}
+td, th {
+  border: 1px solid var(--g4-color);
+  border-collapse: collapse;
+  padding: 3px;
+}
+
+thead {
+  border: 1px solid var(--g4-color);
+  /* font-weight: bolder ; */
+}
+
 
 
 
