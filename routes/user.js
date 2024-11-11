@@ -100,15 +100,14 @@ router.get('/user/list', function(req, res, next) {
     //res.send(result?.rows[0].fullname)
 
   })
-  .catch (err => {message = err.message; res.render('index', {title: "Error", message});});
-
-
+  .catch (err => { message = err.message;  res.render('index', {title: "Error", message});});
 
 
 
   // res.render('index', {title: "Пользователи", message});
 
   //res.send('respond with a resource');
+  log2('/user/list', res.statusCode);
 });
 
 // Логин (авторизация)

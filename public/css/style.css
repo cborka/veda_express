@@ -791,7 +791,7 @@ table {
 td, th {
   border: 1px solid var(--g4-color);
   border-collapse: collapse;
-  padding: 3px;
+  padding: 3px;  
 }
 
 thead {
