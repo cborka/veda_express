@@ -75,6 +75,7 @@ const bulma = function(req, res) {
 const applocals = function(req, res) {
   let message = '<pre>' + JSON.stringify(req.app.locals,null,2) + '</pre>';
   res.render('index', {title: "req.app.locals", message});
+  log2('/applocals', res.statusCode );
 }
 
 const session_info = function(req, res) {

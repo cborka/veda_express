@@ -18,17 +18,14 @@ function objs2table(objs) {
   
   // table += '<tr>';
   // table += '<td>xcvb0</td>';
-  // table += '<td>xcvb1</td>';
   // table += '<td>xcvb2</td>';
   // table += '</tr>';
   // table += '<tr>';
   // table += '<td>xcvb0</td>';
-  // table += '<td>xcvb1</td>';
   // table += '<td>xcvb2</td>';
   // table += '</tr>';
   // table += '<tr>';
   // table += '<td>xcvb0</td>';
-  // table += '<td>xcvb1</td>';
   // table += '<td>xcvb2</td>';
   // table += '</tr>';
   // table += '</table>';
@@ -196,7 +193,7 @@ router.post('/user/isLoginFree', async function(req, res) {
   //   res.send('Error: ' + e.message);
   // }
 
-  db.query('SELECT count(*) AS cnt FROM xusers WHERE login = $1', [login])
+  db.query('SELECT count(*) AS cnt FROM users WHERE login = $1', [login])
   .then (result => res.send(result?.rows[0].cnt))
   .catch (err => res.send('Error: ' + err.message));
  
