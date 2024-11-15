@@ -4,7 +4,89 @@
 
 <div class="message">  {{{ message }}}  </div>
 
+<input >
+
+
 <script> 
+
+function edit_table() {
+  let colwidths = [100, 15, 20, 50, 15, 20];
+  let tablewidth = 0;
+
+  for (let i = 0; i < colwidths.length; i++) {
+    tablewidth += colwidths[i];
+  }
+
+  let ths = document.querySelectorAll('th'); // колонки таблицы
+  for (let i = 0; i < ths.length; i++) {
+  //for (var i = 0; i < 2; i++) {
+    ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Ширина колонок по массиву colwidths
+    //ths[i].width = colwidths[i] + "%"; // Ширина колонок по массиву colwidths
+    //ths[i].width = Math.floor(ths[i].width); // Ширина колонок по массиву colwidths
+    //alert("ths[i].width = " + ths[i].width);
+    //alert("ths[i].width = " +  Math.floor((tablewidth/100)*colwidths[i]));
+  }
+
+  let tds = document.querySelectorAll('td');
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].addEventListener('click', function func() {
+
+      let input = document.createElement('input');
+      input.value = this.innerHTML;
+      this.innerHTML = '';
+      this.appendChild(input);
+      input.focus();
+      
+      var td = this;
+      input.addEventListener('blur', function() {
+        td.innerHTML = this.value;
+        td.addEventListener('click', func);
+      });
+      
+      this.removeEventListener('click', func);
+    });
+  }
+}
+
+
+function edit_table2() {
+
+  //var tab = document.querySelector('#table1');
+
+  let colwidths = [100, 15, 20, 50, 15, 20];
+  let tablewidth = 0;
+
+  for (let i = 0; i < colwidths.length; i++) {
+    tablewidth += colwidths[i];
+  }
+  //alert("tab.width = " + tablewidth);
+
+  let ths = document.querySelectorAll('th'); // колонки таблицы
+  for (let i = 0; i < ths.length; i++) {
+  //for (var i = 0; i < 2; i++) {
+    ths[i].width = Math.floor((tablewidth/100)*colwidths[i]) + "%";
+    //alert("ths[i].width = " + ths[i].width);
+    //alert("ths[i].width = " +  Math.floor((tablewidth/100)*colwidths[i]));
+  }
+
+  let tds = document.querySelectorAll('td');
+
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].addEventListener('click', function func() {
+      this.contentEditable = true;
+    });
+
+    tds[i].addEventListener('blur', function func() {
+      this.contentEditable = false;
+    });
+  }
+}
+
+edit_table();
+
+  //alert("index - {{title}} ");
+  //alert("index - " + {{title}});
+
   //localStorage.setItem('test', 1); 
   //alert( JSON.stringify(localStorage) );
   //alert( JSON.stringify(sessionStorage) );

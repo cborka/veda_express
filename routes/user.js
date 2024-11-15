@@ -14,7 +14,7 @@ function objs2table(objs) {
   if (objs.length == 0) 
     return 'x';
 
-  let table = '<table>';
+  let table = '<table id="table1" name="x333">';
   
   // table += '<tr>';
   // table += '<td>xcvb0</td>';
@@ -85,7 +85,7 @@ router.get('/user/list', function(req, res, next) {
 
 //      res.send('1');
       //res.send(message);
-      res.render('index', {title: "Пользователи", message});
+      res.render('index', {title: "Пользователи2", message});
       //res.send('Строк: '+result.rows.length);
     }
     else {
