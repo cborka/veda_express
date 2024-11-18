@@ -38,6 +38,7 @@ function objs2table(objs) {
   }
   table += '</thead>';
 
+  table += '<tbody>';
   for (let i=0; i<objs.length; i++) {
     table += '<tr>';
     let user = objs[i];
@@ -47,7 +48,7 @@ function objs2table(objs) {
     table += '</tr>';
   }
 
-
+  table += '</tbody>';
   table += '</table>';
 
   //return 'zxcv';

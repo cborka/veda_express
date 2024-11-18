@@ -4,7 +4,9 @@
 
 <div class="message">  {{{ message }}}  </div>
 
-<input >
+<input  id="b1">
+
+<button>xxx</button>
 
 
 <script> 
@@ -28,11 +30,22 @@ function edit_table() {
   }
 
   let tds = document.querySelectorAll('td');
+  let td_old_value = '';
   for (let i = 0; i < tds.length; i++) {
-    tds[i].addEventListener('click', function func() {
+    tds[i].tabIndex = 0;
+
+    tds[i].addEventListener('click', function func2() {
+      //alert('onclick'+e.innerHTML);
+      this.focus();;
+    });      
+
+
+    tds[i].addEventListener('dblclick', function func() {
+      //exit;
 
       let input = document.createElement('input');
       input.value = this.innerHTML;
+      td_old_value = this.innerHTML;
       this.innerHTML = '';
       this.appendChild(input);
       input.focus();
@@ -40,10 +53,22 @@ function edit_table() {
       var td = this;
       input.addEventListener('blur', function() {
         td.innerHTML = this.value;
-        td.addEventListener('click', func);
+        td.addEventListener('dblclick', func);
       });
+
+      input.onkeydown = function(e) {
+        if (e.key === 'Enter') {          // "Завершение редактирования."
+          this.blur();
+//          td.innerHTML = this.value;
+//          td.addEventListener('click', func);
+        } else if (e.key === 'Escape') {  // Отмена изменений
+          this.value = td_old_value;
+        }
+        td.addEventListener('dblclick', func);
+        //input.focus();
+      };
       
-      this.removeEventListener('click', func);
+      this.removeEventListener('dblclick', func);
     });
   }
 }
@@ -81,6 +106,24 @@ function edit_table2() {
     });
   }
 }
+
+function edit_table3() {
+
+  let tds = document.querySelectorAll('td');
+  
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].tabIndex = 0;
+
+    tds[i].addEventListener('click', function func2(e) {
+      //alert('onclick'+e.type+this.innerHTML);
+      this.focus();
+      this.enterKeyHint = '';
+      //document.getElementById("b1").focus();
+      
+    });      
+  }
+}
+
 
 edit_table();
 

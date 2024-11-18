@@ -821,7 +821,13 @@ td input:active {
 
 td input:focus {
   color: greenyellow;
-//  width: 100%;
+  /* width: 100%; */
+}
+
+td:focus {
+  color: violet;
+  border: 1px solid var(--g7-color);
+  border-radius: 3px;
 }
 
 input, input:default {
