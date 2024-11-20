@@ -86,7 +86,7 @@ router.get('/user/list', function(req, res, next) {
 
 //      res.send('1');
       //res.send(message);
-      res.render('index', {title: "Пользователи2", message});
+      res.render('doc/tables', {title: "Пользователи2", message});
       //res.send('Строк: '+result.rows.length);
     }
     else {

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <!-- <link rel="shortcut icon" href="/favicon.bmp" type="image/x-icon"> -->
+  </head>
+  <body>
+
+  <table id="table1" name="tablica">
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+  </table>
+
+  <button onclick="tst()">test</button>
+  <a class="menu_point" href="/user/list"> Пользователи </a>
+
+    <script>
+      function tst() {
+        var tbl = document.querySelector('#table1');
+        alert(tbl?.rows?.length);  
+
+      }
+
+    </script>
+  </body>
+</html>
+
+<!-- Элемент <table>, в дополнение к свойствам, о которых речь шла выше, поддерживает следующие:
+
+  table.rows – коллекция строк <tr> таблицы.
+  table.caption/tHead/tFoot – ссылки на элементы таблицы <caption>, <thead>, <tfoot>.
+  table.tBodies – коллекция элементов таблицы <tbody> (по спецификации их может быть больше одного).
+  <thead>, <tfoot>, <tbody> предоставляют свойство rows:
+  
+  tbody.rows – коллекция строк <tr> секции.
+  <tr>:
+  
+  tr.cells – коллекция <td> и <th> ячеек, находящихся внутри строки <tr>.
+  tr.sectionRowIndex – номер строки <tr> в текущей секции <thead>/<tbody>/<tfoot>.
+  tr.rowIndex – номер строки <tr> в таблице (включая все строки таблицы).
+  <td> and <th>:
+  
+  td.cellIndex – номер ячейки в строке <tr>.
+
+
+
+    Есть два основных набора ссылок:
+
+Для всех узлов: parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling.
+Только для узлов-элементов: parentElement, children, firstElementChild, lastElementChild, previousElementSibling, nextElementSibling.
+     -->

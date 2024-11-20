@@ -1,0 +1,197 @@
+<h2 class="header">{{title}}</h2>
+
+{{!-- <p class="marine">Welcome to {{title}}</p> --}}
+
+<div class="message">  {{{ message }}}  </div>
+
+<input  id="b1">
+
+<button>xxx</button>
+
+
+<script> 
+
+
+
+
+function edit_table() {
+  let tbl = document.getElementById('table1');
+
+  let colwidths = [100, 15, 20, 50, 15, 20];
+  let tablewidth = 0;
+
+  for (let i = 0; i < colwidths.length; i++) {
+    tablewidth += colwidths[i];
+  }
+
+  let ths = document.querySelectorAll('th'); // колонки таблицы
+  for (let i = 0; i < ths.length; i++) {
+  //for (var i = 0; i < 2; i++) {
+    ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Ширина колонок по массиву colwidths
+    //ths[i].width = colwidths[i] + "%"; // Ширина колонок по массиву colwidths
+    //ths[i].width = Math.floor(ths[i].width); // Ширина колонок по массиву colwidths
+    //alert("ths[i].width = " + ths[i].width);
+    //alert("ths[i].width = " +  Math.floor((tablewidth/100)*colwidths[i]));
+  }
+
+  let tds = document.querySelectorAll('td');
+  let td_old_value = '';
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].tabIndex = 0;
+
+//    tds[i].addEventListener('click', function func2() {
+//      this.focus();;
+//    });      
+
+
+    tds[i].addEventListener('dblclick', function func() {
+      //exit;
+
+      let input = document.createElement('input');
+      input.value = this.innerHTML;
+      td_old_value = this.innerHTML;
+      this.innerHTML = '';
+      this.appendChild(input);
+      input.focus();
+      
+      var td = this;
+      input.addEventListener('blur', function() {
+        td.innerHTML = this.value;
+        td.addEventListener('dblclick', func);
+      });
+
+      input.onkeyup = function(e) {
+        switch (e.keyCode) {
+          case 13:
+            this.blur();
+            break;
+          case 38:  // Стрелка вверх
+            this.value = 'Стрелка вверх';// + tbl.rowIndex;
+            //if (y > 1)  tbl.rows[y-1].cells[x].focus();
+            //else  this.value = 'Это первая строка';
+            break;
+          case 40:  // Стрелка вниз
+            this.value = 'Стрелка вниз';
+            //                if (y < rows-1)  tbl.rows[y+1].cells[x].focus();
+            //                else           erro(y + '- это последняя строка');
+            break;
+          case 39:  // Стрелка вправо не обрабатывается и правильно
+            //                if (x < cells-1)  tbl.rows[y-1].cells[x].focus();
+            //                else        erro(x + '- это последняя ячейка в строке');
+            break;
+          case 27: // Escape
+            this.value = td_old_value;
+            //                ed.value = v;
+            //                erro('Escape');
+            break;
+
+          default:
+          // erro(f.keyCode);
+        }
+
+
+
+
+        //if (e.key === 'Enter') {          // "Завершение редактирования."
+        //  this.blur();
+//          td.innerHTML = this.value;
+//          td.addEventListener('click', func);
+        //} else if (e.key === 'Escape') {  // Отмена изменений
+        //  this.value = td_old_value;
+        //}
+
+        td.addEventListener('dblclick', func);
+        //input.focus();
+      };
+      
+      this.removeEventListener('dblclick', func);
+    });
+  }
+}
+
+
+function edit_table2() {
+
+  //var tab = document.querySelector('#table1');
+
+  let colwidths = [100, 15, 20, 50, 15, 20];
+  let tablewidth = 0;
+
+  for (let i = 0; i < colwidths.length; i++) {
+    tablewidth += colwidths[i];
+  }
+  //alert("tab.width = " + tablewidth);
+
+  let ths = document.querySelectorAll('th'); // колонки таблицы
+  for (let i = 0; i < ths.length; i++) {
+  //for (var i = 0; i < 2; i++) {
+    ths[i].width = Math.floor((tablewidth/100)*colwidths[i]) + "%";
+    //alert("ths[i].width = " + ths[i].width);
+    //alert("ths[i].width = " +  Math.floor((tablewidth/100)*colwidths[i]));
+  }
+
+  let tds = document.querySelectorAll('td');
+
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].addEventListener('click', function func() {
+      this.contentEditable = true;
+    });
+
+    tds[i].addEventListener('blur', function func() {
+      this.contentEditable = false;
+    });
+  }
+}
+
+function edit_table3() {
+
+  let tds = document.querySelectorAll('td');
+  
+  for (let i = 0; i < tds.length; i++) {
+    tds[i].tabIndex = 0;
+
+    tds[i].addEventListener('click', function func2(e) {
+      //alert('onclick'+e.type+this.innerHTML);
+      this.focus();
+      this.enterKeyHint = '';
+      //document.getElementById("b1").focus();
+      
+    });      
+  }
+}
+
+
+function edit_table5(table_name) {
+    let tbl = document.querySelector('#'+table_name + ' tbody');
+    alert(tbl?.rows?.length);  
+    alert(tbl?.rows?.length);
+    
+
+  //var tbl = document.querySelector('#'+table_name);
+  let raws = document.querySelectorAll('#'+table_name + ' tbody tr');
+  //alert(tbl.innerHTML);
+  //alert(rows[1].innerHTML);
+  alert(raws.length);
+  //alert(tbl?.raws?.length);
+  
+  //if (tbl) alert(tbl.raws.length);
+  //else alert(tbl);
+
+}
+
+
+edit_table4('table1');
+
+  //alert("index - {{title}} ");
+  //alert("index - " + {{title}});
+
+  //localStorage.setItem('test', 1); 
+  //alert( JSON.stringify(localStorage) );
+  //alert( JSON.stringify(sessionStorage) );
+
+
+
+
+
+
+</script>
