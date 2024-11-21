@@ -31,111 +31,232 @@ async function myFetch2(url, params) {
 }
   
 //
-// Работа с таблицами
+// =========================================  Работа с таблицами  ======================================
 //
 
+
+let td_old_value = ''; // Первоначальное значение ячейки таблицы на случай отмены редактирования
+
+//
+// Настройка ширины колонок, установка обработчиков для ячеек таблицы
+//
 function edit_table4(table_id) {
   let tbl = document.getElementById(table_id);
 
 
-  let colwidths = [5, 15, 50, 50, 15, 20];
+  let colwidths = [10, 15, 50, 50, 15, 20]; // Будет браться из базы данных
   let tablewidth = 0;
   for (let i = 0; i < colwidths.length; i++) {
     tablewidth += colwidths[i];
   }
 
-
-  let ths = document.querySelectorAll('#'+table_id + ' th'); // колонки таблицы
+  //let ths = document.querySelectorAll('#'+table_id + ' th'); // колонки таблицы
+  // ячейки заголовока могут занимать несколько строк, так же одна ячейка может охватывать несколько колонок, поэтому сделал как ниже, а не как выше
+  let ths = tbl.tBodies[0].rows[0].cells; // ячеек в первой строке первой секции данных таблицы
+  
   //alert('kolonok: ' + ths.length);
   //alert('Секций данных: ' + tbl.tBodies.length);
   //alert('Строк в первой секции данных: ' + tbl.tBodies[0].rows.length);
   //alert('kolonok: ' + tbl.tBodies[0].rows[0].cells.length);
+    
   for (let i = 0; i < ths.length; i++) {
   //for (var i = 0; i < 4; i++) {
-    ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Ширина колонок по массиву colwidths
+    ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Установка ширины колонок в соостветствии с массивом colwidths
   }
 
-  //alert(tbl.rows);
-  //alert(tbl?.rowIndex);
-  //alert('Strok: ' + tbl.rows.length);
-  //if (tbl) alert(tbl.raws.length);
-  //else alert(tbl);
-  let tds = document.querySelectorAll('td');
-  let td_old_value = '';
+
+  let tds = document.querySelectorAll('td'); // все ячейки всех таблиц документа, однако это слишком, надо переделать для конкретной таблицы
   for (let i = 0; i < tds.length; i++) {
     tds[i].tabIndex = 0;
-
-//    tds[i].addEventListener('click', function func2() {
-//      this.focus();;
-//    });      
-
-
-    tds[i].addEventListener('dblclick', function func() {
-      //exit;
-
-      let input = document.createElement('input');
-      input.value = this.innerHTML;
-      td_old_value = this.innerHTML;
-      this.innerHTML = '';
-      this.appendChild(input);
-      input.focus();
-      
-      var td = this;
-      input.addEventListener('blur', function() {
-        td.innerHTML = this.value;
-        td.addEventListener('dblclick', func);
-      });
-
-      input.onkeyup = function(e) {
-        switch (e.keyCode) {
-          case 13:
-            this.blur();
-            break;
-          case 38:  // Стрелка вверх
-            this.value = 'Стрелка вверх';// + tbl.rowIndex;
-            //if (y > 1)  tbl.rows[y-1].cells[x].focus();
-            //else  this.value = 'Это первая строка';
-            break;
-          case 40:  // Стрелка вниз
-            this.value = 'Стрелка вниз';
-            //                if (y < rows-1)  tbl.rows[y+1].cells[x].focus();
-            //                else           erro(y + '- это последняя строка');
-            break;
-          case 39:  // Стрелка вправо не обрабатывается и правильно
-            //                if (x < cells-1)  tbl.rows[y-1].cells[x].focus();
-            //                else        erro(x + '- это последняя ячейка в строке');
-            break;
-          case 27: // Escape
-            this.value = td_old_value;
-            //                ed.value = v;
-            //                erro('Escape');
-            break;
-
-          default:
-          // erro(f.keyCode);
-        }
-
-
-
-
-        //if (e.key === 'Enter') {          // "Завершение редактирования."
-        //  this.blur();
-//          td.innerHTML = this.value;
-//          td.addEventListener('click', func);
-        //} else if (e.key === 'Escape') {  // Отмена изменений
-        //  this.value = td_old_value;
-        //}
-
-        td.addEventListener('dblclick', func);
-        //input.focus();
-      };
-      
-      this.removeEventListener('dblclick', func);
-    });
+    tds[i].addEventListener('dblclick', tdDblclick);
+    tds[i].onkeyup = tdOnkeyup;
   }
+}
+
+//
+// По двойному клику на ячейке перевожу её в режим редактирования
+//
+function tdDblclick() {
+  tdEditModeOn(this);  // Перевод в режим редактирования
+};
+
+//
+// При потере фокуса елемента input
+//
+function tdInputBlur(input) {
+  let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
+  td.innerHTML = input.value;                   // Сохранение результатов редактирования
+  td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
+//  td.focus();                       
+}
+
+//
+// Перевод ячейки таблицы в режим редактирования
+//
+function tdEditModeOn(td) {
+  let input = document.createElement('input');  // Создание элемента input
+
+  // здесь будет настройка input на конкретные типы данных и так далее
+
+  input.value = td.innerHTML;
+  td_old_value = td.innerHTML;
+  td.innerHTML = '';
+  td.appendChild(input);
+  input.focus();
+  input.select(); // Выделение значения, иногда надо выделять, иногда нет, поэтому надо сделать флаг в документе, указывающий выделять или нет
+  //addEventListener('focus', event => event.target.select())
+
+  input.addEventListener('blur', onInputBlur);
+  // input.addEventListener('blur', function() {
+  //   td.innerHTML = this.value;
+  //   td.addEventListener('dblclick', tdDblclick);
+  // });
+
+  input.onkeyup = inputOnkeyup;
+  td.removeEventListener('dblclick', tdDblclick); // Убираю обработчик двойного клика на время редактирования
+
+  return input;
+}
+
+function onInputBlur() {
+  let td = this.parentNode;
+  let val = this.value;
+
+  if(val == '123') { // если данные не корректны, то не выходим из режима редактирования, остаёмся на месте
+    this.focus();
+    return;
+  }
+
+  td.innerHTML = this.value;
+  td.addEventListener('dblclick', tdDblclick);
+}
+
+
+
+
+//
+// Обработчик нажания клавиш на input
+//
+function inputOnkeyup(e) {
+  switch (e.key) {
+    case "Enter":
+      this.parentNode.focus(); // При этом теряется фокус элемента input и срабатывает событие onBlur в котором происходит проверка и сохранение введённых данных 
+      //this.blur(); // если оставить эту строку, то не видно куда переходит фокус (какая ячейка становится текущей)
+      e.stopPropagation();  // если не остановить, то включится обработчик для ячейки и снова переведёт её в режим редактирования, а нам здесь это не надо
+      break;
+    case "Up": // IE/Edge specific value
+    case "ArrowUp":
+      prevRow(this.parentNode).focus();
+      break;
+    case "Down": // IE/Edge specific value
+    case "ArrowDown":
+      nextRow(this.parentNode).focus();
+      break;
+    case "Escape":
+    case "Esc":
+      this.value = td_old_value;
+      //                ed.value = v;
+      //                erro('Escape');
+      break;
+
+    default:
+    // erro(f.keyCode);
+  }
+
+  td.addEventListener('dblclick', tdDblclick);
+  
+  //input.focus();
+};
+
+
+function tdOnkeyup(e) {
+  switch (e.key) {
+    case "Enter":
+      tdEditModeOn(this); 
+
+      break;
+    case "Up": // IE/Edge specific value
+    case "ArrowUp":
+      prevRow(this).focus();
+      break;
+    case "Down": // IE/Edge specific value
+    case "ArrowDown":
+      nextRow(this).focus();
+      break;
+    case "Left":
+    case "ArrowLeft": 
+      leftCell(this).focus();
+      break;
+    case "Right":
+    case "ArrowRight": 
+      rightCell(this).focus();
+      break;
+    default:
+    // erro(f.keyCode);
+  }
+
+//  td.addEventListener('dblclick', tdDblclick);
+};
+
+
+//
+// Возвращает ячейку таблицы на предыдущей строке
+//
+function prevRow(td) {
+  let row_num = td.parentNode.sectionRowIndex;
+  let cell_num = td.cellIndex;
+
+  if (row_num > 0) row_num--;
+
+  //td.innerHTML = row_num + " - " + cell_num;
+
+  return td.parentNode.parentNode.rows[row_num].cells[cell_num];
 
 }
 
+//
+// Возвращает ячейку таблицы на следующей строке
+//
+function nextRow(td) {
+  let row_num = td.parentNode.sectionRowIndex;
+  let cell_num = td.cellIndex;
+
+  if (row_num <= (td.parentNode.parentNode.rows.length - 1)) row_num++;
+
+  return td.parentNode.parentNode.rows[row_num].cells[cell_num];
+}
+
+//
+// Возвращает ячейку слева
+//
+function leftCell(td) {
+  let row = td.parentNode;      // текущая строка
+  let cell_num = td.cellIndex;
+
+  if (cell_num > 0) cell_num--;
+
+  return row.cells[cell_num];
+}
+
+//
+// Возвращает ячейку справа 
+//
+function rightCell(td) {
+  let row = td.parentNode;      // текущая строка
+  let cell_num = td.cellIndex;
+
+  if (cell_num <= (row.cells.length-2)) cell_num++;
+
+  return row.cells[cell_num];
+}
+
+
+// function focus1() {
+  
+//   let tbl = document.getElementById(table_id);
+  
+//   tbl.tBodies[0].rows[0].cells[1].focus();
+// }
 
 
 // Элемент <table>, в дополнение к свойствам, о которых речь шла выше, поддерживает следующие:
