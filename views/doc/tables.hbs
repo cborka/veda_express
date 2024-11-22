@@ -6,15 +6,36 @@
 
 <input  id="b1">
 
-<button>xxx</button>
+<button onclick="log('logg')">xxx</button>
+<table>
+  <tbody>
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+    <tr>
+      <td>xcvb0</td>
+      <td>xcvb2</td>
+    </tr>
+  </tbody>
+</table>
+
+<div id="log">ччч</div>
 
 
 <script> 
 
+edit_table('table1');
 
 
+{{!-- *********************** Дальше неважно что ******************************** --}}
 
-function edit_table() {
+
+function edit_table_old() {
   let tbl = document.getElementById('table1');
 
   let colwidths = [100, 15, 20, 50, 15, 20];
@@ -180,7 +201,7 @@ function edit_table5(table_name) {
 }
 
 
-edit_table4('table1');
+
 
   //alert("index - {{title}} ");
   //alert("index - " + {{title}});

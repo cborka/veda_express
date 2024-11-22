@@ -40,7 +40,7 @@ let td_old_value = ''; // Первоначальное значение ячей
 //
 // Настройка ширины колонок, установка обработчиков для ячеек таблицы
 //
-function edit_table4(table_id) {
+function edit_table(table_id) {
   let tbl = document.getElementById(table_id);
 
 
@@ -65,10 +65,23 @@ function edit_table4(table_id) {
   }
 
 
+  let trs = document.querySelectorAll('tbody tr'); // строки всех таблиц документа
+  //let trs = document.querySelectorAll('#'+table_id+' tr'); // строки таблицы
+  for (let i = 0; i < trs.length; i++) {
+    trs[i].id = i; // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
+    //trs[i].tabIndex = 1;
+    trs[i].changed = false;
+    //trs[i].addEventListener('focusout', trFocusout);
+//    tds[i].onkeyup = tdOnkeyup;
+  }
+  
   let tds = document.querySelectorAll('td'); // все ячейки всех таблиц документа, однако это слишком, надо переделать для конкретной таблицы
+  //let tds = document.querySelectorAll('#'+table_id+' td'); // ячейки для конкретной таблицы
   for (let i = 0; i < tds.length; i++) {
     tds[i].tabIndex = 0;
     tds[i].addEventListener('dblclick', tdDblclick);
+    tds[i].addEventListener('focusout', tdFocusout);
+    //tds[i].addEventListener('blur', tdFocusout);
     tds[i].onkeyup = tdOnkeyup;
   }
 }
@@ -83,12 +96,16 @@ function tdDblclick() {
 //
 // При потере фокуса елемента input
 //
-function tdInputBlur(input) {
-  let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
-  td.innerHTML = input.value;                   // Сохранение результатов редактирования
-  td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
-//  td.focus();                       
-}
+// function tdInputBlur(input) {
+//   let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
+//   if (td.innerHTML == input.value) {
+//     log('save ' + input.value);
+//     td.innerHTML = input.value;                   // Сохранение результатов редактирования
+//     td.parentNode.changed = true;                 // Признак, что строка изменена и её надо сохранить в базе данных
+//   };                   // Сохранение результатов редактирования
+//   td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
+// //  td.focus();                       
+// }
 
 //
 // Перевод ячейки таблицы в режим редактирования
@@ -106,7 +123,7 @@ function tdEditModeOn(td) {
   input.select(); // Выделение значения, иногда надо выделять, иногда нет, поэтому надо сделать флаг в документе, указывающий выделять или нет
   //addEventListener('focus', event => event.target.select())
 
-  input.addEventListener('blur', onInputBlur);
+  input.addEventListener('focusout', onInputBlur);
   // input.addEventListener('blur', function() {
   //   td.innerHTML = this.value;
   //   td.addEventListener('dblclick', tdDblclick);
@@ -118,21 +135,105 @@ function tdEditModeOn(td) {
   return input;
 }
 
+// 
+// Ушёл с ячейки таблицы
+//
 function onInputBlur() {
-  let td = this.parentNode;
-  let val = this.value;
+  let td = this.parentNode; // Текущая ячейка
+  let val = this.value;     //
 
-  if(val == '123') { // если данные не корректны, то не выходим из режима редактирования, остаёмся на месте
-    this.focus();
-    return;
-  }
+  if (val != td_old_value) { // Если значение изменилось, сохраняем
+    log('save ' + val);
+    
+    if(val == '123') { // если данные не корректны, то не выходим из режима редактирования, остаёмся на месте
+      log('data error ' + val);
+      this.focus();
+      return;
+    }
 
-  td.innerHTML = this.value;
+    td.parentNode.changed = true;         // Признак, что строка изменена и её надо сохранить в базе данных
+  };                   
+
+  // Сохранение результатов редактирования, 
+  //    это надо сделать в любом случае, так как выходим из режима редактирования ячейки 
+  //    и надо вместо элемента input, который там находится в режиме редактирования, просто присвоить ячейке значение
+  //    сам input должен будет быть очищен внутренним механизмом javascript, так как на него больше не осталётся ссылок
+  
+  td.innerHTML = this.value;  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! а потом не срабатывает событие на ячейке, потому что в нее передается нулл 
+
+  //td.blur();
+
   td.addEventListener('dblclick', tdDblclick);
+  
 }
 
+//
+// При уходе с текущей ячейки таблицы
+//
+function tdFocusout(e) {
+  log('tdFocusout ' + e.target);
+  let td_src;
+  let td_dest;
 
+  if (e.target == "[object HTMLTableCellElement]") {
+    log("ячейка");
+    td_src = e.target;
+    td_dest = e?.relatedTarget;
+  } else if (e.target == "[object HTMLInputElement]") {
+    log("поле ввода = " + e.target.parentNode)
+    td_src = e.target.parentNode;
+    td_dest = null;
+  }  else {
+    log("stop")
+    e.stopPropagation();
+  }
 
+  log("1")
+
+  //alert('Ушёл со строки ')
+//  let s = e?.target.parentNode.sectionRowIndex;
+//  let t = e?.relatedTarget?.parentNode.sectionRowIndex;
+  let s = td_src.parentNode.id;
+  let t = td_dest?.parentNode?.id;
+  log(`Ушёл ${s} -> ${t}`);
+
+  if (s != t) {
+    if (td_src?.parentNode?.changed) {
+      log('Строка '+ s + ' изменена.');
+      if (trSave(td_src.parentNode)) {
+        td_src.parentNode.changed = false;
+      } else {
+        log("Ошибка сохранения строки " + s);
+        td_src.focus();
+      }
+    }
+    // проверить изменена ли исходня строка, если да, то
+    // сохранить исходную строку в базе данных
+    log('Другая строка '+ td_src?.parentNode?.id + ' - ' + td_src?.parentNode?.changed);
+  }
+  //e.stopPropagation();
+
+  //log('Ушёл со строки ' + e?.target.parentNode.sectionRowIndex);
+  //log('Ушёл со строки ' + e?.relatedTarget?.parentNode.sectionRowIndex)
+  //log('Пришел на строку ' + e.relatedTarget.sectionRowIndex)
+  // let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
+  // td.innerHTML = input.value;                   // Сохранение результатов редактирования
+  // td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
+//  td.focus();                       
+}
+function xxxtdFocusout(td) {
+  //alert('Ушёл со строки ')
+  log('Ушёл с ячейки ' + this.cellIndex);
+  //e.stopPropagation();
+  // let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
+  // td.innerHTML = input.value;                   // Сохранение результатов редактирования
+  // td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
+//  td.focus();                       
+}
+
+function trSave(tr) {
+  return tr.cells[0].innerHTML != '11';
+}
 
 //
 // Обработчик нажания клавиш на input
@@ -142,19 +243,20 @@ function inputOnkeyup(e) {
     case "Enter":
       this.parentNode.focus(); // При этом теряется фокус элемента input и срабатывает событие onBlur в котором происходит проверка и сохранение введённых данных 
       //this.blur(); // если оставить эту строку, то не видно куда переходит фокус (какая ячейка становится текущей)
-      e.stopPropagation();  // если не остановить, то включится обработчик для ячейки и снова переведёт её в режим редактирования, а нам здесь это не надо
+      //e.stopPropagation();  // если не остановить, то включится обработчик для ячейки и снова переведёт её в режим редактирования, а нам здесь это не надо
       break;
     case "Up": // IE/Edge specific value
     case "ArrowUp":
-      prevRow(this.parentNode).focus();
+      //prevRow(this.parentNode).focus();
       break;
     case "Down": // IE/Edge specific value
     case "ArrowDown":
-      nextRow(this.parentNode).focus();
+      //nextRow(this.parentNode).focus();
       break;
     case "Escape":
     case "Esc":
       this.value = td_old_value;
+      this.parentNode.focus();
       //                ed.value = v;
       //                erro('Escape');
       break;
@@ -162,7 +264,7 @@ function inputOnkeyup(e) {
     default:
     // erro(f.keyCode);
   }
-
+  e.stopPropagation();  
   td.addEventListener('dblclick', tdDblclick);
   
   //input.focus();
@@ -249,6 +351,13 @@ function rightCell(td) {
 
   return row.cells[cell_num];
 }
+
+
+
+function log(message) {
+  document.getElementById('log').innerHTML += (message + '<br>');
+}
+
 
 
 // function focus1() {
