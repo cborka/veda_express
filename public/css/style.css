@@ -1003,9 +1003,9 @@ input, input:default {
 }
 
 
-div.logs{
+div.login_buttons{
   float: right;
-  width: 100%;
+  width: 64px;
   text-align: center;
   /* background-color: #00adef; */
 }

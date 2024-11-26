@@ -43,7 +43,7 @@ let td_old_value = ''; // Первоначальное значение ячей
 function edit_table(table_id) {
   let tbl = document.getElementById(table_id);
 
-
+  // Настройка ширины колонок
   let colwidths = [10, 15, 50, 50, 15, 20]; // Будет браться из базы данных
   let tablewidth = 0;
   for (let i = 0; i < colwidths.length; i++) {
@@ -60,28 +60,26 @@ function edit_table(table_id) {
   //alert('kolonok: ' + tbl.tBodies[0].rows[0].cells.length);
     
   for (let i = 0; i < ths.length; i++) {
-  //for (var i = 0; i < 4; i++) {
     ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Установка ширины колонок в соостветствии с массивом colwidths
   }
 
 
+  // Настройка строк таблицы, присваиваем уникальный id для каждой строки, устнавилваем флаг changed (строка изменена)
   let trs = document.querySelectorAll('tbody tr'); // строки всех таблиц документа
   //let trs = document.querySelectorAll('#'+table_id+' tr'); // строки таблицы
   for (let i = 0; i < trs.length; i++) {
     trs[i].id = i; // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
-    //trs[i].tabIndex = 1;
     trs[i].changed = false;
-    //trs[i].addEventListener('focusout', trFocusout);
-//    tds[i].onkeyup = tdOnkeyup;
   }
-  
+
+  // Установка обработчиков для ячеек таблицы
   let tds = document.querySelectorAll('td'); // все ячейки всех таблиц документа, однако это слишком, надо переделать для конкретной таблицы
   //let tds = document.querySelectorAll('#'+table_id+' td'); // ячейки для конкретной таблицы
   for (let i = 0; i < tds.length; i++) {
     tds[i].tabIndex = 0;
     tds[i].addEventListener('dblclick', tdDblclick);
     tds[i].addEventListener('focusout', onTdFocusout);
-    //tds[i].addEventListener('blur', onTdFocusout);
+    //tds[i].addEventListener('blur', onTdFocusout);      // вместо blur стоит focusout, потому что он всплывает (из дочернего input)
     tds[i].onkeyup = tdOnkeyup;
   }
 }
@@ -90,7 +88,7 @@ function edit_table(table_id) {
 // По двойному клику на ячейке перевожу её в режим редактирования
 //
 function tdDblclick() {
-  tdEditModeOn(this);  // Перевод в режим редактирования
+  tdSetEditMode(this);  // Перевод в режим редактирования
 };
 
 //
@@ -110,7 +108,7 @@ function tdDblclick() {
 //
 // Перевод ячейки таблицы в режим редактирования
 //
-function tdEditModeOn(td) {
+function tdSetEditMode(td) {
   let input = document.createElement('input');  // Создание элемента input
 
   // здесь будет настройка input на конкретные типы данных и так далее
@@ -127,10 +125,6 @@ function tdEditModeOn(td) {
 
   // Событие 'focusout' всплывает, в отличие от события 'blur'
   input.addEventListener('focusout', onInputFocusout);
-  // input.addEventListener('blur', function() {
-  //   td.innerHTML = this.value;
-  //   td.addEventListener('dblclick', tdDblclick);
-  // });
 
   input.onkeyup = inputOnkeyup;
   td.removeEventListener('dblclick', tdDblclick); // Убираю обработчик двойного клика на время редактирования
@@ -155,21 +149,21 @@ function onInputFocusout(e) {
 //      return;
     } else {
       log('saving ' + val);  
-      td.parentNode.changed = true;         // Признак, что строка изменена и её надо сохранить в базе данных
+      td.parentNode.changed = true;         // Признак, что строка изменена и её надо будет сохранить в базе данных при уходе с этой строки
     }
   };                   
 
   // Сохранение результатов редактирования, 
   //    это надо сделать в любом случае, так как выходим из режима редактирования ячейки 
   //    и надо вместо элемента input, который там находится в режиме редактирования, просто присвоить ячейке значение
-  //    сам input должен будет быть очищен внутренним механизмом javascript, так как на него больше не осталётся ссылок
+  //    сам input должен будет очиститься внутренним механизмом очистки памяти javascript, так как на него больше не останется ссылок
 
-  // Перенёс эти два действия на событие onTdFocusout (на ячейке таблицы), 
-  // для того, чтобы можно было идентифицировать ячейку таблицы в которой находится input
-  // а иначе input.parent в обработчике onTdFocusout был равен null и нельзя было найти к какой ячейке относился этот input 
   //td.innerHTML = this.value;  
   //td.addEventListener('dblclick', tdDblclick);
-  
+
+  // Перенёс эти два действия (выше) в событие onTdFocusout (на ячейке таблицы), 
+  // для того, чтобы можно было идентифицировать ячейку таблицы в которой находится input
+  // а иначе input.parent в обработчике onTdFocusout будет равен null и нельзя будет найти к какой ячейке относится этот input 
 }
 
 //
@@ -177,21 +171,20 @@ function onInputFocusout(e) {
 //
 function onTdFocusout(e) {
   log('---> onTdFocusout ' + e.target);
-  let td_src;
-  let td_dest;
+  let td_src;     // Ячейка таблицы с которой уходим (которая теряет фокус)
+  let td_dest;    // Куда уходим, на какой элемент, это не обязательно ячейка таблицы
 
-  if (e.target == "[object HTMLTableCellElement]") {    // просто перемещамеся между ячейками таблицы
+  if (e.target == "[object HTMLTableCellElement]") {    // ячейка таблицы потеряла фокус (ушли с ячейки таблицы)
     // log("ячейка");
     td_src = e.target;
     td_dest = e?.relatedTarget; 
-  } else if (e.target == "[object HTMLInputElement]") { // событие всплыло из элемента input
+  } else if (e.target == "[object HTMLInputElement]") { // событие всплыло из элемента input, который потерял фокус, закончили редактирование
     // log("поле ввода = " + e.target.parentNode)
-    td_src = e.target.parentNode;
-    td_src.innerHTML = e.target.value;   
-             
-    td_src.addEventListener('dblclick', tdDblclick);
-    //td_dest = null;
-    td_dest = e?.relatedTarget;
+    td_src = e.target.parentNode;                       // Запоминаем ячейку
+    td_src.innerHTML = e.target.value;                  // Запоминаем содержимое ячейки
+    td_src.addEventListener('dblclick', tdDblclick);    // Восстанавливаем обработчик 
+
+    td_dest = e?.relatedTarget;                         // Находим куда перешли с этой ячейки (если перешли)
 
   }  else {
     // Не должно досюда дойти
@@ -199,21 +192,19 @@ function onTdFocusout(e) {
     e.stopPropagation();
   }
 
-//  log("1")
-
   let s = td_src?.parentNode?.id;  // Идентификатор текущей строки таблицы (она родитель текущей ячейки)
   let t = td_dest?.parentNode?.id; // Идентификатор строки на которую ушли
-  if(!t) t = td_dest?.id;          // Если это null, то ушли не на ячейку таблицы, возможно, это input (перешли в режим редактирования)
+  if(!t) t = td_dest?.id;          // Если это null, то ушли не на ячейку таблицы, возможно фокус перешёл на input (перешли в режим редактирования)
 
 //  log(`Ушёл ${s} -> ${t}`);
 
-  if ((s != t)                // Ушёл на другую строку (идентификаторы строк не равны)
-    && (t != 'tdinput')) {    //   а не перешёл в режим редактирования 
-                              //(в этом случае фокус переноситься на input в этой же ячейке таблицы и идентификаторы так же не равны, но строка та же самая)
+  if ((s != t)                // Если ушли на другую строку (идентификаторы строк не равны)
+    && (t != 'tdinput')) {    //   а не перешли в режим редактирования 
+                              //   (в этом случае фокус переноситься на input в этой же ячейке таблицы и идентификаторы так же не равны, но строка та же самая)
     if (td_src?.parentNode?.changed) {        // если строка, с которой уходим, изменена
       log('Строка '+ s + ' изменена.');
       if (trSave(td_src.parentNode)) {        // сохраняем данные этой строки в базе данных
-        td_src.parentNode.changed = false;    // и ставим отметку, что строка не изменена
+        td_src.parentNode.changed = false;    // и ставим отметку, что строка не изменена (не требует сохранения в бд)
       } else {
         log("Ошибка сохранения строки " + s); // если не удалось сохранить данные
         td_src.focus();                       // возвращаем фокус этой строке, возможно ввели неверные данные и надо исправить
@@ -222,18 +213,10 @@ function onTdFocusout(e) {
 //    log('Другая строка '+ td_src?.parentNode?.id + ' - ' + td_src?.parentNode?.changed);
   }
   //e.stopPropagation();
-
-  //log('Ушёл со строки ' + e?.target.parentNode.sectionRowIndex);
-  //log('Ушёл со строки ' + e?.relatedTarget?.parentNode.sectionRowIndex)
-  //log('Пришел на строку ' + e.relatedTarget.sectionRowIndex)
-  // let td = input.parentNode;                    // Ячейка таблицы в которой находится элемент input
-  // td.innerHTML = input.value;                   // Сохранение результатов редактирования
-  // td.addEventListener('dblclick', tdDblclick);  // Восстановление обработчика двойного клика
-//  td.focus();                       
 }
 
 //
-// Сохранение строки в базе данных (затычка)
+// Сохранение строки в базе данных (заглушка)
 //
 function trSave(tr) {
   return tr.cells[0].innerHTML != '11'; // успешно ли прошло сохранение
@@ -261,10 +244,7 @@ function inputOnkeyup(e) {
     case "Esc":
       this.value = td_old_value;
       this.parentNode.focus();
-      //                ed.value = v;
-      //                erro('Escape');
       break;
-
     default:
     // erro(f.keyCode);
   }
@@ -280,8 +260,7 @@ function inputOnkeyup(e) {
 function tdOnkeyup(e) {
   switch (e.key) {
     case "Enter":
-      tdEditModeOn(this); 
-
+      tdSetEditMode(this); 
       break;
     case "Up": // IE/Edge specific value
     case "ArrowUp":
@@ -302,8 +281,6 @@ function tdOnkeyup(e) {
     default:
     // erro(e.key);
   }
-
-//  td.addEventListener('dblclick', tdDblclick);
 };
 
 
@@ -319,7 +296,6 @@ function prevRow(td) {
   //td.innerHTML = row_num + " - " + cell_num;
 
   return td.parentNode.parentNode.rows[row_num].cells[cell_num];
-
 }
 
 //
@@ -373,9 +349,7 @@ function log(message) {
 
 
 // function focus1() {
-  
 //   let tbl = document.getElementById(table_id);
-  
 //   tbl.tBodies[0].rows[0].cells[1].focus();
 // }
 
