@@ -36,6 +36,7 @@ async function myFetch2(url, params) {
 
 
 let td_old_value = ''; // Первоначальное значение ячейки таблицы на случай отмены редактирования
+let td_current = 0;
 
 //
 // Настройка ширины колонок, установка обработчиков для ячеек таблицы
@@ -79,6 +80,7 @@ function edit_table(table_id) {
     tds[i].tabIndex = 0;
     tds[i].addEventListener('dblclick', tdDblclick);
     tds[i].addEventListener('focusout', onTdFocusout);
+    tds[i].addEventListener('focus', onTdFocus);
     //tds[i].addEventListener('blur', onTdFocusout);      // вместо blur стоит focusout, потому что он всплывает (из дочернего input)
     tds[i].onkeyup = tdOnkeyup;
   }
@@ -165,6 +167,12 @@ function onInputFocusout(e) {
   // для того, чтобы можно было идентифицировать ячейку таблицы в которой находится input
   // а иначе input.parent в обработчике onTdFocusout будет равен null и нельзя будет найти к какой ячейке относится этот input 
 }
+
+function onTdFocus(e) {
+  //log('---> onTdFocus ' + e.target.parentNode?.id);
+  //log('---> onTdFocus ' + this.parentNode?.id);
+  td_current = this;
+}  
 
 //
 // При уходе с текущей ячейки таблицы
@@ -333,6 +341,15 @@ function rightCell(td) {
 
   return row.cells[cell_num];
 }
+
+
+function insert_row() {
+  log('---> insert_row before ' + td_current.parentNode?.id);
+  log('tbody =  ' + td_current.parentNode?.parentNode);
+  log('table.id =  ' + td_current.parentNode?.parentNode?.parentNode?.id);
+
+}
+
 
 
 //
