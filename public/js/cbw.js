@@ -36,7 +36,8 @@ async function myFetch2(url, params) {
 
 
 let td_old_value = ''; // Первоначальное значение ячейки таблицы на случай отмены редактирования
-let td_current = 0;
+let td_current = null;
+let row_count = 0;
 
 //
 // Настройка ширины колонок, установка обработчиков для ячеек таблицы
@@ -69,21 +70,45 @@ function edit_table(table_id) {
   let trs = document.querySelectorAll('tbody tr'); // строки всех таблиц документа
   //let trs = document.querySelectorAll('#'+table_id+' tr'); // строки таблицы
   for (let i = 0; i < trs.length; i++) {
-    trs[i].id = i; // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
-    trs[i].changed = false;
+
+    customize_table_row (trs[i]);
+
+    // trs[i].id = i; // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
+    // trs[i].changed = false;
   }
 
   // Установка обработчиков для ячеек таблицы
   let tds = document.querySelectorAll('td'); // все ячейки всех таблиц документа, однако это слишком, надо переделать для конкретной таблицы
   //let tds = document.querySelectorAll('#'+table_id+' td'); // ячейки для конкретной таблицы
   for (let i = 0; i < tds.length; i++) {
-    tds[i].tabIndex = 0;
-    tds[i].addEventListener('dblclick', tdDblclick);
-    tds[i].addEventListener('focusout', onTdFocusout);
-    tds[i].addEventListener('focus', onTdFocus);
-    //tds[i].addEventListener('blur', onTdFocusout);      // вместо blur стоит focusout, потому что он всплывает (из дочернего input)
-    tds[i].onkeyup = tdOnkeyup;
+    customize_table_cell(tds[i]);
+    
+    // tds[i].tabIndex = 0;
+    // tds[i].addEventListener('dblclick', tdDblclick);
+    // tds[i].addEventListener('focusout', onTdFocusout);
+    // tds[i].addEventListener('focus', onTdFocus);
+    // //tds[i].addEventListener('blur', onTdFocusout);      // вместо blur стоит focusout, потому что он всплывает (из дочернего input)
+    // tds[i].onkeyup = tdOnkeyup;
   }
+  tds[0].focus();
+}
+
+function get_row_id() {
+  return row_count++;
+}
+
+function customize_table_row (r) {
+  r.id = get_row_id(); // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
+  r.changed = false;
+}
+
+function customize_table_cell (c) {
+  c.tabIndex = 0;
+  c.addEventListener('dblclick', tdDblclick);
+  c.addEventListener('focusout', onTdFocusout);
+  c.addEventListener('focus', onTdFocus);
+  //tds[i].addEventListener('blur', onTdFocusout);      // вместо blur стоит focusout, потому что он всплывает (из дочернего input)
+  c.onkeyup = tdOnkeyup;
 }
 
 //
@@ -168,10 +193,15 @@ function onInputFocusout(e) {
   // а иначе input.parent в обработчике onTdFocusout будет равен null и нельзя будет найти к какой ячейке относится этот input 
 }
 
+//
+// При получении фокуса ячейкой таблицы
+//
 function onTdFocus(e) {
   //log('---> onTdFocus ' + e.target.parentNode?.id);
-  //log('---> onTdFocus ' + this.parentNode?.id);
+  //log('---> onTdFocus ' + this.parentNode?.id);       // e.target и this - одно и то же
   td_current = this;
+  current_table = td_current.parentNode.parentNode.parentNode;
+                       // ячейка.строка.секция.таблица
 }  
 
 //
@@ -242,11 +272,11 @@ function inputOnkeyup(e) {
       break;
     case "Up": // IE/Edge specific value
     case "ArrowUp":
-      //prevRow(this.parentNode).focus();
+      //prevRowCell(this.parentNode).focus();
       break;
     case "Down": // IE/Edge specific value
     case "ArrowDown":
-      //nextRow(this.parentNode).focus();
+      //nextRowCell(this.parentNode).focus();
       break;
     case "Escape":
     case "Esc":
@@ -272,11 +302,11 @@ function tdOnkeyup(e) {
       break;
     case "Up": // IE/Edge specific value
     case "ArrowUp":
-      prevRow(this).focus();
+      prevRowCell(this).focus();
       break;
     case "Down": // IE/Edge specific value
     case "ArrowDown":
-      nextRow(this).focus();
+      nextRowCell(this).focus();
       break;
     case "Left":
     case "ArrowLeft": 
@@ -295,7 +325,7 @@ function tdOnkeyup(e) {
 //
 // Возвращает ячейку таблицы на предыдущей строке
 //
-function prevRow(td) {
+function prevRowCell(td) {
   let row_num = td.parentNode.sectionRowIndex;
   let cell_num = td.cellIndex;
 
@@ -309,11 +339,11 @@ function prevRow(td) {
 //
 // Возвращает ячейку таблицы на следующей строке
 //
-function nextRow(td) {
+function nextRowCell(td) {
   let row_num = td.parentNode.sectionRowIndex;
   let cell_num = td.cellIndex;
 
-  if (row_num <= (td.parentNode.parentNode.rows.length - 1)) row_num++;
+  if (row_num <= (td.parentNode.parentNode.rows.length - 2)) row_num++;
 
   return td.parentNode.parentNode.rows[row_num].cells[cell_num];
 }
@@ -343,11 +373,99 @@ function rightCell(td) {
 }
 
 
-function insert_row() {
-  log('---> insert_row before ' + td_current.parentNode?.id);
-  log('tbody =  ' + td_current.parentNode?.parentNode);
-  log('table.id =  ' + td_current.parentNode?.parentNode?.parentNode?.id);
+//
+// Добавить пустую строку в конец таблицы
+//
+function append_row() {
+  let td;
+  let td_num;
+  let t = current_table;
+  let row = document.createElement('tr');
 
+  if (current_table?.rows?.length > 0) {          //Если в таблице есть строки, то делаю пустые поля, такое же количество
+    td_num = current_table?.rows[0]?.cells?.length
+  }
+  else {
+    td_num = 1;                                   // Если таблица пуста, то делаю строку с одним полем
+  }
+
+  for(let i=0; i<td_num; i++) {
+    td = document.createElement('td');            // Создаю поля для добавляемой строки таблицы
+    td.innerHTML = i;                             // Теоретически здесь надо значения в зависимости от типа - нули или пустые строки
+    row.append(td);
+    customize_table_cell(td);
+  }
+
+  customize_table_row(row);
+  row.cells[0].innerHTML = row.id; // Присваиваю первому полю ид строки, для отладки и просто так, в реале тут будет ноль чтобы СУБД присвоила очередной реальный ид            
+ 
+  current_table.tBodies[0].append(row);
+  row.cells[0].focus();
+
+// node.append(...nodes or strings) – вставляет в node в конец,
+}
+
+//
+// Вставка строки в таблицу перед текущей строкой
+//
+function insert_row() {
+  log('insert_row');
+
+  if (!td_current) {            // Если текущее поле таблицы null, то значит таблица пуста и поэтому добавляю пустую строку
+    return append_row();
+  }
+
+  //let td_no = td_current.cellIndex;
+  let current_row = td_current.parentNode;
+  let inserted_row = current_row.cloneNode(true); // делаем копию текущей строки
+
+  customize_table_row(inserted_row);              // настройка строки, присваивание обработчиков и т.д.
+
+  for(let i = 0; i < inserted_row.cells.length; i++) {
+    customize_table_cell(inserted_row.cells[i]);  // настройка полей строки, присваивание обработчиков и т.д.
+  }
+
+  // Отдельной функцией настройки строки для конкретной таблицы, 
+  //    для каждой таблицы своя функция, в которой делается инициализация ключевых полей и так далее
+  // А так же вставка строки в соответствующую таблицу БД
+  // try
+    inserted_row.cells[0].innerHTML = inserted_row.id; 
+  // catch
+
+  current_row.before(inserted_row);               // вставка подготовленной строки в таблицу html
+  td_current.focus();
+  // elem.cloneNode(deep) – клонирует элемент, если deep==true, то со всеми дочерними элементами.
+  // node.before(...nodes or strings) – вставляет прямо перед node,
+}
+
+//
+// Удаление текущей строки
+//
+function delete_row() {
+  log('delete_row');
+  let current_row = td_current.parentNode;
+  let next_row_cell = nextRowCell(td_current);
+ 
+  // Пытаюсь установить фокус на следующую строку после удаления текущей
+  if (next_row_cell == td_current) {              // если последняя строка
+    next_row_cell = prevRowCell(td_current);      //   пытаюсь встать (установить фокус) на предыдущую строку
+    if (next_row_cell == td_current) {            // если первая и последняя строка
+      td_current = null; 
+      next_row_cell = null;                       // обнуляю адрес текущей ячейки, строк в таблице не осталось
+    } 
+  }
+
+  // Отдельной функцией 
+  //    для каждой таблицы своя функция
+  // Удаление строки из соответствующей таблицы БД
+  // try
+  //  ...
+  // catch
+  log('удаление ');
+  current_row.remove();               // удаление строки из таблицы html
+  next_row_cell?.focus();
+
+  // node.remove() – удаляет node.
 }
 
 
@@ -397,6 +515,42 @@ function log(message) {
 
 
 
+
+// Методы для создания узлов:
+
+// document.createElement(tag) – создаёт элемент с заданным тегом,
+// document.createTextNode(value) – создаёт текстовый узел (редко используется),
+// elem.cloneNode(deep) – клонирует элемент, если deep==true, то со всеми дочерними элементами.
+
+// Вставка и удаление:
+
+// node.append(...nodes or strings) – вставляет в node в конец,
+// node.prepend(...nodes or strings) – вставляет в node в начало,
+// node.before(...nodes or strings) – вставляет прямо перед node,
+// node.after(...nodes or strings) – вставляет сразу после node,
+// node.replaceWith(...nodes or strings) – заменяет node.
+// node.remove() – удаляет node.
+
+// Устаревшие методы:
+
+// parent.appendChild(node)
+// parent.insertBefore(node, nextSibling)
+// parent.removeChild(node)
+// parent.replaceChild(newElem, node)
+// Все эти методы возвращают node.
+
+// Если нужно вставить фрагмент HTML, то elem.insertAdjacentHTML(where, html) вставляет в зависимости от where:
+
+// "beforebegin" – вставляет html прямо перед elem,
+// "afterbegin" – вставляет html в elem в начало,
+// "beforeend" – вставляет html в elem в конец,
+// "afterend" – вставляет html сразу после elem.
+// Также существуют похожие методы elem.insertAdjacentText и elem.insertAdjacentElement, они вставляют текстовые строки и элементы, но они редко используются.
+
+// Чтобы добавить HTML на страницу до завершения её загрузки:
+
+// document.write(html)
+// После загрузки страницы такой вызов затирает документ. В основном встречается в старых скриптах.
 
 
 
