@@ -3,6 +3,9 @@
 
 //
 // Fetch на клиенте (frontend)
+
+//import { create } from "hbs";
+
 //
 async function myFetch2(url, params) {
 
@@ -446,6 +449,19 @@ function delete_row() {
   let current_row = td_current.parentNode;
   let next_row_cell = nextRowCell(td_current);
  
+  // Отдельной функцией 
+  //    для каждой таблицы своя функция
+  // Удаление строки из соответствующей таблицы БД
+  //before_delete(current_row);
+
+  try {
+    before_delete(current_row);
+  }
+  catch (e) {
+    alert (e.message);
+    return;
+  }
+
   // Пытаюсь установить фокус на следующую строку после удаления текущей
   if (next_row_cell == td_current) {              // если последняя строка
     next_row_cell = prevRowCell(td_current);      //   пытаюсь встать (установить фокус) на предыдущую строку
@@ -455,12 +471,6 @@ function delete_row() {
     } 
   }
 
-  // Отдельной функцией 
-  //    для каждой таблицы своя функция
-  // Удаление строки из соответствующей таблицы БД
-  // try
-  //  ...
-  // catch
   log('удаление ');
   current_row.remove();               // удаление строки из таблицы html
   next_row_cell?.focus();
@@ -468,7 +478,9 @@ function delete_row() {
   // node.remove() – удаляет node.
 }
 
-
+function before_delete(current_row) {
+  throw new Error("Can not delete!");
+}
 
 //
 // лог для отладочных сообщений
