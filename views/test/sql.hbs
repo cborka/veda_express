@@ -1,0 +1,53 @@
+<div class="form_background">
+
+<br><h1>SQL-запрос</h1>
+<br>
+<br>
+
+</div>
+
+<div id="result" class="info"></div>
+
+<span class="info" id="info"></span>&nbsp;
+<span class="error" id="error"></span>
+
+
+  <div>
+    <textarea id="logrrr">
+    </textarea>
+  </div>
+
+
+<script>
+
+
+// Проверка входных данных
+async function query(sql) {
+    myFetch2('/query', {sql: 'SELECT id, fio FROM phones ORDER BY id' })
+    .then((x) => {
+        {{!-- if (x == 1) {
+            show_error('');
+            show_info(x);
+        } else {
+            show_info('');
+            show_error('Ошибка.');
+        } --}}
+
+       document.getElementById('result').innerHTML = x;
+       edit_table('table1');
+       //show_info(x);
+    })
+//    .catch((x) => {});
+    .catch(show_error);
+}
+
+
+
+
+
+show_info('Выполнение запроса');
+query('SELECT id, fio FROM phones ORDER BY id');
+//.then (() => {edit_table('table1')})
+edit_table('table1');
+
+</script>

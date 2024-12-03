@@ -96,12 +96,12 @@ function edit_table(table_id) {
   tds[0].focus();
 }
 
-function get_row_id() {
+function create_row_id() {
   return row_count++;
 }
 
 function customize_table_row (r) {
-  r.id = get_row_id(); // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
+  r.id = create_row_id(); // надо чтобы не совпадало у разных таблиц документа для этого можно сделать отдельный цикл по ВСЕМ строкам таблиц документа
   r.changed = false;
 }
 
@@ -315,9 +315,17 @@ function tdOnkeyup(e) {
     case "ArrowLeft": 
       leftCell(this).focus();
       break;
-    case "Right":
+    case "Right": 
     case "ArrowRight": 
       rightCell(this).focus();
+      break;
+    case "Insert": 
+      // спросить подтверждение
+      //insert_row();
+      break;
+    case "Delete": 
+      // спросить подтверждение
+      //delete_row();
       break;
     default:
     // erro(e.key);
@@ -347,6 +355,7 @@ function nextRowCell(td) {
   let cell_num = td.cellIndex;
 
   if (row_num <= (td.parentNode.parentNode.rows.length - 2)) row_num++;
+  if (row_num == (td.parentNode.parentNode.rows.length - 1)) append_row();
 
   return td.parentNode.parentNode.rows[row_num].cells[cell_num];
 }
@@ -382,8 +391,7 @@ function rightCell(td) {
 function append_row() {
   let td;
   let td_num;
-  let t = current_table;
-  let row = document.createElement('tr');
+  let inserted_row = document.createElement('tr');
 
   if (current_table?.rows?.length > 0) {          //Если в таблице есть строки, то делаю пустые поля, такое же количество
     td_num = current_table?.rows[0]?.cells?.length
@@ -395,15 +403,23 @@ function append_row() {
   for(let i=0; i<td_num; i++) {
     td = document.createElement('td');            // Создаю поля для добавляемой строки таблицы
     td.innerHTML = i;                             // Теоретически здесь надо значения в зависимости от типа - нули или пустые строки
-    row.append(td);
+    inserted_row.append(td);
     customize_table_cell(td);
   }
 
-  customize_table_row(row);
-  row.cells[0].innerHTML = row.id; // Присваиваю первому полю ид строки, для отладки и просто так, в реале тут будет ноль чтобы СУБД присвоила очередной реальный ид            
+  customize_table_row(inserted_row);
+
+  try {
+    before_insert(inserted_row);
+  }
+  catch (e) {
+    alert (e.message);
+    return;
+  }  
+  //row.cells[0].innerHTML = row.id; // Присваиваю первому полю ид строки, для отладки и просто так, в реале тут будет ноль чтобы СУБД присвоила очередной реальный ид            
  
-  current_table.tBodies[0].append(row);
-  row.cells[0].focus();
+  current_table.tBodies[0].append(inserted_row);
+  inserted_row.cells[0].focus();
 
 // node.append(...nodes or strings) – вставляет в node в конец,
 }
@@ -432,7 +448,14 @@ function insert_row() {
   //    для каждой таблицы своя функция, в которой делается инициализация ключевых полей и так далее
   // А так же вставка строки в соответствующую таблицу БД
   // try
-    inserted_row.cells[0].innerHTML = inserted_row.id; 
+    try {
+      before_insert(inserted_row);
+    }
+    catch (e) {
+      alert (e.message);
+      return;
+    }
+  
   // catch
 
   current_row.before(inserted_row);               // вставка подготовленной строки в таблицу html
@@ -479,7 +502,13 @@ function delete_row() {
 }
 
 function before_delete(current_row) {
-  throw new Error("Can not delete!");
+  //throw new Error("Can not delete!");
+}
+
+function before_insert(inserted_row) {
+  // Присваиваю первому полю ид строки, для отладки и просто так, в реале тут будет ноль чтобы СУБД присвоила очередной реальный ид            
+  inserted_row.cells[0].innerHTML = inserted_row.id; 
+  //throw new Error("Can not insert!");
 }
 
 //
@@ -488,7 +517,8 @@ function before_delete(current_row) {
 function log(message) {
   let l = document.getElementById('log');
   //l.innerHTML = message +  '<br>\n' + l.innerHTML ;
-  l.innerHTML = message +  '\n' + l.innerHTML ;
+  if (l)
+    l.innerHTML = message +  '\n' + l.innerHTML ;
   //l.innerHTML += ('\n' + message);
   //document.getElementById('log').innerHTML += (message + '<br>');
 }
