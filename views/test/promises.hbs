@@ -9,6 +9,10 @@
 
 </div>
 
+<div>
+  <textarea id="log">
+  </textarea>
+</div>
 
 <script>
 
@@ -22,7 +26,7 @@ function  get_promise () {
 }
 
 function async3() {
- async2().then(x => {alert(x*100)});
+ async2().then(x => {log(x*101)});
 }  
 
 function  async2() {
@@ -32,9 +36,9 @@ function  async2() {
   //x.then(alert);
   //alert('x = ' + x);
   let x = get_promise();
-  x.then(x=>x*2).then(x=>x*2).then(alert);
-  x.then(x=>x*3).then(alert);
-  x.then(alert);
+  x.then(x=>x*2).then(x=>x*2).then(log);
+  x.then(x=>x*3).then(x=>x*3).then(log);
+  x.then(log);
 
   //alert('x = ' + await x);
   return x;
@@ -45,9 +49,10 @@ function  async2() {
 //alert('Boolean({}) = ' + Boolean({})); // true
 //alert('Boolean({x: 0}?.y) = ' + Boolean({x: 0}?.y)); // false
 //alert('Boolean(undefined?.y) = ' + Boolean(undefined?.y)); // false
-( x => alert('Boolean(Отсутствующий параметр) = ' + Boolean(x) ) )();
+{{!-- ( x => alert('Boolean(Отсутствующий параметр) = ' + Boolean(x) ) )();
+
 let f = x => alert('Boolean(Отсутствующий параметр) = ' + Boolean(x) );
-f();
+f(); --}}
 
 //setTimeout(async2, 10);
 

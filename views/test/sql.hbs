@@ -1,6 +1,6 @@
 <div class="form_background">
 
-<br><h1>SQL-запрос</h1>
+<br><h2>SQL-запрос</h2>
 <br>
 <br>
 
@@ -13,7 +13,7 @@
 
 
   <div>
-    <textarea id="logrrr">
+    <textarea id="log">
     </textarea>
   </div>
 
@@ -23,20 +23,16 @@
 
 // Проверка входных данных
 async function query(sql) {
-    myFetch2('/query', {sql: 'SELECT id, fio FROM phones ORDER BY id' })
+    myFetch2('/query', {sql})
     .then((x) => {
-        {{!-- if (x == 1) {
-            show_error('');
-            show_info(x);
-        } else {
-            show_info('');
-            show_error('Ошибка.');
-        } --}}
-
        document.getElementById('result').innerHTML = x;
-       edit_table('table1');
+       //edit_table('table1');
+       return('table1');
        //show_info(x);
     })
+    .then (edit_table)    
+    //.then (alert)    
+    //.then (edit_table('table1'))    
 //    .catch((x) => {});
     .catch(show_error);
 }
@@ -46,8 +42,9 @@ async function query(sql) {
 
 
 show_info('Выполнение запроса');
-query('SELECT id, fio FROM phones ORDER BY id');
-//.then (() => {edit_table('table1')})
-edit_table('table1');
+query('SELECT id, tel, fio, sd FROM phones ORDER BY id');
+//.then (alert('table1'))
+//.then (edit_table('table1'))
+//edit_table('table1');
 
 </script>

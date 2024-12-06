@@ -14,7 +14,9 @@ const index = function(req, res) {
 }
 router.get('/',  index);
 
-
+//
+//  test/sql.hbs
+//
 const sql = function(req, res) {
   res.render('test/sql', {title: "Query"});
   log2('/', res.statusCode );
@@ -23,11 +25,11 @@ router.get('/sql',  sql);
 
 
 
+//
+// Получает sql-запрос, отправляет html-таблицу
+//
 router.post('/query', async function(req, res) {
   let sql = req.body.sql;
-
-  //res.send(sql);
-  //res.send('1');
 
   // try {
   //   const result = await db.query('SELECT count(*) AS cnt FROM users WHERE login = $1', [login]);
@@ -43,15 +45,7 @@ router.post('/query', async function(req, res) {
   .then (result => res.send(objs2table(result.rows)))
   .catch (err => res.send('Error: ' + err.message));
  
-  // console.log(result?.rows[0]);
-  // console.log(result?.rows[0].cnt);
-
 });
-
-// // Вернуть пользователя
-// router.get('/user/get_user', async function(req, res) {
-//   res.json(req.session.user);
-// });
 
 
 //

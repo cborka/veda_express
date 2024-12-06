@@ -46,7 +46,9 @@ let row_count = 0;
 // Настройка ширины колонок, установка обработчиков для ячеек таблицы
 //
 function edit_table(table_id) {
+  log('edit_table('+table_id+')');
   let tbl = document.getElementById(table_id);
+  log('tbl='+tbl);
 
   // Настройка ширины колонок
   let colwidths = [10, 15, 50, 50, 15, 20]; // Будет браться из базы данных
