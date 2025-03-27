@@ -292,7 +292,8 @@ function inputOnkeyup(e) {
     // erro(f.keyCode);
   }
   e.stopPropagation();  
-  td.addEventListener('dblclick', tdDblclick);
+  
+  td.addEventListener('dblclick', tdDblclick); // что это???????????? может надо убрать?????
   
   //input.focus();
 };

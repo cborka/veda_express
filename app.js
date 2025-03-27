@@ -1,3 +1,13 @@
+
+// const TOKEN = process.env.TELEGRAM_TOKEN || 'TELEGRAM_TOKEN';
+// const url = process.env.URL || 'URL';
+
+//const TelegramBot = require('node-telegram-bot-api');
+// import TelegramBot from 'node-telegram-bot-api';
+
+// // No need to pass any parameters as we will handle the updates with Express
+// export const bot = new TelegramBot(TOKEN, { webHook: true });
+
 import express, { request } from 'express';
 export const app = express();
 
@@ -17,6 +27,7 @@ import 'dotenv/config';
 
 import logger from 'morgan';
 import {log1, log2} from './lib/logger.js';
+//import {bot} from './lib/bot.js';
 
 import hbs from 'hbs';
 // import fs from 'fs';
@@ -42,7 +53,7 @@ app.use(session({
     maxAge: 3*60*1000 // 3 минуты
     //maxAge: 24*60*60*1000 // cутки 
   }
-}));
+})); 
 //SELECT sid, (sess::json->>'cookie')::json->>'expires', sess FROM public.session ORDER BY 2 ASC 
 
  
@@ -70,6 +81,7 @@ app.use(express.static('public'));
 import {router as indexRouter} from './routes/index.js'; 
 import {router as userRouter} from './routes/user.js'; 
 import {router as testRouter} from './routes/test.js'; 
+import {router as botRouter} from './routes/bot.js'; 
 
 // view engine setup
 app.set('views', 'views');
@@ -87,6 +99,25 @@ app.use(cors());
 app.use(indexRouter);
 app.use(userRouter);
 app.use(testRouter);
+app.use(botRouter);
+
+//app.use(bot);
+
+// We are receiving updates at the route below!
+// console.log('try bot' + TOKEN);
+// app.post(`/bot${TOKEN}`, (req, res) => {
+//   bot.processUpdate(req.body);
+
+//   res.sendStatus(200);
+// });
+
+// Just to ping!
+// bot.on('message', msg => {
+// //  bot.sendMessage(msg.chat.id, 'I am alive!');
+//   const chatId = msg.chat.id;
+//   bot.sendMessage(chatId, `Вы написали мне: ${msg.text}`);
+
+// });
 
 // Обработка ошибок
 app.use(function(err, req, res, next) {
@@ -96,6 +127,7 @@ app.use(function(err, req, res, next) {
 //  res.status(500).send('Что-то сломалось! status(500)');
   log2('ERR', res.statusCode);
 });
+
 
 // Страница не найдена
 app.use(function(req, res, next) {
