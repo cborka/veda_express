@@ -101,13 +101,10 @@ app.use(userRouter);
 app.use(testRouter);
 app.use(botRouter);
 
-//app.use(bot);
-
 // We are receiving updates at the route below!
 // console.log('try bot' + TOKEN);
 // app.post(`/bot${TOKEN}`, (req, res) => {
 //   bot.processUpdate(req.body);
-
 //   res.sendStatus(200);
 // });
 
