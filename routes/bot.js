@@ -75,53 +75,75 @@ bot.onText(/\/keys/, (msg) => {
 });
 
 
+//
+// Запрос к базе данных
+//
+async function otvet(str) {
+  //console.log(str);
 
-  //
-  // Запрос к базе данных
-  //
-  async function otvet(str) {
-    //console.log(str);
-
-    let sql = `
-      SELECT fio FROM public.phones 
-        WHERE id = $1`;
+  let sql = `
+    SELECT fio FROM public.phones 
+      WHERE id = $1`;
 
 //    let result = 'Нет такого номера'    
 
-     try {
-      let result = await db.query(sql, [str]);
-      return result?.rows[0].fio || 'хбз';
-     } catch (error) {
-      return 'Нет такого номера.';
-     }
-    
+  try {
+    let result = await db.query(sql, [str]);
+    return result?.rows[0].fio || 'хбз';
+  } catch (error) {
+    return 'Нет такого номера.';
   }
-
-  //
-  // Периодическое выполнение запроса
-  //
-  bot.onText(/\/on/, (msg) => {
-    console.log('//auto_on()');
-    auto_on(msg.chat.id);
-  });
-
-  bot.onText(/\/off/, (msg) => {
-    console.log('//auto_off()');
-    auto_off(msg.chat.id);
-  });
   
-  function auto_off(chat_id) {
-    clearInterval(timerId);
-    bot.sendMessage(chat_id, 'Отсчет закончен');
-  }
+}
 
-  function auto_on(chat_id) {
-    bot.sendMessage(chat_id, 'Начинаю отсчет');
-    timerId = setInterval(send2, 5000, chat_id);
-  }
+//
+// Периодическое выполнение запроса
+//
+bot.onText(/\/on/, (msg) => {
+  console.log('//auto_on()');
+  auto_on(msg.chat.id);
+});
 
-  function send2(chat_id) {
-    bot.sendMessage(chat_id, Num++);
-  }
+bot.onText(/\/off/, (msg) => {
+  console.log('//auto_off()');
+  auto_off(msg.chat.id);
+});
 
+function auto_off(chat_id) {
+  clearInterval(timerId);
+  bot.sendMessage(chat_id, 'Отсчет закончен');
+}
+
+function auto_on(chat_id) {
+  bot.sendMessage(chat_id, 'Начинаю отсчет от 0 до 5');
+  timerId = setInterval(send2, 1500, chat_id);
+}
+
+function send2(chat_id) {
+  bot.sendMessage(chat_id, Num++);
+  if (Num > 5) {
+    Num = 0;
+    auto_off(chat_id);
+  }
+}
+
+
+
+//=======================================================================================
+
+// Сообщения бота
+router.get("/bot/messages", (req, res) => {
+  res.render('bot/messages')
+
+  //console.log(req.body);
+
+  //res.sendStatus(200);
+});
+router.post("/bot/messages", (req, res) => {
+  //res.render('bot/messages')
+
+  console.log(req.body);
+
+  //res.sendStatus(200);
+});
   

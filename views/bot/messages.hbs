@@ -1,0 +1,69 @@
+Здесь сообещения бота
+
+<div class="form_background">
+<br>
+<br>
+<br>
+<form name="botmessages" action="/bot/messages" method="POST" class="form">
+<fieldset>
+    <legend>&nbsp; Сообщение &nbsp;</legend>
+    <br>
+    <div>
+        <label>id</label>
+        <input id="message_id" type="number" value="0" readonly >
+    </div>
+    <div>
+        <label>Сообщение</label>
+        <textarea class="w100" name="message" rows="20"> </textarea>
+        {{!-- <input id="message" type="text" name="message" placeholder="message" value="" maxlength="63" > --}}
+    </div>
+    <div>
+        <label></label>
+        <input type="submit" id="submit" value="Записать" >
+
+        {{!-- <input type="button" id="enter" formtarget="_self" value="Вход" onclick="check_login()">
+        <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm"> --}}
+        
+        {{!-- <a href="/user/register" type="button">Регистрация</a>  --}}
+        {{!-- <input type="button" value="Назад" onclick="back()"> --}}
+    </div>
+    <div>
+        <span class="info" id="info"></span>&nbsp;
+        <span class="error" id="error"></span>
+    </div>
+</fieldset>
+</form>
+</div>
+
+{{!-- Пустая форма для имитации ссылки как кнопки --}}
+<form id="hrefForm" method="GET"></form>
+
+{{!-- Можно и так имитировать --}}
+{{!-- <button onclick="window.location.href='/user/register';">На вертолёт!</button> --}}
+
+<script>
+
+
+// Проверка входных данных
+{{!-- async function check_login() {
+    myFetch2('/user/login', {login: userlogin.login.value.trim(), password: userlogin.password.value })
+    .then((x) => {
+        if (x == 1) {
+            show_error('');
+            show_info(x);
+            window.location.href = '/';
+        } else {
+            show_info('');
+            show_error('Неверные имя или пароль.');
+        }
+
+
+        //show_info(x);
+    })
+//    .catch((x) => {});
+    .catch(show_error);
+}
+ --}}
+
+
+</script>
