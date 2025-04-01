@@ -9,12 +9,17 @@
     <legend>&nbsp; Сообщение &nbsp;</legend>
     <br>
     <div>
+        <label>Открыть</label>
+        <input id="message_id2" type="number" name="id2" value="{{id}}" readonly >
+        ...<input type="button" value="Прочитать" onclick="read_message()">
+    </div>
+    <div>
         <label>id</label>
-        <input id="message_id" type="number" value="0" readonly >
+        <input id="message_id" type="number" name="id" value="{{id}}" readonly >
     </div>
     <div>
         <label>Сообщение</label>
-        <textarea class="w100" name="message" rows="20"> </textarea>
+        <textarea class="" name="message" rows="10"> </textarea>
         {{!-- <input id="message" type="text" name="message" placeholder="message" value="" maxlength="63" > --}}
     </div>
     <div>
@@ -45,16 +50,16 @@
 
 
 // Проверка входных данных
-{{!-- async function check_login() {
-    myFetch2('/user/login', {login: userlogin.login.value.trim(), password: userlogin.password.value })
+async function read_message() {
+    myFetch2('/bot/read_message', {id: botmessages.id.value.trim()})
     .then((x) => {
         if (x == 1) {
             show_error('');
             show_info(x);
-            window.location.href = '/';
+            window.location.href = '/bot/messages';
         } else {
             show_info('');
-            show_error('Неверные имя или пароль.');
+            show_error('Ошибка: ' + x);
         }
 
 
@@ -63,7 +68,7 @@
 //    .catch((x) => {});
     .catch(show_error);
 }
- --}}
+
 
 
 </script>

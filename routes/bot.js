@@ -133,7 +133,7 @@ function send2(chat_id) {
 
 // Сообщения бота
 router.get("/bot/messages", (req, res) => {
-  res.render('bot/messages')
+  res.render('bot/messages', {id: 3})
 
   //console.log(req.body);
 
@@ -141,9 +141,23 @@ router.get("/bot/messages", (req, res) => {
 });
 router.post("/bot/messages", (req, res) => {
   //res.render('bot/messages')
+  res.render('bot/messages', {id: ++req.body.id});
 
   console.log(req.body);
 
   //res.sendStatus(200);
+});
+  
+router.post("/bot/read_message", (req, res) => {
+  //res.render('bot/messages')
+  res.render('bot/messages', {id: ++req.body.id});
+
+  
+});
+// 
+router.post('/bot/read_message', async function(req, res) {
+  db.query('SELECT message FROM users WHERE email = $1', [req.body.email])
+  .then (result => res.send(result?.rows[0].cnt))
+  .catch (err => res.send('Error: ' + err.message));
 });
   

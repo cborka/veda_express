@@ -609,7 +609,7 @@ legend {
   font-size:xx-large;
 }
 
-fieldset label, fieldset input {
+fieldset label, fieldset input, fieldset textarea {
   display: block;
   float: left;
   margin-bottom: 8px;
@@ -676,6 +676,13 @@ fieldset span {
   /* color: var(--red-color); */
   /* border: 1px solid magenta; */
 }
+
+fieldset textarea {
+  width: 63%;
+
+
+}
+
 
 /* fieldset div { */
   /* width: 90%; */
