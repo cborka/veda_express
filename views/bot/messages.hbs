@@ -10,12 +10,13 @@
     <br>
     <div>
         <label>Открыть</label>
-        <input id="message_id2" type="number" name="id2" value="{{id}}" readonly >
-        ...<input type="button" value="Прочитать" onclick="read_message()">
+        <input id="message_id2" type="number" name="message_id2" value="{{id}}" > 
+        <input type="button" value="Прочитать" onclick="read_message()">
+
     </div>
     <div>
         <label>id</label>
-        <input id="message_id" type="number" name="id" value="{{id}}" readonly >
+        <input id="message_id" type="number" name="message_id" value="{{id}}" readonly >
     </div>
     <div>
         <label>Сообщение</label>
@@ -25,6 +26,7 @@
     <div>
         <label></label>
         <input type="submit" id="submit" value="Записать" >
+        <input type="button" id="create" value="Создать новое сообещение" onclick="read_message()" >
 
         {{!-- <input type="button" id="enter" formtarget="_self" value="Вход" onclick="check_login()">
         <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm"> --}}
@@ -39,34 +41,39 @@
 </fieldset>
 </form>
 </div>
+        <button class="button" onclick="read_message()">Кнопка</button>
+<input class="button" type="button" value="Прочитать!!!" onclick="read_message2()">
 
 {{!-- Пустая форма для имитации ссылки как кнопки --}}
-<form id="hrefForm" method="GET"></form>
+{{!-- <form id="hrefForm" method="GET"></form> --}}
 
 {{!-- Можно и так имитировать --}}
 {{!-- <button onclick="window.location.href='/user/register';">На вертолёт!</button> --}}
 
 <script>
 
+//alert('messages2');
+
+function read_message2() {
+  {{!-- //alert('read_message()'+botmessages.message_id.value.trim()+xxx); --}}
+  botmessages.message.value = 'jfjfjfj';
+  alert('read_message');
+  {{!-- //alert('read_message()'); --}}
+}
+
 
 // Проверка входных данных
 async function read_message() {
-    myFetch2('/bot/read_message', {id: botmessages.id.value.trim()})
+  //alert(botmessages.message_id2.value.trim());
+
+    //myFetch2('/bot/read_message', {message_id: botmessages.message_id2.value.trim()})
+    myFetch2('/bot/read_message', {message_id: botmessages.message_id2.value.trim()})
     .then((x) => {
-        if (x == 1) {
-            show_error('');
-            show_info(x);
-            window.location.href = '/bot/messages';
-        } else {
-            show_info('');
-            show_error('Ошибка: ' + x);
-        }
-
-
+        botmessages.message.value = x;
         //show_info(x);
     })
 //    .catch((x) => {});
-    .catch(show_error);
+    .catch(show_error); 
 }
 
 

@@ -488,6 +488,8 @@ footer {
 
   border-right: 2px solid var(--g2-color);
   border-bottom: 2px solid var(--g2-color);
+
+  cursor: pointer;
 } 
 
 buttonx, .menu_point {
@@ -516,6 +518,7 @@ a.button {
   /* font-weight: 500; */
   border-right: 2px solid var(--g2-color);
   border-bottom: 2px solid var(--g2-color);
+  cursor: pointer;
 }
 
 /* .menu_point {
@@ -628,30 +631,36 @@ fieldset label {
 }
 /*  */
 
-/* fieldset input {
-  color: var(--g6-color);
+fieldset input {
+  margin-right: 8px;
+  /* color: var(--g6-color);
   background-color: var(--g0-color);
   
-  border: 1px solid violet;
-} */
+  border: 1px solid violet; */
+}
 
-fieldset input[type="text"] {
+fieldset input[type="text"], fieldset textarea {
   /* width: 400px; */
   width: 63%;
 }
 fieldset input[type="button"], fieldset input[type="submit"] {
   margin-right: 8px;
-  width: auto;
+  min-width: 10px;
+  width: fit-content;
+  cursor: pointer;
+  color: var(--menu-visited-color);
+
   /* color: var(--g6-color);
   background-color: var(--g0-color); */
   /* color: red;
   background-color: blue; */
 }
 
-/* fieldset input[type="button"]:hover, fieldset input[type="submit"]:hover {
-  color: var(--g0-color);
-  background-color: var(--g6-color);
-} */
+fieldset input[type="button"]:hover, fieldset input[type="submit"]:hover {
+  /* color: var(--g0-color); */
+  /* background-color: var(--g6-color); */
+  color: var(--menu-hover-color);
+}
 
 fieldset input[type="number"] {
   width: 20%;
@@ -677,11 +686,9 @@ fieldset span {
   /* border: 1px solid magenta; */
 }
 
-fieldset textarea {
+/* fieldset textarea {
   width: 63%;
-
-
-}
+} */
 
 
 /* fieldset div { */
@@ -1023,3 +1030,8 @@ div.login_buttons{
   text-align: left;
   background-color: #dbdbb2;
 }
+
+/* fieldset input[type="button"] {
+  width: fit-content;
+  color: red;
+} */

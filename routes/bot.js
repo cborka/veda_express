@@ -139,25 +139,38 @@ router.get("/bot/messages", (req, res) => {
 
   //res.sendStatus(200);
 });
-router.post("/bot/messages", (req, res) => {
-  //res.render('bot/messages')
-  res.render('bot/messages', {id: ++req.body.id});
+
+// router.post("/bot/messages", (req, res) => {
+//   //res.render('bot/messages')
+//   res.render('bot/messages', {id: ++req.body.id});
+
+//   console.log(req.body);
+
+//   //res.sendStatus(200);
+// });
+  
+// router.post("/bot/read_message", (req, res) => {
+//   //res.render('bot/messages')
+//   res.render('bot/messages', {id: ++req.body.id});
+// });
+// 
+
+router.post('/bot/read_message', async function(req, res) {
 
   console.log(req.body);
 
-  //res.sendStatus(200);
-});
-  
-router.post("/bot/read_message", (req, res) => {
-  //res.render('bot/messages')
-  res.render('bot/messages', {id: ++req.body.id});
+  //res.send('hi');
+  //console.log('==='+req.body+"jfjeff feeddefj");
 
-  
-});
-// 
-router.post('/bot/read_message', async function(req, res) {
-  db.query('SELECT message FROM users WHERE email = $1', [req.body.email])
-  .then (result => res.send(result?.rows[0].cnt))
+  db.query('SELECT message FROM bot_messages WHERE message_id = $1', [req.body.message_id])
+  .then (result => {
+    if (result?.rows[0]) {
+      res.send(result?.rows[0]?.message);
+    } else {
+      res.send("Нет сообщения с id = " + req.body.message_id);
+    }
+
+  })
   .catch (err => res.send('Error: ' + err.message));
 });
   
