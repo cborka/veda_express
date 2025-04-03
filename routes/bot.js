@@ -131,36 +131,21 @@ function send2(chat_id) {
 
 //=======================================================================================
 
-// Сообщения бота
+//
+// Показать форму сообщений бота
+//
 router.get("/bot/messages", (req, res) => {
   res.render('bot/messages', {id: 3})
-
-  //console.log(req.body);
-
   //res.sendStatus(200);
 });
 
-// router.post("/bot/messages", (req, res) => {
-//   //res.render('bot/messages')
-//   res.render('bot/messages', {id: ++req.body.id});
 
-//   console.log(req.body);
-
-//   //res.sendStatus(200);
-// });
-  
-// router.post("/bot/read_message", (req, res) => {
-//   //res.render('bot/messages')
-//   res.render('bot/messages', {id: ++req.body.id});
-// });
-// 
-
+//
+// Вернуть сообщение с указанным message_id
+//
 router.post('/bot/read_message', async function(req, res) {
 
   console.log(req.body);
-
-  //res.send('hi');
-  //console.log('==='+req.body+"jfjeff feeddefj");
 
   db.query('SELECT message FROM bot_messages WHERE message_id = $1', [req.body.message_id])
   .then (result => {
@@ -169,8 +154,45 @@ router.post('/bot/read_message', async function(req, res) {
     } else {
       res.send("Нет сообщения с id = " + req.body.message_id);
     }
-
   })
   .catch (err => res.send('Error: ' + err.message));
 });
+
+
+//====================================
+// Записать сообщение в базу данных
+//====================================
+router.post('/bot/write_message', async function(req, res) {
+
+  try {
+    if(req.body.message_id == 0) {
+    
+      let result = await db.query("SELECT nextval('bot_messages_message_id_seq')");
+      let nextid = result.rows[0]?.nextval; 
   
+      //result = 
+      await db.query('INSERT INTO bot_messages(message_id, message) VALUES ($1, $2)', [nextid, req.body.message]);
+  
+      res.send(nextid);
+
+    } else {
+      let result = await db.query('UPDATE bot_messages SET message = $2 WHERE message_id = $1', [req.body.message_id, req.body.message]);
+      res.send(req.body.message_id);
+    }
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
+
+});
+  
+
+
+router.get('/bot/test', async function(req, res) {
+  try {
+    let x1 = await db.query('SELECT message FROM bot_messages WHERE message_id = 1');
+    let x2 = await db.query('SELECT message FROM bot_messages WHERE message_id = 2');
+    res.send("x1 + x2 = " + x1.rows[0].message + x2.rows[0].message);
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
+});

@@ -4,7 +4,8 @@
 <br>
 <br>
 <br>
-<form name="botmessages" action="/bot/messages" method="POST" class="form">
+{{!-- <form name="botmessages" action="/bot/messages" method="POST" class="form" onsubmit="write_message(); return false"> --}}
+<form name="botmessages" method="POST" class="form">
 <fieldset>
     <legend>&nbsp; Сообщение &nbsp;</legend>
     <br>
@@ -25,8 +26,9 @@
     </div>
     <div>
         <label></label>
-        <input type="submit" id="submit" value="Записать" >
-        <input type="button" id="create" value="Создать новое сообещение" onclick="read_message()" >
+        <input type="button" id="submit" value="Записать" onclick="write_message()" >
+        {{!-- <input type="submit" id="submit" value="Записать" > --}}
+        <input type="button" id="create" value="Создать новое сообещение" onclick="create_message()" >
 
         {{!-- <input type="button" id="enter" formtarget="_self" value="Вход" onclick="check_login()">
         <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm"> --}}
@@ -54,26 +56,48 @@
 
 //alert('messages2');
 
-function read_message2() {
-  {{!-- //alert('read_message()'+botmessages.message_id.value.trim()+xxx); --}}
-  botmessages.message.value = 'jfjfjfj';
-  alert('read_message');
-  {{!-- //alert('read_message()'); --}}
+function create_message() {
+  botmessages.message_id2.value = 0;
+  botmessages.message_id.value = 0;
+  botmessages.message.value = '>';
 }
 
-
-// Проверка входных данных
-async function read_message() {
-  //alert(botmessages.message_id2.value.trim());
-
-    //myFetch2('/bot/read_message', {message_id: botmessages.message_id2.value.trim()})
+// Прочитать сообщение
+function read_message() {
     myFetch2('/bot/read_message', {message_id: botmessages.message_id2.value.trim()})
     .then((x) => {
-        botmessages.message.value = x;
-        //show_info(x);
+      botmessages.message_id.value = botmessages.message_id2.value.trim();
+      botmessages.message.value = x;
     })
 //    .catch((x) => {});
     .catch(show_error); 
+
+    return false; // Предотвращает отправку формы на сервер
+}
+
+
+// Записать сообщение
+async function write_message() {
+    myFetch2('/bot/write_message', {
+        message_id: botmessages.message_id.value.trim(),
+        message: botmessages.message.value.trim()
+      })
+    .then((x) => {
+        if (x > 0) {
+            show_error('');
+            show_info(x);
+            botmessages.message_id.value = x;
+            botmessages.message_id2.value = x;
+            //window.location.href = '/';
+        } else {
+            show_info('');
+            show_error('/bot/write_message error: ' + x);
+        }
+    })
+//    .catch((x) => {});
+    .catch(show_error); 
+
+    return false; // Предотвращает отправку формы на сервер
 }
 
 
