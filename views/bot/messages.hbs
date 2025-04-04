@@ -44,7 +44,16 @@
 </form>
 </div>
         <button class="button" onclick="read_message()">Кнопка</button>
-<input class="button" type="button" value="Прочитать!!!" onclick="read_message2()">
+<input class="button" type="button" value="Разбить на слова!" onclick="split_message()">
+
+<div>
+  <textarea id="words" rows="20"> </textarea>
+
+  Запрос
+  <textarea id="request" width="50" rows="20">qwerty</textarea>
+  <button class="button" onclick="request()">Запрос</button>
+</div>
+
 
 {{!-- Пустая форма для имитации ссылки как кнопки --}}
 {{!-- <form id="hrefForm" method="GET"></form> --}}
@@ -68,6 +77,19 @@ function read_message() {
     .then((x) => {
       botmessages.message_id.value = botmessages.message_id2.value.trim();
       botmessages.message.value = x;
+    })
+//    .catch((x) => {});
+    .catch(show_error); 
+
+    return false; // Предотвращает отправку формы на сервер
+}
+
+// Разбить сообщение на слова
+function split_message() {
+    myFetch2('/bot/split_message', {message: botmessages.message.value})
+    .then((x) => {
+      document.getElementById("words").innerHTML = x;
+//      botmessages.message.value = x;
     })
 //    .catch((x) => {});
     .catch(show_error); 
@@ -100,6 +122,18 @@ async function write_message() {
     return false; // Предотвращает отправку формы на сервер
 }
 
+// Запрос
+function request() {
+  
+    myFetch2('/bot/request', {request: document.getElementById("request").value})
+    .then((x) => {
+      document.getElementById("words").innerHTML = x;
+//      botmessages.message.value = x;
+    })
+//    .catch((x) => {});
+    .catch(show_error); 
 
+    return false; // Предотвращает отправку формы на сервер
+}
 
 </script>

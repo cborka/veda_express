@@ -165,7 +165,7 @@ router.post('/bot/read_message', async function(req, res) {
 router.post('/bot/write_message', async function(req, res) {
 
   try {
-    if(req.body.message_id == 0) {
+    if(req.body.message_id == 0) {    // Вставляем новое сообщение
     
       let result = await db.query("SELECT nextval('bot_messages_message_id_seq')");
       let nextid = result.rows[0]?.nextval; 
@@ -175,18 +175,80 @@ router.post('/bot/write_message', async function(req, res) {
   
       res.send(nextid);
 
-    } else {
+    } else {    // Корректируем сообщение
+
       let result = await db.query('UPDATE bot_messages SET message = $2 WHERE message_id = $1', [req.body.message_id, req.body.message]);
+
       res.send(req.body.message_id);
+
     }
   } catch(err) {
     res.send('Error: ' + err.message);
   }
-
 });
   
+// Показать список слов
+router.post('/bot/split_message', async function(req, res) {
+  try {
+    let sql = 
+      `SELECT word, count(word) AS cnt FROM ( 
+        SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"()\\s]+' ) AS word
+        ORDER BY word
+      )
+      GROUP BY word
+      ORDER BY 2 desc, 1
+    `;
+
+    let x1 = await db.query(sql, [req.body.message]);
+    //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
+    //console.log(JSON.stringify(x1.rows[0].word));
+    let str = '';
+    for(let i = 0; i<x1.rows.length; i++) {
+      str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
+    }
+    res.send(str);
+//    res.send(JSON.stringify(x1.rows));
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
+});
 
 
+// Просто тест и заодно заготовка
+router.post('/bot/request', async function(req, res) {
+  try {
+    let sql = 
+      `SELECT word, count(word) AS cnt FROM ( 
+        SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"()\\s]+' ) AS word
+        ORDER BY word
+      )
+      GROUP BY word
+      ORDER BY 2 desc, 1
+    `;
+
+    // console.log(req.body);
+    // res.send(req.body.request);
+    // return;
+
+    let x1 = await db.query(sql, [req.body.request]);
+    //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
+    //console.log(JSON.stringify(x1.rows[0].word));
+    let str = '';
+    for(let i = 0; i<x1.rows.length; i++) {
+      str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
+    }
+    res.send(str);
+//    res.send(JSON.stringify(x1.rows));
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
+});
+
+
+
+
+
+// Просто тест и заодно заготовка
 router.get('/bot/test', async function(req, res) {
   try {
     let x1 = await db.query('SELECT message FROM bot_messages WHERE message_id = 1');
@@ -196,3 +258,12 @@ router.get('/bot/test', async function(req, res) {
     res.send('Error: ' + err.message);
   }
 });
+
+
+// _lines := regexp_split_to_array(txt, '\r\n+');
+// _lines_num := array_length(_lines, 1);
+
+// FOR i IN 2.._lines_num
+//   LOOP
+//     _fields := regexp_split_to_array(_lines [ i], '\t');
+//     _fields_num := array_length(_fields, 1);
