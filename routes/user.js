@@ -100,8 +100,6 @@ router.get('/user/list', function(req, res, next) {
   })
   .catch (err => { message = err.message;  res.render('index', {title: "Error", message});});
 
-
-
   // res.render('index', {title: "Пользователи", message});
 
   //res.send('respond with a resource');

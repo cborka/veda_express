@@ -4,6 +4,9 @@ const TOKEN = process.env.TELEGRAM_TOKEN || 'TELEGRAM_TOKEN';
 import  express  from "express";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db_lib.js';
+
+import * as cbw from '../lib/cbw.js'
+
 import TelegramBot from 'node-telegram-bot-api';
 
 export const router = express.Router();
@@ -214,10 +217,12 @@ router.post('/bot/split_message', async function(req, res) {
 });
 
 
-// Просто тест и заодно заготовка
+//
+//  ЗАПРОС
+//
 router.post('/bot/request', async function(req, res) {
   try {
-    let sql = 
+    let sql2 = 
       `SELECT word, count(word) AS cnt FROM ( 
         SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"()\\s]+' ) AS word
         ORDER BY word
@@ -226,6 +231,9 @@ router.post('/bot/request', async function(req, res) {
       ORDER BY 2 desc, 1
     `;
 
+    let sql = 
+      `SELECT request1($1)
+    `;
     // console.log(req.body);
     // res.send(req.body.request);
     // return;
@@ -233,11 +241,14 @@ router.post('/bot/request', async function(req, res) {
     let x1 = await db.query(sql, [req.body.request]);
     //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
     //console.log(JSON.stringify(x1.rows[0].word));
-    let str = '';
-    for(let i = 0; i<x1.rows.length; i++) {
-      str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
-    }
-    res.send(str);
+    //console.log(JSON.stringify(x1.rows[0].word));
+    console.log(x1);
+    res.send(x1.rows[0].request1);
+    // let str = '';
+    // for(let i = 0; i<x1.rows.length; i++) {
+    //   str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
+    // }
+    // res.send(str);
 //    res.send(JSON.stringify(x1.rows));
   } catch(err) {
     res.send('Error: ' + err.message);
@@ -267,3 +278,37 @@ router.get('/bot/test', async function(req, res) {
 //   LOOP
 //     _fields := regexp_split_to_array(_lines [ i], '\t');
 //     _fields_num := array_length(_fields, 1);
+
+
+/* GET users listing. */
+router.get('/bot/word_roots', function(req, res, next) {
+  let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};'
+
+  db.query(`
+    SELECT word_id, wl.word, wr.wordroot_rf, rl.wordroot, wr.flag 
+    FROM ((bot_word_list wl 
+      LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
+      LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
+    WHERE word_id < 20  
+    ORDER BY word  
+    `
+    , [])
+  .then (result => {
+    if (result && (result.rows.length > 0)) {
+
+      message = cbw.obj2table(result.rows);
+
+      res.render('bot/word_roots', {title: "Корни слов", message});
+    }
+    else {
+      //req.session.user = null;
+//      delete req.session.user;
+      res.send('0');
+//      res.send('result is false');
+    }
+    //res.send(result?.rows[0].fullname)
+  })
+  .catch (err => { message = err.message;  res.render('index', {title: "Error", message});});
+
+  log2('/bot/word_roots', res.statusCode);
+});
