@@ -195,12 +195,23 @@ router.post('/bot/split_message', async function(req, res) {
   try {
     let sql = 
       `SELECT word, count(word) AS cnt FROM ( 
-        SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"()\\s]+' ) AS word
+        SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"»«/—()\\s]+' ) AS w
         ORDER BY word
       )
       GROUP BY word
       ORDER BY 2 desc, 1
     `;
+
+  //   SELECT w, id, r, wordroot_rf FROM ( 
+  //     SELECT w, wl.word_id AS id, rl.wordroot AS r, wordroot_rf
+  // FROM (((regexp_split_to_table(lower(replace('которого что', '''' , '"')), '[.,;?!*:"»«/—()\s]+' ) AS w
+  //   LEFT JOIN bot_word_list wl ON w = wl.word)
+  //   LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
+  //   LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
+  //     ORDER BY word
+  //   )
+
+
 
     let x1 = await db.query(sql, [req.body.message]);
     //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
@@ -284,13 +295,15 @@ router.get('/bot/test', async function(req, res) {
 router.get('/bot/word_roots', function(req, res, next) {
   let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};'
 
+  //-- SELECT word_id, wl.word, wr.wordroot_rf, rl.wordroot, wr.flag 
   db.query(`
-    SELECT word_id, wl.word, wr.wordroot_rf, rl.wordroot, wr.flag 
+    SELECT word_id, wl.word, rl.wordroot, 0 AS flag 
     FROM ((bot_word_list wl 
       LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
       LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
-    WHERE word_id < 20  
+    WHERE rl.wordroot IS NULL 
     ORDER BY word  
+    LIMIT 15
     `
     , [])
   .then (result => {
@@ -311,4 +324,61 @@ router.get('/bot/word_roots', function(req, res, next) {
   .catch (err => { message = err.message;  res.render('index', {title: "Error", message});});
 
   log2('/bot/word_roots', res.statusCode);
+});
+
+//
+//  Сохранить корень слова
+//
+router.post('/bot/save_wordroot', async function(req, res) {
+  try {
+    console.log(req.body);
+
+    let result = await db.query('SELECT wordroot_id FROM bot_wordroot_list WHERE wordroot = $1', [req.body.wordroot]);
+    let wordroot_id = '0';
+
+    if (result.rows.length == 0) {
+      result = await db.query("SELECT nextval('bot_wordroot_list_wordroot_id_seq')");
+      wordroot_id = result.rows[0].nextval;
+      await db.query('INSERT INTO bot_wordroot_list(wordroot_id, wordroot) VALUES ($1, $2)', [wordroot_id, req.body.wordroot]);
+    } else {
+      wordroot_id = result.rows[0].wordroot_id;
+    }
+
+    result = await db.query('SELECT count(*) AS cnt FROM bot_wordroot_words WHERE word_rf = $1 AND wordroot_rf = $2', [req.body.word_id, wordroot_id]);
+    if (result.rows[0].cnt == 0) {
+      await db.query('INSERT INTO bot_wordroot_words(wordroot_rf, word_rf, flag) VALUES ($1, $2, $3)', [wordroot_id, req.body.word_id, req.body.flag]);
+    } else {
+      await db.query('UPDATE bot_wordroot_words SET flag = $3 WHERE word_rf = $1 AND wordroot_rf = $2', [req.body.word_id, wordroot_id, req.body.flag]);
+    }
+
+
+     //let result = await db.query("SELECT nextval('bot_messages_message_id_seq')");
+     //let nextid = result.rows[0]?.nextval; 
+ 
+     //result = 
+     //await db.query('INSERT INTO bot_messages(message_id, message) VALUES ($1, $2)', [nextid, req.body.message]);
+
+
+     res.send(""+wordroot_id);
+
+
+     //res.send(req.body.request);
+     //res.send('ОК');
+    // return;
+
+//    let x1 = await db.query(sql, [req.body.request]);
+    //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
+    //console.log(JSON.stringify(x1.rows[0].word));
+    //console.log(JSON.stringify(x1.rows[0].word));
+//    console.log(x1);
+//    res.send(x1.rows[0].request1);
+    // let str = '';
+    // for(let i = 0; i<x1.rows.length; i++) {
+    //   str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
+    // }
+    // res.send(str);
+//    res.send(JSON.stringify(x1.rows));
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
 });

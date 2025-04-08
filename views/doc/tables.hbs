@@ -7,12 +7,12 @@
 <input  id="b1">
 
 <button onclick="log('logg')">logg</button>
-<button onclick="append_row()">insert_row</button>
+<button onclick="append_row()">append_row</button>
 <button onclick="insert_row()">insert_row</button>
 <button onclick="delete_row()">delete_row</button>
 
 
-<table id="test_table">
+{{!-- <table id="test_table">
   <tbody>
     <tr>
       <td>xcvb0</td>
@@ -27,8 +27,8 @@
       <td>xcvb2</td>
     </tr>
   </tbody>
-</table>
-
+</table> --}}
+<br>
   <div>
     <textarea id="log">
     </textarea>
@@ -36,6 +36,22 @@
 
 
 <script> 
+
+
+before_delete = function (current_row) {
+  log('before_delete 2> ' + JSON.stringify(current_row));
+
+    log('current_row.cells.lengtt = '+current_row.cells.length);
+
+  let s = 'Удаляется строка - ';
+  for(let i = 0; i < current_row.cells.length; i++) {
+    s += current_row.cells[i].innerHTML + '|';
+    //log(current_row.cells[i].innerHTML);
+  }
+  log(s);
+  //throw new Error("Can not delete!");
+}
+
 
 edit_table('table1');
 

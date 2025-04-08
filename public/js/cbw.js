@@ -42,6 +42,8 @@ let td_old_value = ''; // Первоначальное значение ячей
 let td_current = null;
 let row_count = 0;
 
+let isDeletingRow = false;
+
 //
 // Настройка ширины колонок, установка обработчиков для ячеек таблицы
 //
@@ -244,25 +246,35 @@ function onTdFocusout(e) {
   if ((s != t)                // Если ушли на другую строку (идентификаторы строк не равны)
     && (t != 'tdinput')) {    //   а не перешли в режим редактирования 
                               //   (в этом случае фокус переноситься на input в этой же ячейке таблицы и идентификаторы так же не равны, но строка та же самая)
-    if (td_src?.parentNode?.changed) {        // если строка, с которой уходим, изменена
+    if (td_src?.parentNode?.changed) {  
+            // если строка, с которой уходим, изменена
       log('Строка '+ s + ' изменена.');
-      if (trSave(td_src.parentNode)) {        // сохраняем данные этой строки в базе данных
-        td_src.parentNode.changed = false;    // и ставим отметку, что строка не изменена (не требует сохранения в бд)
-      } else {
+      
+      try {
+        //if (!isDeletingRow) // тут не работает
+          before_save(td_src.parentNode);
+      }
+      catch (e) {
         log("Ошибка сохранения строки " + s); // если не удалось сохранить данные
         td_src.focus();                       // возвращаем фокус этой строке, возможно ввели неверные данные и надо исправить
+
+        alert (e.message);
+        return;
       }
+      
+      // if (before_save(td_src.parentNode)) {        // сохраняем данные этой строки в базе данных
+
+      //   td_src.parentNode.changed = false;    // и ставим отметку, что строка не изменена (не требует сохранения в бд)
+
+      // } else {
+      //   log("Ошибка сохранения строки " + s); // если не удалось сохранить данные
+      //   td_src.focus();                       // возвращаем фокус этой строке, возможно ввели неверные данные и надо исправить
+      // }
+
     }
 //    log('Другая строка '+ td_src?.parentNode?.id + ' - ' + td_src?.parentNode?.changed);
   }
   //e.stopPropagation();
-}
-
-//
-// Сохранение строки в базе данных (заглушка)
-//
-function trSave(tr) {
-  return tr.cells[0].innerHTML != '11'; // успешно ли прошло сохранение
 }
 
 //
@@ -357,8 +369,19 @@ function nextRowCell(td) {
   let row_num = td.parentNode.sectionRowIndex;
   let cell_num = td.cellIndex;
 
-  if (row_num <= (td.parentNode.parentNode.rows.length - 2)) row_num++;
-  if (row_num == (td.parentNode.parentNode.rows.length - 1)) append_row();
+  log('nextRowCell строка ' + row_num + ' из ' + td.parentNode.parentNode.rows.length);
+
+  row_num++;
+
+  // Если это была последняя строка, то добавляю новую, если это не удаление последней строки
+  if (row_num == (td.parentNode.parentNode.rows.length)) {
+
+    if (isDeletingRow)
+      row_num--;
+    else
+      append_row();
+
+  }  
 
   return td.parentNode.parentNode.rows[row_num].cells[cell_num];
 }
@@ -405,7 +428,7 @@ function append_row() {
 
   for(let i=0; i<td_num; i++) {
     td = document.createElement('td');            // Создаю поля для добавляемой строки таблицы
-    td.innerHTML = i;                             // Теоретически здесь надо значения в зависимости от типа - нули или пустые строки
+    //td.innerHTML = i;                             // Теоретически здесь надо значения в зависимости от типа - нули или пустые строки
     inserted_row.append(td);
     customize_table_cell(td);
   }
@@ -443,6 +466,8 @@ function insert_row() {
 
   customize_table_row(inserted_row);              // настройка строки, присваивание обработчиков и т.д.
 
+  //log('inserted_row = ' + JSON.stringify(inserted_row));
+
   for(let i = 0; i < inserted_row.cells.length; i++) {
     customize_table_cell(inserted_row.cells[i]);  // настройка полей строки, присваивание обработчиков и т.д.
   }
@@ -472,6 +497,9 @@ function insert_row() {
 //
 function delete_row() {
   log('delete_row');
+
+  isDeletingRow = true;
+
   let current_row = td_current.parentNode;
   let next_row_cell = nextRowCell(td_current);
  
@@ -481,17 +509,21 @@ function delete_row() {
   //before_delete(current_row);
 
   try {
-    before_delete(current_row);
+    //before_delete(current_row);
+    before_delete(td_current.parentNode);
   }
   catch (e) {
     alert (e.message);
+    isDeletingRow = false;
     return;
   }
 
   // Пытаюсь установить фокус на следующую строку после удаления текущей
   if (next_row_cell == td_current) {              // если последняя строка
+    //log('next_row_cell == td_current ');
     next_row_cell = prevRowCell(td_current);      //   пытаюсь встать (установить фокус) на предыдущую строку
     if (next_row_cell == td_current) {            // если первая и последняя строка
+      //log('next_row_cell == td_current ');
       td_current = null; 
       next_row_cell = null;                       // обнуляю адрес текущей ячейки, строк в таблице не осталось
     } 
@@ -501,16 +533,29 @@ function delete_row() {
   current_row.remove();               // удаление строки из таблицы html
   next_row_cell?.focus();
 
+  isDeletingRow = false;
+
   // node.remove() – удаляет node.
 }
 
-function before_delete(current_row) {
+//
+// Сохранение строки в базе данных (заглушка)
+//
+let before_save = function (tr) {
+  log('before_save');
+  //return tr.cells[0].innerHTML != '11'; // успешно ли прошло сохранение
+}
+
+let before_delete = function (current_row) {
+  log('before_delete' + JSON.stringify(current_row));
+  log('current_row.cells.lenght = '+ current_row?.cells?.length);
+
   //throw new Error("Can not delete!");
 }
 
-function before_insert(inserted_row) {
+let before_insert = function (inserted_row) {
   // Присваиваю первому полю ид строки, для отладки и просто так, в реале тут будет ноль чтобы СУБД присвоила очередной реальный ид            
-  inserted_row.cells[0].innerHTML = inserted_row.id; 
+  //inserted_row.cells[0].innerHTML = inserted_row.id; 
   //throw new Error("Can not insert!");
 }
 

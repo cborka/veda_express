@@ -21,6 +21,50 @@
 
 <script> 
 
+before_delete = function (current_row) {
+  log('before_delete 2> ' + JSON.stringify(current_row));
+  log('current_row.cells.lengtt = '+current_row.cells.length);
+
+  let s = 'Удаляется строка - ';
+  for(let i = 0; i < current_row.cells.length; i++) {
+    s += current_row.cells[i].innerHTML + '|';
+    //log(current_row.cells[i].innerHTML);
+  }
+  log(s);
+  //throw new Error("Can not delete!");
+}
+
+
+//
+// Перед сохранением строки, запись изменений в базу данных
+//
+before_save = function (current_row) {
+  log('before_save');
+
+  let s = 'Изменение строки - ';
+  for(let i = 0; i < current_row.cells.length; i++) {
+    s += current_row.cells[i].innerHTML + '|';
+    //log(current_row.cells[i].innerHTML);
+  }
+  log(s);
+
+  let params = {
+    word_id: current_row.cells[0].innerHTML,
+    word: current_row.cells[1].innerHTML,
+    wordroot: current_row.cells[2].innerHTML,
+    flag: current_row.cells[3].innerHTML
+  };
+
+  myFetch2('/bot/save_wordroot', params)
+    .then((x) => {
+      show_info(x);
+      //document.getElementById("words").innerHTML = x;
+    })
+    .catch(show_error); 
+}
+
+
+
 edit_table('table1');
 
 
