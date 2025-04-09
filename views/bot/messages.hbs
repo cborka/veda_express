@@ -125,6 +125,8 @@ async function write_message() {
 // Запрос
 function request() {
   
+  show_error('');
+  
     myFetch2('/bot/request', {request: document.getElementById("request").value})
     .then((x) => {
       document.getElementById("words").innerHTML = x;

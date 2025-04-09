@@ -2,9 +2,39 @@
 
 {{!-- <p class="marine">Welcome to {{title}}</p> --}}
 
+<form name="wordroots" action="/bot/word_roots" method="POST" class="form">
+<fieldset>
+    {{!-- <legend>&nbsp; Фильтр &nbsp;</legend> --}}
+    {{!-- <br> --}}
+    <div>
+        <label>Слово</label>
+        <input id="word" type="text" name="word" placeholder="слово" value="{{word}}" maxlength="31" >
+    </div>
+    <div>
+        <label>Корень слова</label>
+        <input id="root" type="text" name="root" placeholder="корень" value="{{root}}" maxlength="31" >
+        <input id="filter" type="hidden" name="filter" value="" >
+    </div>
+    <div>
+        <label>Флаг</label>
+        <input id="flag" type="number" name="flag" placeholder="0" value="{{flag}}">
+    </div>
+    <div>
+        <label></label>
+        <input type="submit" id="enter" value="Обновить" onclick="refresh_query(); ">
+        {{!-- <input type="submit" id="reg" value="Регистрация" formaction="/user/register/" form="hrefForm"> --}}
+
+    </div>
+    <div>
+        <span class="info" id="info"></span>&nbsp;
+        <span class="error" id="error"></span>
+    </div>
+</fieldset>
+</form>
+
 <div class="message">  {{{ message }}}  </div>
 
-<input  id="b1">
+<input  id="wordroot">
 
 <button onclick="log('logg')">logg</button>
 <button onclick="append_row()">append_row</button>
@@ -20,6 +50,27 @@
 
 
 <script> 
+
+
+function refresh_query() {
+
+  let f = ' 1=1'; 
+
+ if (wordroots.word.value != '') 
+    f = f + " AND wl.word LIKE '%" + wordroots.word.value + "%' ";
+ 
+  if (wordroots.root.value != '') 
+    f = f + " AND rl.wordroot LIKE '%" + wordroots.root.value + "%' ";
+
+  if (wordroots.flag.value != '') 
+    f = f + " AND wr.flag = " + wordroots.flag.value + " ";
+
+  wordroots.filter.value = f;
+
+  return false; // Предотвращает отправку формы на сервер
+}
+
+
 
 before_delete = function (current_row) {
   log('before_delete 2> ' + JSON.stringify(current_row));

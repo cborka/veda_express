@@ -195,7 +195,11 @@ router.post('/bot/split_message', async function(req, res) {
   try {
     let sql = 
       `SELECT word, count(word) AS cnt FROM ( 
-        SELECT word FROM regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"»«/—()\\s]+' ) AS w
+        SELECT rl.wordroot AS word 
+        FROM (((regexp_split_to_table(lower(replace($1, \'\'\'\' , \'"\')), '[.,;?!*:"»«/—()\\s]+' ) AS w
+          LEFT JOIN bot_word_list wl ON w = wl.word)
+          LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
+          LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
         ORDER BY word
       )
       GROUP BY word
@@ -243,7 +247,7 @@ router.post('/bot/request', async function(req, res) {
     `;
 
     let sql = 
-      `SELECT request1($1)
+      `SELECT request1 FROM (SELECT request2($1) AS request1 UNION ALL SELECT request3($1) AS request1)
     `;
     // console.log(req.body);
     // res.send(req.body.request);
@@ -253,8 +257,8 @@ router.post('/bot/request', async function(req, res) {
     //let x1 = await db.query("SELECT regexp_split_to_array($1, '[.,;?!*:\s]+') AS word FROM bot_messages WHERE message_id = 1", [req.body.message]);
     //console.log(JSON.stringify(x1.rows[0].word));
     //console.log(JSON.stringify(x1.rows[0].word));
-    console.log(x1);
-    res.send(x1.rows[0].request1);
+    //console.log(x1);
+    res.send(x1.rows[0].request1 + "\n\n" + x1.rows[1].request1);
     // let str = '';
     // for(let i = 0; i<x1.rows.length; i++) {
     //   str += x1.rows[i].word + '|' + x1.rows[i].cnt + '\n';
@@ -290,19 +294,24 @@ router.get('/bot/test', async function(req, res) {
 //     _fields := regexp_split_to_array(_lines [ i], '\t');
 //     _fields_num := array_length(_fields, 1);
 
+router.get('/bot/word_roots', function(req, res, next) {
+    res.render('bot/word_roots', {title: "Корни слов"});
+});
 
 /* GET users listing. */
-router.get('/bot/word_roots', function(req, res, next) {
-  let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};'
+router.post('/bot/word_roots', function(req, res, next) {
+  let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};';
+
+  console.log(req.body);
 
   //-- SELECT word_id, wl.word, wr.wordroot_rf, rl.wordroot, wr.flag 
   db.query(`
-    SELECT word_id, wl.word, rl.wordroot, 0 AS flag 
+    SELECT word_id, wl.word, rl.wordroot, wr.flag AS flag 
     FROM ((bot_word_list wl 
       LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
       LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
-    WHERE rl.wordroot IS NULL 
-    ORDER BY word  
+    WHERE ${req.body.filter}
+    ORDER BY word_id DESC, word  
     LIMIT 15
     `
     , [])
@@ -311,7 +320,8 @@ router.get('/bot/word_roots', function(req, res, next) {
 
       message = cbw.obj2table(result.rows);
 
-      res.render('bot/word_roots', {title: "Корни слов", message});
+      res.render('bot/word_roots', {title: "Корни слов", word: req.body.word, root: req.body.root, flag: req.body.flag, message});
+      //res.render('bot/word_roots', {title: req.body.filter, message});
     }
     else {
       //req.session.user = null;
@@ -321,7 +331,7 @@ router.get('/bot/word_roots', function(req, res, next) {
     }
     //res.send(result?.rows[0].fullname)
   })
-  .catch (err => { message = err.message;  res.render('index', {title: "Error", message});});
+  .catch (err => { message = err.message;  res.render('index', {title: "Корни слов", message});});
 
   log2('/bot/word_roots', res.statusCode);
 });
