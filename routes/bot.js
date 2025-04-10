@@ -247,7 +247,12 @@ router.post('/bot/request', async function(req, res) {
     `;
 
     let sql = 
-      `SELECT request1 FROM (SELECT request2($1) AS request1 UNION ALL SELECT request3($1) AS request1)
+      `SELECT request1 
+         FROM (
+          SELECT request2($1) AS request1 
+          UNION ALL 
+          SELECT request3($1) AS request1
+        )
     `;
     // console.log(req.body);
     // res.send(req.body.request);
@@ -294,6 +299,9 @@ router.get('/bot/test', async function(req, res) {
 //     _fields := regexp_split_to_array(_lines [ i], '\t');
 //     _fields_num := array_length(_fields, 1);
 
+//
+//  Форма корректировки корневых слов
+//
 router.get('/bot/word_roots', function(req, res, next) {
     res.render('bot/word_roots', {title: "Корни слов"});
 });
@@ -316,7 +324,7 @@ router.post('/bot/word_roots', function(req, res, next) {
     `
     , [])
   .then (result => {
-    if (result && (result.rows.length > 0)) {
+    if (result && (result.rows.length >= 0)) {
 
       message = cbw.obj2table(result.rows);
 
@@ -337,7 +345,7 @@ router.post('/bot/word_roots', function(req, res, next) {
 });
 
 //
-//  Сохранить корень слова
+//  Сохранить кореневое слово
 //
 router.post('/bot/save_wordroot', async function(req, res) {
   try {
@@ -354,11 +362,11 @@ router.post('/bot/save_wordroot', async function(req, res) {
       wordroot_id = result.rows[0].wordroot_id;
     }
 
-    result = await db.query('SELECT count(*) AS cnt FROM bot_wordroot_words WHERE word_rf = $1 AND wordroot_rf = $2', [req.body.word_id, wordroot_id]);
+    result = await db.query('SELECT count(*) AS cnt FROM bot_wordroot_words WHERE word_rf = $1', [req.body.word_id]);
     if (result.rows[0].cnt == 0) {
       await db.query('INSERT INTO bot_wordroot_words(wordroot_rf, word_rf, flag) VALUES ($1, $2, $3)', [wordroot_id, req.body.word_id, req.body.flag]);
     } else {
-      await db.query('UPDATE bot_wordroot_words SET flag = $3 WHERE word_rf = $1 AND wordroot_rf = $2', [req.body.word_id, wordroot_id, req.body.flag]);
+      await db.query('UPDATE bot_wordroot_words SET wordroot_rf = $2, flag = $3 WHERE word_rf = $1 ', [req.body.word_id, wordroot_id, req.body.flag]);
     }
 
 
@@ -388,6 +396,24 @@ router.post('/bot/save_wordroot', async function(req, res) {
     // }
     // res.send(str);
 //    res.send(JSON.stringify(x1.rows));
+  } catch(err) {
+    res.send('Error: ' + err.message);
+  }
+});
+
+//
+//  Удаление строки из таблицы bot_wordroot_words
+//
+router.post('/bot/delete_wordroot', async function(req, res) {
+  try {
+    console.log(req.body);
+
+    let result = await db.query('SELECT wordroot_id FROM bot_wordroot_list WHERE wordroot = $1', [req.body.wordroot]);
+    let wordroot_id = result?.rows[0]?.wordroot_id
+    await db.query('DELETE FROM bot_wordroot_words WHERE word_rf = $1 AND wordroot_rf = $2', [req.body.word_id, wordroot_id]);
+
+    res.send("Строка удалена");
+
   } catch(err) {
     res.send('Error: ' + err.message);
   }

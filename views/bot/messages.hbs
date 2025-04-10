@@ -47,7 +47,7 @@
 <input class="button" type="button" value="Разбить на слова!" onclick="split_message()">
 
 <div>
-  <textarea id="words" rows="20"> </textarea>
+  <textarea id="words2" rows="20">qwerty</textarea>
 
   Запрос
   <textarea id="request" width="50" rows="20">qwerty</textarea>
@@ -126,11 +126,15 @@ async function write_message() {
 function request() {
   
   show_error('');
-  
+  //alert(document.getElementById("request").value);
+
     myFetch2('/bot/request', {request: document.getElementById("request").value})
     .then((x) => {
-      document.getElementById("words").innerHTML = x;
-//      botmessages.message.value = x;
+     //alert(x);
+      document.getElementById("words2").value = x;
+
+        // innerHTML не работает после корректировки textarea в браузере
+//      document.getElementById("words2").innerHTML = x; 
     })
 //    .catch((x) => {});
     .catch(show_error); 
