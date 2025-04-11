@@ -180,7 +180,14 @@ router.post('/bot/write_message', async function(req, res) {
 
     } else {    // Корректируем сообщение
 
-      let result = await db.query('UPDATE bot_messages SET message = $2 WHERE message_id = $1', [req.body.message_id, req.body.message]);
+      // Сначала проверим, вдруг нет сообщения с таким message_id
+      let result = await db.query("SELECT count(*) FROM bot_messages WHERE  message_id = $1", [req.body.message_id]);
+      let cnt = result.rows[0]?.count; 
+
+      if (cnt == 1)
+        result = await db.query('UPDATE bot_messages SET message = $2 WHERE message_id = $1', [req.body.message_id, req.body.message]);
+      else
+        result = await db.query('INSERT INTO bot_messages(message_id, message) VALUES ($1, $2)', [req.body.message_id, req.body.message]);
 
       res.send(req.body.message_id);
 
@@ -306,7 +313,7 @@ router.get('/bot/word_roots', function(req, res, next) {
     res.render('bot/word_roots', {title: "Корни слов"});
 });
 
-/* GET users listing. */
+/*  */
 router.post('/bot/word_roots', function(req, res, next) {
   let message = '{"id":"0","login":"Admin1","email":"adm@ma11il.ad","password":"1","password2":"1","test":"144","fio":"1"};';
 
@@ -319,7 +326,7 @@ router.post('/bot/word_roots', function(req, res, next) {
       LEFT JOIN bot_wordroot_words wr ON wl.word_id = wr.word_rf)
       LEFT JOIN bot_wordroot_list rl ON wr.wordroot_rf = rl.wordroot_id)
     WHERE ${req.body.filter}
-    ORDER BY word_id DESC, word  
+    ORDER BY rl.wordroot DESC, word_id DESC, word  
     LIMIT 15
     `
     , [])
@@ -351,9 +358,10 @@ router.post('/bot/save_wordroot', async function(req, res) {
   try {
     console.log(req.body);
 
-    let result = await db.query('SELECT wordroot_id FROM bot_wordroot_list WHERE wordroot = $1', [req.body.wordroot]);
     let wordroot_id = '0';
+    let word_id = req.body.word_id;
 
+    let result = await db.query('SELECT wordroot_id FROM bot_wordroot_list WHERE wordroot = $1', [req.body.wordroot]);
     if (result.rows.length == 0) {
       result = await db.query("SELECT nextval('bot_wordroot_list_wordroot_id_seq')");
       wordroot_id = result.rows[0].nextval;
@@ -362,11 +370,19 @@ router.post('/bot/save_wordroot', async function(req, res) {
       wordroot_id = result.rows[0].wordroot_id;
     }
 
+  
+    if (req.body.word_id == '0') {
+      result = await db.query("SELECT nextval('bot_word_list_word_id_seq')");
+      word_id = result.rows[0].nextval;
+      await db.query('INSERT INTO bot_word_list(word_id, word) VALUES ($1, $2)', [word_id, req.body.word]);
+    }
+    
+
     result = await db.query('SELECT count(*) AS cnt FROM bot_wordroot_words WHERE word_rf = $1', [req.body.word_id]);
     if (result.rows[0].cnt == 0) {
-      await db.query('INSERT INTO bot_wordroot_words(wordroot_rf, word_rf, flag) VALUES ($1, $2, $3)', [wordroot_id, req.body.word_id, req.body.flag]);
+      await db.query('INSERT INTO bot_wordroot_words(wordroot_rf, word_rf, flag) VALUES ($1, $2, $3)', [wordroot_id, word_id, req.body.flag]);
     } else {
-      await db.query('UPDATE bot_wordroot_words SET wordroot_rf = $2, flag = $3 WHERE word_rf = $1 ', [req.body.word_id, wordroot_id, req.body.flag]);
+      await db.query('UPDATE bot_wordroot_words SET wordroot_rf = $2, flag = $3 WHERE word_rf = $1 ', [word_id, wordroot_id, req.body.flag]);
     }
 
 
