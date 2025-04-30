@@ -84,9 +84,10 @@ bot.onText(/\/keys/, (msg) => {
 async function otvet(str) {
   //console.log(str);
 
-  let sql = `
-    SELECT fio FROM public.phones 
-      WHERE id = $1`;
+  // let sql = `
+  //   SELECT fio FROM public.phones 
+  //     WHERE id = $1`;
+  let sql = ` SELECT request3($1) AS fio `;
 
 //    let result = 'Нет такого номера'    
 
@@ -95,7 +96,7 @@ async function otvet(str) {
     return result?.rows[0].fio || 'хбз';
   } catch (error) {
     return 'Нет такого номера.';
-  }
+  } 
   
 }
 
