@@ -41,7 +41,7 @@
 before_delete = function (current_row) {
   log('before_delete 2> ' + JSON.stringify(current_row));
 
-    log('current_row.cells.lengtt = '+current_row.cells.length);
+    log('current_row.cells.length = '+current_row.cells.length);
 
   let s = 'Удаляется строка - ';
   for(let i = 0; i < current_row.cells.length; i++) {

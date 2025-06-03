@@ -88,7 +88,7 @@ function read_message() {
 function split_message() {
     myFetch2('/bot/split_message', {message: botmessages.message.value})
     .then((x) => {
-      document.getElementById("words").innerHTML = x;
+      document.getElementById("words2").innerHTML = x;
 //      botmessages.message.value = x;
     })
 //    .catch((x) => {});

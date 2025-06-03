@@ -90,7 +90,6 @@ const show_modal = function(req, res) {
 }
 
 router.get('/ip',  ip);
-router.get('/ip', ip2);
 router.get('/ip2', ip2);
 router.get('/bulma', bulma);
 router.get('/applocals', applocals);

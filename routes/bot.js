@@ -4,7 +4,6 @@ const TOKEN = process.env.TELEGRAM_TOKEN || 'TELEGRAM_TOKEN';
 import  express  from "express";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db_lib.js';
-
 import * as cbw from '../lib/cbw.js'
 
 import TelegramBot from 'node-telegram-bot-api';
@@ -38,9 +37,9 @@ bot.on('message', msg => {
   const chatId = msg.chat.id;
   //bot.sendMessage(chatId, `A Вы написали <b>мне</b>: ${msg.text}`, {parse_mode : "HTML"});
 
- if (msg.text[0] == '/') {
-  return;
- }
+  if (msg.text[0] == '/') { 
+    return;
+  }
 
 
 // if (msg.text == '/on') {
@@ -66,7 +65,7 @@ bot.on('message', msg => {
 });
 
 //
-//  Меню
+//  Меню (начинается с /)
 //
 bot.onText(/\/keys/, (msg) => {
   bot.sendMessage(msg.chat.id, "Welcome", {
@@ -198,7 +197,9 @@ router.post('/bot/write_message', async function(req, res) {
   }
 });
   
+//====================================
 // Показать список слов
+//====================================
 router.post('/bot/split_message', async function(req, res) {
   try {
     let sql = 
@@ -240,9 +241,9 @@ router.post('/bot/split_message', async function(req, res) {
 });
 
 
-//
+//====================================
 //  ЗАПРОС
-//
+//====================================
 router.post('/bot/request', async function(req, res) {
   try {
     let sql2 = 
@@ -292,7 +293,7 @@ router.get('/bot/test', async function(req, res) {
   try {
     let x1 = await db.query('SELECT message FROM bot_messages WHERE message_id = 1');
     let x2 = await db.query('SELECT message FROM bot_messages WHERE message_id = 2');
-    res.send("x1 + x2 = " + x1.rows[0].message + x2.rows[0].message);
+    res.send("x1 + x2 = " + x1.rows[0].message + "|" + x2.rows[0].message);
   } catch(err) {
     res.send('Error: ' + err.message);
   }
@@ -307,9 +308,9 @@ router.get('/bot/test', async function(req, res) {
 //     _fields := regexp_split_to_array(_lines [ i], '\t');
 //     _fields_num := array_length(_fields, 1);
 
-//
-//  Форма корректировки корневых слов
-//
+//====================================
+// Форма корректировки корневых слов
+//====================================
 router.get('/bot/word_roots', function(req, res, next) {
     res.render('bot/word_roots', {title: "Корни слов"});
 });
@@ -353,7 +354,7 @@ router.post('/bot/word_roots', function(req, res, next) {
 });
 
 //
-//  Сохранить кореневое слово
+//  Сохранить корневое слово
 //
 router.post('/bot/save_wordroot', async function(req, res) {
   try {
