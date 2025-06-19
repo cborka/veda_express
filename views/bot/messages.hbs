@@ -52,6 +52,7 @@
   Запрос
   <textarea id="request" width="50" rows="20">qwerty</textarea>
   <button class="button" onclick="request()">Запрос</button>
+  <button class="button" onclick="test()">Тест</button>
 </div>
 
 
@@ -137,6 +138,23 @@ function request() {
 //      document.getElementById("words2").innerHTML = x; 
     })
 //    .catch((x) => {});
+    .catch(show_error); 
+
+    return false; // Предотвращает отправку формы на сервер
+}
+
+
+// Запрос
+function test() {
+  
+  show_error('');
+  //alert(document.getElementById("request").value);
+
+    //myFetch2('/bot/test', {request: document.getElementById("request").value})
+    myFetch2('/bot/test')
+    .then((x) => {
+      document.getElementById("words2").value = x;
+    })
     .catch(show_error); 
 
     return false; // Предотвращает отправку формы на сервер

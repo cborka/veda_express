@@ -56,10 +56,11 @@ const ip = function(req, res, next) {
 
 
 const ip2 = function(req, res) {
-  let message = `
-  <h3 class="marine">req.ip.</h3>
-  <p class="marine">${JSON.stringify(req.ip)}</p>
-  `;
+  let message = process.env.DB_USER;
+  // let message = `
+  // <h3 class="marine">req.ip.</h3>
+  // <p class="marine">${JSON.stringify(req.ip)}</p>
+  // `;
   res.render('index', {title: "Veda", message});
 
 //  res.redirect('/hbs');

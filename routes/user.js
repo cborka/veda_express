@@ -1,5 +1,6 @@
 import  express  from "express";
 import md5 from "md5";
+import {pool} from '../db.js';
 //import jwt from "jsonwebtoken";
 import {log2} from '../lib/logger.js';
 import * as db from '../lib/db_lib.js'
