@@ -52,6 +52,14 @@ body {
   --menu-hover-color: var(--green-color);
 
   --border-color: none;
+
+  --table-input-active-color: var(--brown2-color); 
+  --table-input-active-border: var(--brown2-color);  
+
+  --table-input-focus: var(--darkred-color); 
+  --table-td-focus: var(--darkred-color); 
+
+
 }
 
 
@@ -81,6 +89,12 @@ body.dark_theme {
   --menu-hover-color: var(--green-color);
 
   --border-color: none;
+
+  --table-input-active-color: var(--brown2-color); 
+  --table-input-active-border: var(--brown2-color);  
+
+  --table-input-focus: var(--gold-color); 
+  --table-td-focus: var(--gold-color); 
 }
 
 body {
@@ -188,8 +202,9 @@ footer {
 
 #sidebar_right {
   width: 19%;
-  margin-left: 4px;
-  background-color: var(--g1-color);
+  margin: 4px;
+  margin-right: 0px;
+  background-color: var(--g01-color);
 }
 
 #content {
@@ -344,6 +359,7 @@ a:visited {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   margin: 0;
   padding: 0;
   background-color: var(--g01-color);
@@ -502,6 +518,7 @@ buttonx, .menu_point {
   font-size: inherit;
   font-family: inherit;
   text-align: justify;
+
   padding: 0 4px;
   padding-top: 0;
   padding-bottom: 2px;
@@ -797,15 +814,21 @@ input {
 table {
   border: 1px solid var(--g4-color);
   width: 100%;
+  /* width: 600px; */
   border-collapse: collapse;
   padding: 0;
   margin: auto;
+
+  /* table-layout: fixed; */
   /* font-size: var(--table-font-size, medium); */
 }
 td, th {
   border: 1px solid var(--g4-color);
   border-collapse: collapse;
   padding: 3px;  
+
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* padding: 0px;  */
   /* margin: 0;  */
 }
@@ -829,20 +852,21 @@ td input, td input:focus {
 }
 
 td input:active {
-  color: rgb(252, 255, 47);
-  border: 0px solid magenta;
+  color: var(--table-input-color);
+  border: 0px solid var(--table-input-focus);
 }  
 
 td input:focus {
-  color: greenyellow;
+  color:  var(--table-input-focus);
   /* width: 100%; */
 }
 
 td:focus {
-  color: violet;
+  color:  var(--table-td-focus);
   border: 1px solid var(--g7-color);
   border-radius: 3px;
 }
+
 
 input, input:default {
   border: 0px solid rgb(19, 127, 134);
@@ -900,6 +924,8 @@ input, input:default {
     justify-content:start;
     position: fixed;
     display: none;
+
+    align-items: start;
   }
   .menu_point, button.menu_point {
     border-bottom: 1px solid var(--g1-color);
@@ -920,15 +946,16 @@ input, input:default {
     /* flex-direction: row; */
     flex-direction: column;
   }
-  #sidebar_left {
+  #sidebar_left, #sidebar_right{
     width: auto;
+  }
+  #sidebar_left {
     margin-right: 0;
     margin-bottom: 4px;
   }
-  
   #sidebar_right {
-    width: auto;
-    margin-left: 0x;
+    margin-left: 0;
+    margin-top: 4px;
   }
   
   #content {

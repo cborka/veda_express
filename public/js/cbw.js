@@ -53,23 +53,29 @@ function edit_table(table_id) {
   log('tbl='+tbl);
 
   // Настройка ширины колонок
-  let colwidths = [10, 15, 50, 50, 15, 20]; // Будет браться из базы данных
+  let colwidths = [10, 25, 50, 50, 15, 20]; // Будет браться из базы данных
   let tablewidth = 0;
   for (let i = 0; i < colwidths.length; i++) {
     tablewidth += colwidths[i];
   }
 
   //let ths = document.querySelectorAll('#'+table_id + ' th'); // колонки таблицы
-  // ячейки заголовока могут занимать несколько строк, так же одна ячейка может охватывать несколько колонок, поэтому сделал как ниже, а не как выше
-  let ths = tbl.tBodies[0].rows[0].cells; // ячеек в первой строке первой секции данных таблицы
+  // ячейки заголовока могут занимать несколько строк, так же одна ячейка может охватывать несколько колонок, поэтому сделал как ниже, а не как выше 
+  //    но оказалось, что надо как ещё ниже
+  //let ths = tbl.tBodies[0].rows[0].cells; // ячеек в первой строке первой секции данных таблицы
+  let ths = tbl.tHead.rows[0].cells; // ячеек в первой строке шапки таблицы, надо менять ширину именно заголовоков чтобы работало свойство tableLayout = 'fixed' 
   
   //alert('kolonok: ' + ths.length);
   //alert('Секций данных: ' + tbl.tBodies.length);
   //alert('Строк в первой секции данных: ' + tbl.tBodies[0].rows.length);
   //alert('kolonok: ' + tbl.tBodies[0].rows[0].cells.length);
     
+  let row1 = tbl.tBodies[0].rows[0].cells;
   for (let i = 0; i < ths.length; i++) {
+    //ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Установка ширины колонок в соостветствии с массивом colwidths
     ths[i].width = Math.floor((colwidths[i]*100)/tablewidth) + "%"; // Установка ширины колонок в соостветствии с массивом colwidths
+    //ths[i].width = colwidths[i]*2 + "px"; // Установка ширины колонок в соостветствии с массивом colwidths
+    //row1[i].width = colwidths[i]*2 + "px"; // Установка ширины колонок в соостветствии с массивом colwidths
   }
 
 

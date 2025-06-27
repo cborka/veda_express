@@ -439,3 +439,11 @@ router.post('/bot/delete_wordroot', async function(req, res) {
     res.send('Error: ' + err.message);
   }
 });
+
+
+//=======================================
+// Форма корректировки шаблонов запросов
+//=======================================
+router.get('/bot/request_templates', function(req, res, next) {
+    res.render('bot/request_templates', {title: "Шаблоны запросов"});
+});

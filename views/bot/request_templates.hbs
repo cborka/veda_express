@@ -1,0 +1,105 @@
+<h2 class="header">{{title}}</h2>
+
+{{!-- <p class="marine">Welcome to {{title}}</p> --}}
+
+<div class="message">  {{{ message }}}  </div>
+
+<input  id="b1">
+
+<button onclick="log('logg')">logg</button>
+<button onclick="append_row()">append_row</button>
+<button onclick="insert_row()">insert_row</button>
+<button onclick="delete_row()">delete_row</button>
+
+<button onclick="before_work()">before_work</button>
+<button onclick="test()">test</button>
+
+
+<table id="test_table">
+  <thead>
+    <th>xxx</th>
+    <th>x</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>xxxxzxcv</td>
+      <td>x</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+  <div>
+    <textarea id="log">
+    </textarea>
+  </div>
+
+
+<script> 
+
+
+before_delete = function (current_row) {
+  log('before_delete 2> ' + JSON.stringify(current_row));
+
+    log('current_row.cells.length = '+current_row.cells.length);
+
+  let s = 'Удаляется строка - ';
+  for(let i = 0; i < current_row.cells.length; i++) {
+    s += current_row.cells[i].innerHTML + '|';
+    //log(current_row.cells[i].innerHTML);
+  }
+  log(s);
+  //throw new Error("Can not delete!");
+}
+
+{{!-- onLoad = function() {
+  alert('загружено лопатой');
+} --}}
+
+//
+// Перед работой, начальные настройки шаблона страницы
+//
+ function before_work() {
+  let sb_left = document.getElementById('sidebar_left');
+  let sb_right = document.getElementById('sidebar_right');
+  let tt = document.getElementById('test_table');
+
+
+  sb_left.innerHTML = 'Ну как дела? ';
+  //sb_left.style.width = 'fit-content';
+//  sb_left.style.maxWidth = '20%';
+
+  if (sb_right) {
+    sb_right.style.display = 'none' ;
+    //tt.tBodies[0].rows[0].cells[0].width = '20px';
+  }
+  
+  //tt.parentNode = sb_left;
+  sb_left.appendChild(tt);
+
+  //tt.style.tableLayout = 'fixed';
+  edit_table('test_table');
+  tt.style.tableLayout = 'fixed';
+
+  //tt.style.width = tt.style.width + 'px';
+}  
+
+ function test() {
+
+  let tt = document.getElementById('test_table');
+alert(tt.tBodies[0].rows[0].cells[0].width);
+tt.tBodies[0].rows[0].cells[0].width = '50%';
+alert(tt.tBodies[0].rows[0].cells[0].width);
+tt.style.tableLayout = 'fixed';
+alert(tt.tBodies[0].rows[0].cells[0].width);
+
+}  
+
+
+before_work();
+
+
+
+{{!-- *********************** Дальше неважно что ******************************** --}}
+
+</script>
