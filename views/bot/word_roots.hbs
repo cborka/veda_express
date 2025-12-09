@@ -17,7 +17,11 @@
     </div>
     <div>
         <label>Флаг</label>
-        <input id="flag" type="number" name="flag" placeholder="0" value="{{flag}}">
+        <input id="flag" type="number" name="flag" placeholder="0"  value="{{flag}}">
+    </div>
+    <div>
+        <label>Целое слово?</label>
+        <input id="wholeword" type="text" name="wholeword" placeholder="Если часть слова введите значение '%'" value="{{wholeword}}"> 
     </div>
     <div>
         <label></label>
@@ -55,12 +59,18 @@
 function refresh_query() {
 
   let f = ' 1=1'; 
+  let h = wordroots.wholeword.value; 
+
+  {{!-- if (wordroots.wholeword.checked) {
+    h = '';
+  } --}}
+
 
  if (wordroots.word.value != '') 
-    f = f + " AND wl.word LIKE '%" + wordroots.word.value + "%' ";
+    f = f + " AND wl.word LIKE '" + h + wordroots.word.value + h +"' ";
  
   if (wordroots.root.value != '') 
-    f = f + " AND rl.wordroot LIKE '%" + wordroots.root.value + "%' ";
+    f = f + " AND rl.wordroot LIKE '" + h + wordroots.root.value + h +"' ";
 
   if (wordroots.flag.value != '') 
     f = f + " AND wr.flag = " + wordroots.flag.value + " ";

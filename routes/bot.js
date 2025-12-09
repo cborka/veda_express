@@ -340,7 +340,16 @@ router.post('/bot/word_roots', function(req, res, next) {
 
       message = cbw.obj2table(result.rows);
 
-      res.render('bot/word_roots', {title: "Корни слов", word: req.body.word, root: req.body.root, flag: req.body.flag, message});
+      res.render('bot/word_roots', 
+        {
+          title: "Корни слов", 
+          word: req.body.word, 
+          root: req.body.root, 
+          flag: req.body.flag, 
+          wholeword: req.body.wholeword,  
+          message
+        }
+      );
       //res.render('bot/word_roots', {title: req.body.filter, message});
     }
     else {
